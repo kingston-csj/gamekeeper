@@ -1,4 +1,4 @@
-package com.kingston.jforgame.admin.controller;
+package com.kingston.jforgame.admin.gamenode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kingston.jforgame.admin.domain.ServerInfo;
-import com.kingston.jforgame.admin.service.ServersManager;
-import com.kingston.jforgame.admin.vo.ServerList;
+import com.kingston.jforgame.admin.gamenode.service.ServersManager;
+import com.kingston.jforgame.admin.gamenode.vo.ServerList;
 
 @RestController
 @RequestMapping("/server")

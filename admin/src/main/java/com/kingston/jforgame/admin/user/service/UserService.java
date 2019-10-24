@@ -1,4 +1,4 @@
-package com.kingston.jforgame.admin.service;
+package com.kingston.jforgame.admin.user.service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,8 +11,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.kingston.jforgame.admin.dao.RolesDao;
-import com.kingston.jforgame.admin.dao.UserDao;
+import com.kingston.jforgame.admin.user.dao.RolesDao;
+import com.kingston.jforgame.admin.user.dao.UserDao;
 import com.kingston.jforgame.admin.domain.Roles;
 import com.kingston.jforgame.admin.domain.User;
 

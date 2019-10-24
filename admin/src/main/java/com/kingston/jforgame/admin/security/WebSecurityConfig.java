@@ -20,7 +20,7 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.util.DigestUtils;
 
-import com.kingston.jforgame.admin.service.UserService;
+import com.kingston.jforgame.admin.user.service.UserService;
 
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {

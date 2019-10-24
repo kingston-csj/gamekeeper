@@ -1,4 +1,4 @@
-package com.kingston.jforgame.admin.dao;
+package com.kingston.jforgame.admin.gamenode.dao;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

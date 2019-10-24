@@ -9,7 +9,6 @@ public class SimplyReply {
     }
 
     public SimplyReply(String status, String msg) {
-
         this.status = status;
         this.msg = msg;
     }

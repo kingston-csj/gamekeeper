@@ -1,4 +1,4 @@
-package com.kingston.jforgame.admin.service;
+package com.kingston.jforgame.admin.gamenode.service;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.kingston.jforgame.admin.dao.ServerInfoDao;
+import com.kingston.jforgame.admin.gamenode.dao.ServerInfoDao;
 import com.kingston.jforgame.admin.domain.ServerInfo;
 
 @Service

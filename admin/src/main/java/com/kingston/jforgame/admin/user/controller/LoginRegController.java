@@ -1,11 +1,11 @@
-package com.kingston.jforgame.admin.controller;
+package com.kingston.jforgame.admin.user.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kingston.jforgame.admin.domain.User;
-import com.kingston.jforgame.admin.service.UserService;
+import com.kingston.jforgame.admin.user.service.UserService;
 import com.kingston.jforgame.admin.vo.SimplyReply;
 
 @RestController

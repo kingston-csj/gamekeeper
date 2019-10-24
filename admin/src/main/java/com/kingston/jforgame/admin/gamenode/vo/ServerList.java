@@ -1,4 +1,4 @@
-package com.kingston.jforgame.admin.vo;
+package com.kingston.jforgame.admin.gamenode.vo;
 
 import java.util.List;
 
