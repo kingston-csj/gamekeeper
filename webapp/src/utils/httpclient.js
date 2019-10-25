@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-let base = '';
+let base = 'http://localhost:8081';
 
 export const httpGet = (url,params) => {
   return axios({

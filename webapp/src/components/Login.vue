@@ -3,7 +3,7 @@
            label-width="0px" v-loading="loading">
     <h3 class="login_title">系统登录</h3>
     <el-form-item prop="account">
-      <el-input type="text" v-model="loginForm.username" auto-complete="off" placeholder="账号"></el-input>
+      <el-input type="text" v-model="loginForm.userName" auto-complete="off" placeholder="账号"></el-input>
     </el-form-item>
     <el-form-item prop="checkPass">
       <el-input type="password" v-model="loginForm.password" auto-complete="off" placeholder="密码"></el-input>

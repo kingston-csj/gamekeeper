@@ -3,6 +3,7 @@ package com.kingston.jforgame.admin.user.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.kingston.jforgame.admin.channel.dao.ChannelDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,12 +25,14 @@ public class UserService implements UserDetailsService {
     private UserDao userDao;
 	@Autowired
     private RolesDao rolesDao;
+	@Autowired
+    private ChannelDao channelDao;
     
     @Override
     public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
-        User user = userDao.findByUserName(name);
+        UserDetails user = userDao.findByUserName(name);
         if (user == null) {
-            return new User();
+            user = channelDao.findOne(name);
         }
         return user;
     }

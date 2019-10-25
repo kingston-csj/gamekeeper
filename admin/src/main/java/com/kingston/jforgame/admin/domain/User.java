@@ -100,27 +100,16 @@ public class User implements UserDetails {
 	@JsonIgnore
 	public List<GrantedAuthority> getAuthorities() {
 		List<GrantedAuthority> authorities = new ArrayList<>();
-		authorities.add(new SimpleGrantedAuthority("ROLE_超级管理员"));
+		authorities.add(new SimpleGrantedAuthority("ADMIN"));
 		return authorities;
-	}
-
-	public void setUsername(String username) {
-		this.userName = username;
 	}
 
 	public String getPassword() {
 		return password;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
 	public String getNickname() {
 		return nickName;
 	}
 
-	public void setNickname(String nickname) {
-		this.nickName = nickname;
-	}
 }

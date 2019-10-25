@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,6 +18,8 @@ import com.kingston.jforgame.admin.domain.ServerInfo;
 import com.kingston.jforgame.admin.gamenode.service.ServersManager;
 import com.kingston.jforgame.admin.gamenode.vo.ServerList;
 
+import javax.servlet.http.HttpServletRequest;
+
 @RestController
 @RequestMapping("/server")
 public class ServersController {
@@ -26,10 +29,9 @@ public class ServersController {
 
 	@RequestMapping(value = "/all", method = RequestMethod.GET)
 	public @ResponseBody ServerList getArticleByState(@RequestParam(value = "page", defaultValue = "1") Integer page,
-			@RequestParam(value = "count", defaultValue = "10") Integer count) {
+													  @RequestParam(value = "count", defaultValue = "10") Integer count, HttpServletRequest request) {
 		int totalCount = serversManager.getArticleCountByState();
 		List<ServerInfo> servers = serversManager.getArticleByState(page, count);
-
 		ServerList serverList = new ServerList();
 		serverList.setTotalCount(totalCount);
 		serverList.setServers(servers);
