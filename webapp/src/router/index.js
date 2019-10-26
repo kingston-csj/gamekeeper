@@ -1,4 +1,4 @@
-import Vue from 'vue'
+﻿import Vue from 'vue'
 import Router from 'vue-router'
 import Login from '@/components/Login'
 import Home from '@/components/Home'
@@ -51,7 +51,7 @@ export default new Router({
         {
           path: '/channel',
           iconCls: 'fa fa-user-o',
-          name: '支付查询',
+          name: '订单查询',
           component: ChannelPay
         }
       ]

@@ -3,6 +3,7 @@ package com.kingston.jforgame.admin.payorder.domain;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.util.Date;
 
 /**
  * @Author: Kingston
@@ -21,6 +22,8 @@ public class PayOrder {
 
     @Column
     private int money;
+
+    private Date createTime;
 
     public String getTradeNo() {
         return tradeNo;
@@ -44,5 +47,13 @@ public class PayOrder {
 
     public void setMoney(int money) {
         this.money = money;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 }

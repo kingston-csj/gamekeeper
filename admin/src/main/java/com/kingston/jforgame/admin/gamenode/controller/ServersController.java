@@ -1,4 +1,4 @@
-package com.kingston.jforgame.admin.gamenode;
+package com.kingston.jforgame.admin.gamenode.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,17 +39,21 @@ public class ServersController {
         int totalCount = serversManager.getServerNodeSum();
         List<ServerInfo> servers = serversManager.getServerNodeList(page, count);
         List<ServerNodeInfo> vos = new ArrayList<>(servers.size());
-        for (ServerInfo server : servers) {
-            ServerNodeInfo vo = new ServerNodeInfo();
-            vo.setId(server.getId());
-            vo.setTitle(server.getTitle());
-            ServerMonitorNode monitorNode = monitorService.queryMonitorInfo(server.getId());
-            if (monitorNode != null) {
-                vo.setOnlinePlayerSum(monitorNode.getOnlinePlayerSum());
-                vo.setCachePlayerSum(monitorNode.getCachePlayerSum());
+
+        if (SecurityUtils.hasAuth("ADMIN")) {
+            for (ServerInfo server : servers) {
+                ServerNodeInfo vo = new ServerNodeInfo();
+                vo.setId(server.getId());
+                vo.setTitle(server.getTitle());
+                ServerMonitorNode monitorNode = monitorService.queryMonitorInfo(server.getId());
+                if (monitorNode != null) {
+                    vo.setOnlinePlayerSum(monitorNode.getOnlinePlayerSum());
+                    vo.setCachePlayerSum(monitorNode.getCachePlayerSum());
+                }
+                vos.add(vo);
             }
-            vos.add(vo);
         }
+
         serverList.setTotalCount(totalCount);
         serverList.setServers(vos);
 

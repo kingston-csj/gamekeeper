@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.kingston.jforgame.admin.domain.Roles;
 import com.kingston.jforgame.admin.domain.User;
 import com.kingston.jforgame.admin.user.service.UserService;
-import com.kingston.jforgame.admin.vo.SimplyReply;
+import com.kingston.jforgame.admin.utils.SimplyReply;
 
 @RestController
 public class UserController {

@@ -1,4 +1,4 @@
-package com.kingston.jforgame.admin.vo;
+package com.kingston.jforgame.admin.utils;
 
 public class SimplyReply {
     private String status;

@@ -4,10 +4,22 @@ import com.kingston.jforgame.admin.channel.service.ChannelService;
 import com.kingston.jforgame.admin.payorder.dao.PayOrderDao;
 import com.kingston.jforgame.admin.payorder.domain.PayOrder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Path;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @Author: Kingston
@@ -22,15 +34,38 @@ public class PayOrderService {
     @Autowired
     private PayOrderDao payOrderDao;
 
-    public void queryOrderList(String channelId) {
+    public List<PayOrder> queryOrderList(String channelId, long startTime, long endTime, int page, int pageSize) {
         // 父渠道可以查询所有子渠道的订单
         List<String> children = channelService.queryChildChannel(channelId);
-        List<PayOrder> orders = payOrderDao.findByChannelCodeIn(children);
-        System.out.println(orders.size());
+        if (children.size() > 0) {
+            Pageable pageRequest =  new PageRequest(page-1, Integer.MAX_VALUE);
+            Page<PayOrder> orders = payOrderDao.findAll(createSpecification(startTime, endTime, children), pageRequest);
+            return orders.getContent();
+        }
+        return new ArrayList<>();
     }
 
-    @PostConstruct
-    private void init() {
-        queryOrderList("DJ550");
+    private Specification<PayOrder> createSpecification(long startTime, long endTime, List<String> channels) {
+        return new Specification<PayOrder>() {
+            @Override
+            public Predicate toPredicate(Root<PayOrder> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                List<Predicate> predicateList = new ArrayList<>();
+                predicateList.add(cb.greaterThanOrEqualTo(root.get("createTime").as(Date.class), new Date(startTime)));
+                predicateList.add(cb.lessThanOrEqualTo(root.get("createTime").as(Date.class), new Date(endTime)));
+
+
+                Path<Object> path = root.get("channelCode");
+                CriteriaBuilder.In<Object> in = cb.in(path);
+
+                for (String channel : channels) {
+                    in.value(channel);
+                }
+
+                predicateList.add(cb.and(cb.and(in)));
+
+                return cb.and( predicateList.toArray(new Predicate[predicateList.size()]));
+            }
+        };
     }
+
 }

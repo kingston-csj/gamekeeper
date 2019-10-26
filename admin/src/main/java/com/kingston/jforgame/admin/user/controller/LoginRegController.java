@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.kingston.jforgame.admin.domain.User;
 import com.kingston.jforgame.admin.user.service.UserService;
-import com.kingston.jforgame.admin.vo.SimplyReply;
+import com.kingston.jforgame.admin.utils.SimplyReply;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;

@@ -41,9 +41,12 @@
       </el-table-column>
 
     </el-table> 
-      
-    
-
+     
+	<el-form :inline="true" class="demo-form-inline">	 
+	<el-form-item label="累计金额:">
+		  <el-input v-model="moneySum" style="width:1280px"></el-input>
+	</el-form-item>
+	</el-form>
   </div>
 </template>
 <style type="text/css" scoped>
@@ -67,6 +70,7 @@
     data() {
       return {
         tableData: [],
+		moneySum:0,
         currentPage:1,
         total:0,
         pageSize:10,
@@ -83,7 +87,7 @@
 
          pickerOptions0: {
             disabledDate(time) {
-              return time.getTime() < Date.now() - 8.64e7;
+              return false;
             }
         },
 
@@ -110,9 +114,9 @@
         httpGet(url).then(resp=> {
           _this.loading = false;
           if (resp.status == 200) {
-            _this.servers = resp.data.servers;
-            console.info("_this.servers=="+_this.servers)
-            _this.totalCount = resp.data.totalCount;
+            _this.tableData = resp.data.orderVos;
+            _this.moneySum = resp.data.moneySum;
+			_this.loading2 = false;
           } else {
             _this.$message({type: 'error', message: '数据加载失败!'});
           }
@@ -132,7 +136,6 @@
       },
       //查询
       onSubmit() {
-        console.log("query");
         this.loadData();
       },
       //改变分页大小

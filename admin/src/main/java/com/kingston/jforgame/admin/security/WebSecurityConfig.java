@@ -63,7 +63,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/login").permitAll()
 				 .antMatchers("/monitor/*").permitAll()
 				 .antMatchers("/channel/*").permitAll()
-				 .antMatchers("/server/*").hasAnyRole("ADMIN")
+				 .antMatchers("/server/*").permitAll()
+//				 .antMatchers("/server/*").hasAnyRole("ADMIN")
 				// 其他所有请求需要身份认证
 				.anyRequest().authenticated();
 		// 退出登录处理器
