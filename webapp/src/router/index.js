@@ -5,6 +5,7 @@ import Home from '@/components/Home'
 import ServerList from '@/components/ServerList'
 import UserMana from '@/components/UserMana'
 import ServerMonitor from '@/components/ServerMonitor'
+import ChannelPay from '@/components/ChannelPay'
 
 Vue.use(Router)
 
@@ -40,6 +41,18 @@ export default new Router({
           meta: {
             keepAlive: false
           }
+        }
+      ]
+    }, {
+      path: '/home',
+      component: ChannelPay,
+      name: '渠道管理',
+      children: [
+        {
+          path: '/channel',
+          iconCls: 'fa fa-user-o',
+          name: '支付查询',
+          component: ChannelPay
         }
       ]
     }, {

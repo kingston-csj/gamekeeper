@@ -33,7 +33,7 @@ public class ServersController {
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     public @ResponseBody
-    ServerNodeInfoList getArticleByState(@RequestParam(value = "page", defaultValue = "1") Integer page,
+    ServerNodeInfoList getServerNodesList(@RequestParam(value = "page", defaultValue = "1") Integer page,
                                          @RequestParam(value = "count", defaultValue = "10") Integer count) {
         ServerNodeInfoList serverList = new ServerNodeInfoList();
         int totalCount = serversManager.getServerNodeSum();
