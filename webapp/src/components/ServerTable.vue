@@ -42,13 +42,13 @@
         <template slot-scope="scope">{{ scope.row.ip}}</template>
       </el-table-column>
       <el-table-column
-        prop="port"
-        label="端口"
+        prop="onlinePlayerSum"
+        label="在线人数"
         width="120" align="left">
       </el-table-column>
       <el-table-column
-        prop="openDate"
-        label="开服时间"
+        prop="cachePlayerSum"
+        label="缓存人数"
         width="120" align="left">
       </el-table-column>
       <el-table-column label="操作" align="left" v-if="showEdit || showDelete">

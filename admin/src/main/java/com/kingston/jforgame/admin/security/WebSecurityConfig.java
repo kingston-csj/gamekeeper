@@ -18,7 +18,7 @@ import org.springframework.web.filter.CorsFilter;
 
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-	
+
 	@Autowired
 	private UserService userService;
 
@@ -61,7 +61,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		 http.authorizeRequests().antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 				.antMatchers("/").permitAll()
 				.antMatchers("/login").permitAll()
-				 .antMatchers("/server").hasAnyRole("USERA")
+				 .antMatchers("/monitor/*").permitAll()
+				 .antMatchers("/server/*").hasAnyRole("ADMIN")
 				// 其他所有请求需要身份认证
 				.anyRequest().authenticated();
 		// 退出登录处理器

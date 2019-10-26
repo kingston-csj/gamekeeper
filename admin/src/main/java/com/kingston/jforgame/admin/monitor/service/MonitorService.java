@@ -19,4 +19,8 @@ public class MonitorService {
         serversMonitor.put(node.getServerId(), node);
     }
 
+    public ServerMonitorNode queryMonitorInfo(int serverId) {
+        return serversMonitor.get(serverId);
+    }
+
 }

@@ -4,17 +4,17 @@ import java.util.List;
 
 import com.kingston.jforgame.admin.domain.ServerInfo;
 
-public class ServerList {
+public class ServerNodeInfoList {
 	
-	private List<ServerInfo> servers;
+	private List<ServerNodeInfo> servers;
 	
 	private int totalCount;
 
-	public List<ServerInfo> getServers() {
+	public List<ServerNodeInfo> getServers() {
 		return servers;
 	}
 
-	public void setServers(List<ServerInfo> servers) {
+	public void setServers(List<ServerNodeInfo> servers) {
 		this.servers = servers;
 	}
 
