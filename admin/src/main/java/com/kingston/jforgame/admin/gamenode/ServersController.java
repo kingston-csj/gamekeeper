@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.kingston.jforgame.admin.security.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,11 +32,15 @@ public class ServersController {
 	@RequestMapping(value = "/all", method = RequestMethod.GET)
 	public @ResponseBody ServerList getArticleByState(@RequestParam(value = "page", defaultValue = "1") Integer page,
 													  @RequestParam(value = "count", defaultValue = "10") Integer count, HttpServletRequest request) {
-		int totalCount = serversManager.getArticleCountByState();
-		List<ServerInfo> servers = serversManager.getArticleByState(page, count);
 		ServerList serverList = new ServerList();
-		serverList.setTotalCount(totalCount);
-		serverList.setServers(servers);
+		// 临时解决方案
+		if (SecurityUtils.hasAuth("ADMIN")) {
+			int totalCount = serversManager.getServerNodeSum();
+			List<ServerInfo> servers = serversManager.getServerNodeList(page, count);
+			serverList.setTotalCount(totalCount);
+			serverList.setServers(servers);
+		}
+
 		return serverList;
 	}
 
@@ -45,7 +49,7 @@ public class ServersController {
 		Map<String, Object> result = new HashMap<String, Object>();
 		List<Integer> ids = new ArrayList<>();
 
-		List<ServerInfo> servers = serversManager.getArticleByState(1, Integer.MAX_VALUE);
+		List<ServerInfo> servers = serversManager.getServerNodeList(1, Integer.MAX_VALUE);
 
 		servers.forEach(server -> {
 			ids.add(server.getId());

@@ -1,39 +1,28 @@
 package com.kingston.jforgame.admin.gamenode.service;
 
-import java.util.List;
-
+import com.kingston.jforgame.admin.domain.ServerInfo;
+import com.kingston.jforgame.admin.gamenode.dao.ServerInfoDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import com.kingston.jforgame.admin.gamenode.dao.ServerInfoDao;
-import com.kingston.jforgame.admin.domain.ServerInfo;
+import java.util.List;
 
 @Service
-@Transactional
 public class ServersManager {
     
 	@Autowired
     private ServerInfoDao serverInfoDao;
 
-    public String stripHtml(String content) {
-        content = content.replaceAll("<p .*?>", "");
-        content = content.replaceAll("<br\\s*/?>", "");
-        content = content.replaceAll("\\<.*?>", "");
-        return content;
-    }
-
-    public List<ServerInfo> getArticleByState(Integer page, Integer count) {
+    public List<ServerInfo> getServerNodeList(Integer page, Integer count) {
         int start = (page - 1) * count;
         return serverInfoDao.findAll();
     }
 
-    public int getArticleCountByState() {
+    public int getServerNodeSum() {
         return (int) serverInfoDao.count();
     }
 
-
-    public ServerInfo getArticleById(Integer id) {
+    public ServerInfo getServerNodeBy(Integer id) {
        return serverInfoDao.findOne(id);
     }
 

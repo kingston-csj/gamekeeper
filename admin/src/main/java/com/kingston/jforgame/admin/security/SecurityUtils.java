@@ -1,7 +1,9 @@
 package com.kingston.jforgame.admin.security;
 
+import org.omg.CORBA.PUBLIC_MEMBER;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -86,6 +88,16 @@ public class SecurityUtils {
         }
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return authentication;
+    }
+
+    public static boolean hasAuth(String auth) {
+        Authentication authentication = SecurityUtils.getAuthentication();
+        for (GrantedAuthority authority : authentication.getAuthorities()) {
+            if (authority.getAuthority().equals(auth)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }
