@@ -2,12 +2,14 @@ package com.kingston.jforgame.admin.domain;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+import com.kingston.jforgame.admin.security.GrantedAuthorityImpl;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -100,7 +102,7 @@ public class User implements UserDetails {
 	@JsonIgnore
 	public List<GrantedAuthority> getAuthorities() {
 		List<GrantedAuthority> authorities = new ArrayList<>();
-		authorities.add(new SimpleGrantedAuthority("ADMIN"));
+		authorities.add(new GrantedAuthorityImpl("ADMIN"));
 		return authorities;
 	}
 

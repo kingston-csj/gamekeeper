@@ -1,6 +1,8 @@
 import axios from 'axios'
+import Cookies from "js-cookie"
 
 let base = 'http://localhost:8081';
+
 
 export const httpGet = (url,params) => {
   return axios({
@@ -14,7 +16,8 @@ export const httpGet = (url,params) => {
       return ret
     }],
     headers: {
-      'Content-Type': 'application/x-www-form-urlencoded'
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'token': Cookies.get('token')
     },
     url: `${base}${url}`
   });

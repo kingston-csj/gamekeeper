@@ -21,12 +21,7 @@ public class UserController {
 
 	@RequestMapping("/currentUserName")
 	public String currentUserName() {
-		return userService.getCurrentUser().getNickname();
-	}
-
-	@RequestMapping("/currentUserId")
-	public Long currentUserId() {
-		return userService.getCurrentUser().getId();
+		return userService.getCurrentUser();
 	}
 
 	@RequestMapping("/isAdmin")
