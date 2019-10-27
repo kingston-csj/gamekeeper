@@ -3,6 +3,7 @@ package com.kingston.jforgame.admin.payorder.service;
 import com.kingston.jforgame.admin.channel.service.ChannelService;
 import com.kingston.jforgame.admin.payorder.dao.PayOrderDao;
 import com.kingston.jforgame.admin.payorder.domain.PayOrder;
+import com.kingston.jforgame.admin.security.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -37,12 +38,13 @@ public class PayOrderService {
     public List<PayOrder> queryOrderList(String channelId, long startTime, long endTime, int page, int pageSize) {
         // 父渠道可以查询所有子渠道的订单
         List<String> children = channelService.queryChildChannel(channelId);
-        if (children.size() > 0) {
-            Pageable pageRequest =  new PageRequest(page-1, Integer.MAX_VALUE);
-            Page<PayOrder> orders = payOrderDao.findAll(createSpecification(startTime, endTime, children), pageRequest);
-            return orders.getContent();
+        // 超级管理员可以查看所有渠道
+        if (children.size() <= 0 && !SecurityUtils.hasAuth("ADMIN")) {
+            return new ArrayList<>();
         }
-        return new ArrayList<>();
+        Pageable pageRequest = new PageRequest(page - 1, Integer.MAX_VALUE);
+        Page<PayOrder> orders = payOrderDao.findAll(createSpecification(startTime, endTime, children), pageRequest);
+        return orders.getContent();
     }
 
     private Specification<PayOrder> createSpecification(long startTime, long endTime, List<String> channels) {
@@ -54,16 +56,18 @@ public class PayOrderService {
                 predicateList.add(cb.lessThanOrEqualTo(root.get("createTime").as(Date.class), new Date(endTime)));
 
 
-                Path<Object> path = root.get("channelCode");
-                CriteriaBuilder.In<Object> in = cb.in(path);
-
-                for (String channel : channels) {
-                    in.value(channel);
+                if (channels.size() > 0) {
+                    Path<Object> path = root.get("channelCode");
+                    CriteriaBuilder.In<Object> in = cb.in(path);
+                    for (String channel : channels) {
+                        in.value(channel);
+                    }
+                    predicateList.add(cb.and(cb.and(in)));
                 }
 
-                predicateList.add(cb.and(cb.and(in)));
 
-                return cb.and( predicateList.toArray(new Predicate[predicateList.size()]));
+
+                return cb.and(predicateList.toArray(new Predicate[predicateList.size()]));
             }
         };
     }

@@ -1,22 +1,19 @@
 package com.kingston.jforgame.admin.domain;
 
-import java.sql.Timestamp;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-@Entity
+@Entity(name="t_server")
 public class ServerInfo {
 
     @Id
     private Integer id;
-    @Column
+    @Column(name="name")
     private String title;
+    @Column
     private String ip;
-    @Column
-    private Timestamp openDate;
-    @Column
+    @Column(name="jmxPort")
     private Integer port;
 
     public Integer getId() {
@@ -43,14 +40,6 @@ public class ServerInfo {
         this.ip = ip;
     }
 
-    public Timestamp getOpenDate() {
-        return openDate;
-    }
-
-    public void setOpenDate(Timestamp openDate) {
-        this.openDate = openDate;
-    }
-
     public Integer getPort() {
         return port;
     }
@@ -61,7 +50,11 @@ public class ServerInfo {
 
     @Override
     public String toString() {
-        return "ServerInfo [title=" + title + ", ip=" + ip + ", openDate=" + openDate + ", port=" + port + "]";
+        return "ServerInfo{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", ip='" + ip + '\'' +
+                ", port=" + port +
+                '}';
     }
-
 }

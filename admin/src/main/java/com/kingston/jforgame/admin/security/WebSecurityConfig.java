@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -22,17 +23,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private UserService userService;
 
-	@Bean
-	public CorsFilter corsFilter() {
-		final UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
-		final CorsConfiguration corsConfiguration = new CorsConfiguration();
-		corsConfiguration.setAllowCredentials(true);
-		corsConfiguration.addAllowedOrigin("*");
-		corsConfiguration.addAllowedHeader("*");
-		corsConfiguration.addAllowedMethod("*");
-		urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
-		return new CorsFilter(urlBasedCorsConfigurationSource);
-	}
+//	@Bean
+//	public CorsFilter corsFilter() {
+//		final UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
+//		final CorsConfiguration corsConfiguration = new CorsConfiguration();
+//		corsConfiguration.setAllowCredentials(true);
+//		corsConfiguration.addAllowedOrigin("*");
+//		corsConfiguration.addAllowedHeader("*");
+//		corsConfiguration.addAllowedMethod("*");
+//		urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
+//		return new CorsFilter(urlBasedCorsConfigurationSource);
+//	}
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 //		auth.userDetailsService(userService).passwordEncoder(new PasswordEncoder() {
@@ -55,8 +56,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry registry
 				= http.authorizeRequests();
 		registry.requestMatchers(CorsUtils::isPreFlightRequest).permitAll();
-		http.csrf().disable()
-				.cors();
+		http.csrf().disable();
+//				.cors();
 
 		 http.authorizeRequests().antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 				.antMatchers("/").permitAll()
@@ -71,6 +72,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.logout().logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler());
 		// token验证过滤器
 		http.addFilterBefore(new JwtAuthenticationFilter(authenticationManager()), UsernamePasswordAuthenticationFilter.class);
+	}
+
+	@Override
+	public void configure(WebSecurity web) throws Exception {
+		web.ignoring().antMatchers("/img/**", "/index.html", "/static/**");
 	}
 
 }
