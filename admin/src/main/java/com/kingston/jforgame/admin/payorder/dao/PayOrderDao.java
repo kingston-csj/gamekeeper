@@ -1,9 +1,12 @@
 package com.kingston.jforgame.admin.payorder.dao;
 
 import com.kingston.jforgame.admin.payorder.domain.PayOrder;
+import com.kingston.jforgame.admin.payorder.domain.PayOrderGroup;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -12,5 +15,16 @@ import java.util.List;
  */
 public interface PayOrderDao extends JpaRepository<PayOrder, String> , JpaSpecificationExecutor<PayOrder> {
 
-    List<PayOrder> findByChannelCodeIn(List<String> channels);
+
+    // TODO 优雅的实现？？
+    @Query(nativeQuery =true, value="SELECT sum(money) as money,channelCode "
+
+            + " FROM t_payinfo"
+
+            + " WHERE createTime >= ? "
+            + " AND createTime <= ? "
+
+            + " GROUP BY channelCode")
+    List<Object> queryOrderStatistics(Date fromDate, Date toDate);
+
 }

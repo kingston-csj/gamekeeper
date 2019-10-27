@@ -1,8 +1,8 @@
 import axios from 'axios'
 import Cookies from "js-cookie"
 
-let base = 'http://localhost:8081';
-//let base = '';
+// let base = 'http://localhost:8081';
+let base = '';
 
 export const httpGet = (url,params) => {
   return axios({

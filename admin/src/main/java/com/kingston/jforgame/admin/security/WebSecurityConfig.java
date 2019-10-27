@@ -34,6 +34,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //		urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
 //		return new CorsFilter(urlBasedCorsConfigurationSource);
 //	}
+
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 //		auth.userDetailsService(userService).passwordEncoder(new PasswordEncoder() {

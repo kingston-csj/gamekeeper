@@ -1,7 +1,9 @@
 <template>
   <div id="users">
     <el-form :inline="true" class="demo-form-inline">
-         
+
+
+            
       <el-form-item>
         <el-date-picker v-model="selectDateFrom" type="datetime" placeholder="开始日期" :picker-options="pickerOptions0">
         </el-date-picker>
@@ -19,38 +21,21 @@
     </el-form>
         
     <el-table :data="tableData" style="width: 100%" v-loading="loading2" element-loading-text="拼命加载中">
-      <el-table-column type="selection" width="55">
+      <el-table-column prop="channelCode" label="归属代理" width="180">
+        <template slot-scope="scope">{{ scope.row.channelCode}}</template>
+      </el-table-column>
 
-      </el-table-column>
-      <el-table-column prop="id" label="订单id" width="180">
-         <template slot-scope="scope">{{ scope.row.id}}</template>
-      </el-table-column> 
-      <el-table-column prop="account" label="充值账号">
-         <template slot-scope="scope">{{ scope.row.account}}</template>
-      </el-table-column> 
-      <el-table-column prop="time" label="充值时间" width="180">
-        <template slot-scope="scope">{{ scope.row.time}}</template>
-      </el-table-column>
-      <el-table-column prop="money" label="充值金额" width="180">
+      <el-table-column prop="money" label="累计金额" width="180">
         <template slot-scope="scope">{{ scope.row.money}}</template>
-      </el-table-column>
-      <el-table-column prop="channel" label="归属代理" width="180">
-        <template slot-scope="scope">{{ scope.row.channel}}</template>
       </el-table-column>
 
     </el-table> 
-
-
-    <el-pagination
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :current-page="currentPage"
-        :page-sizes="[10, 20, 50]" 
-        :page-size="pagesize"         
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="total">   
-    </el-pagination>
      
+  <el-form :inline="true" class="demo-form-inline">  
+  <el-form-item label="总金额:">
+      <el-input v-model="moneySum" style="width:128px"></el-input>
+  </el-form-item>
+  </el-form>
   </div>
 </template>
 <style type="text/css" scoped>
@@ -74,15 +59,12 @@
     data() {
       return {
         tableData: [],
-        currentPage:1,
-        total:0,
-        pageSize:10,
+        moneySum:0,
         selectDateFrom:'',
         selectDateTo:'',
         dialogFormVisible: false,
         formLabelWidth: '120px',
         loading2: false,
-
         pickerOptions0: {
             disabledDate(time) {
               return false;
@@ -107,15 +89,15 @@
         };
        
         var _this = this;
-        var url = "/channel/order" + "?page=" + this.currentPage + "&pageSize=" + this.pageSize 
-          + "&selectFrom=" + this.selectDateFrom.getTime() + "&selectTo=" + this.selectDateTo.getTime() ; 
+        var url = "/channel/statistics" 
+          + "?selectFrom=" + this.selectDateFrom.getTime() + "&selectTo=" + this.selectDateTo.getTime() ; 
         
         httpGet(url).then(resp=> {
           _this.loading = false;
           if (resp.status == 200) {
-            _this.tableData = resp.data.orders;
-			      _this.loading2 = false;
-            _this.total = resp.data.totalRecord;
+            _this.tableData = resp.data.orderGroups;
+            _this.moneySum = resp.data.moneySum;
+            _this.loading2 = false;
           } else {
             _this.$message({type: 'error', message: '数据加载失败!'});
           }
@@ -137,16 +119,6 @@
       onSubmit() {
         this.loadData();
       },
-      //改变分页大小
-      handleSizeChange(val) {
-        this.pageSize = val;
-      },
-      //跳转页数
-      handleCurrentChange(val) {
-        this.currentPage = val;
-        this.loadData();
-      },
-
       initTime() {
         var date = new Date()
         date.setDate(date.getDate());

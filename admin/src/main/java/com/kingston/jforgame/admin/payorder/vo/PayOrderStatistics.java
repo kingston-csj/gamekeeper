@@ -4,23 +4,23 @@ import java.util.List;
 
 public class PayOrderStatistics {
 
-    private List<PayOrderVo> orderVos;
+    private List<PayOrderVo> orders;
 
-    private String moneySum;
+    private int totalRecord;
 
-    public List<PayOrderVo> getOrderVos() {
-        return orderVos;
+    public List<PayOrderVo> getOrders() {
+        return orders;
     }
 
-    public void setOrderVos(List<PayOrderVo> orderVos) {
-        this.orderVos = orderVos;
+    public void setOrders(List<PayOrderVo> orders) {
+        this.orders = orders;
     }
 
-    public String getMoneySum() {
-        return moneySum;
+    public int getTotalRecord() {
+        return totalRecord;
     }
 
-    public void setMoneySum(String moneySum) {
-        this.moneySum = moneySum;
+    public void setTotalRecord(int totalRecord) {
+        this.totalRecord = totalRecord;
     }
 }

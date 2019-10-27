@@ -50,7 +50,7 @@ public class LoginRegController {
         // 用户信息
         UserDetails user = userService.loadUserByUsername(userName);
         // 账号不存在、密码错误
-        if (user == null) {
+        if (user == null || !password.equals(user.getPassword())) {
             return new SimplyReply("error", "尚未登录，请登录!");
         }
 

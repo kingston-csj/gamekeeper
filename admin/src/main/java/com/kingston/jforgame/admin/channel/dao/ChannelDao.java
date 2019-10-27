@@ -1,6 +1,7 @@
 package com.kingston.jforgame.admin.channel.dao;
 
 import com.kingston.jforgame.admin.channel.domain.Channel;
+import com.kingston.jforgame.admin.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -8,4 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @Date: 2019/10/24 20:04
  */
 public interface ChannelDao extends JpaRepository<Channel, String> {
+
+
+    Channel findByChannelNoAndPassword(String name, String password);
 }

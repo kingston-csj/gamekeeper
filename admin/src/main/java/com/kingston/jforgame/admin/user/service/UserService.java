@@ -32,7 +32,6 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
         UserDetails user = userDao.findByUserName(name);
-
         if (user == null) {
             user = channelDao.findOne(name);
         }
