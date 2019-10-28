@@ -78,7 +78,7 @@
     },
     mounted: function () {
       var _this = this;
-      httpGet("/currentUserName").then(function (msg) {
+      httpGet("/user/currentUserName").then(function (msg) {
         _this.currentUserName = msg.data;
       }, function (msg) {
         _this.currentUserName = '游客';

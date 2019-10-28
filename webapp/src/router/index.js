@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import Login from '@/components/Login'
 import Home from '@/components/Home'
 import ServerList from '@/components/ServerList'
-import UserMana from '@/components/UserMana'
+import UserSetting from '@/components/UserSetting'
 import ServerMonitor from '@/components/ServerMonitor'
 import ChannelPay from '@/components/ChannelPay'
 import ChannelStatistics from '@/components/ChannelStatistics'
@@ -68,10 +68,10 @@ export default new Router({
       name: '用户管理',
       children: [
         {
-          path: '/user',
+          path: '/userSetting',
           iconCls: 'fa fa-user-o',
-          name: '用户管理',
-          component: UserMana
+          name: '修改密码',
+          component: UserSetting
         }
       ]
     }

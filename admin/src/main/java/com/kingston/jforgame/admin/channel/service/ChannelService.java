@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @Author: Kingston
@@ -36,6 +37,10 @@ public class ChannelService {
             result.add(node.getName().toString());
         }
         return result;
+    }
+
+    public List<String> queryAllChannels() {
+        return channelTree.getTree().stream().map(ele -> (String)ele.getName()).collect(Collectors.toList());
     }
 
     public void updatePassword(String code, String pwd) {
