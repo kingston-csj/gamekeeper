@@ -51,7 +51,6 @@ public class UserService implements UserDetailsService {
 
     public List<User> getUserByNickname(String nickname) {
     	User user = userDao.findByUserName(nickname);
-    	
     	List<User> result = new ArrayList<>();
     	result.add(user);
         return result;

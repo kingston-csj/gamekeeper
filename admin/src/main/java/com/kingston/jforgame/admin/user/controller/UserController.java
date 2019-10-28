@@ -2,11 +2,12 @@ package com.kingston.jforgame.admin.user.controller;
 
 import java.util.List;
 
+import com.kingston.jforgame.admin.channel.service.ChannelService;
+import com.kingston.jforgame.admin.security.SecurityUtils;
+import com.kingston.jforgame.admin.user.model.RoleKInds;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.*;
 
 import com.kingston.jforgame.admin.domain.Roles;
 import com.kingston.jforgame.admin.domain.User;
@@ -14,10 +15,13 @@ import com.kingston.jforgame.admin.user.service.UserService;
 import com.kingston.jforgame.admin.utils.SimplyReply;
 
 @RestController
+@RequestMapping("/user")
 public class UserController {
 
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private ChannelService channelService;
 
 	@RequestMapping("/currentUserName")
 	public String currentUserName() {
@@ -27,11 +31,6 @@ public class UserController {
 	@RequestMapping("/isAdmin")
 	public Boolean isAdmin() {
 		return true;
-	}
-
-	@RequestMapping(value = "/user", method = RequestMethod.GET)
-	public List<User> getUserByNickname(String nickname) {
-		return userService.getUserByNickname(nickname);
 	}
 
 	@RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
@@ -44,11 +43,6 @@ public class UserController {
 		return userService.getAllRole();
 	}
 
-	@RequestMapping(value = "/user/enabled", method = RequestMethod.PUT)
-	public SimplyReply updateUserEnabled(Boolean enabled, Long uid) {
-		return new SimplyReply("error", "更新失败!");
-	}
-
 	@RequestMapping(value = "/user/{uid}", method = RequestMethod.DELETE)
 	public SimplyReply deleteUserById(@PathVariable Long uid) {
 		if (userService.deleteUserById(uid) == 1) {
@@ -58,9 +52,27 @@ public class UserController {
 		}
 	}
 
-	@RequestMapping(value = "/user/role", method = RequestMethod.PUT)
-	public SimplyReply updateUserRoles(Long[] rids, Long id) {
-		return new SimplyReply("error", "更新失败!");
+	@RequestMapping(value = "/resetPwd", method = RequestMethod.PUT)
+	public SimplyReply updateUserRoles(@RequestParam(value = "targetUser") String targetUser,
+									   @RequestParam(value = "oldPwd") String oldPwd,
+									   @RequestParam(value = "newPwd") String newPwd) {
+		String myUser = currentUserName();
+		// 超级管理员可以修改所有人的密码
+		if (!SecurityUtils.hasAuth(RoleKInds.ADMIN)) {
+			if (!channelService.queryChildChannel(myUser).contains(targetUser)) {
+				return SimplyReply.valueOfFail("更新失败");
+			}
+		}
+		UserDetails userDetails = userService.loadUserByUsername(myUser);
+		// 修改自己的密码，需要验证旧密码
+		if (myUser.equals(targetUser)) {
+			if (!userDetails.getPassword().equals(oldPwd)) {
+				return SimplyReply.valueOfFail("原密码错误");
+			}
+		}
+
+		channelService.updatePassword(targetUser, newPwd);
+		return SimplyReply.valueOfOk("修改成功");
 	}
 
 }

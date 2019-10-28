@@ -11,5 +11,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface ChannelDao extends JpaRepository<Channel, String> {
 
 
-    Channel findByChannelNoAndPassword(String name, String password);
 }

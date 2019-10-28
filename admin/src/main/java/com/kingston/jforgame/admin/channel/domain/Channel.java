@@ -45,6 +45,10 @@ public class Channel implements UserDetails {
         this.parentChannel = parentChannel;
     }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();

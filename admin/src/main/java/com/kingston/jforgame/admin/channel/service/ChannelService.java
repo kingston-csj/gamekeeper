@@ -26,10 +26,7 @@ public class ChannelService {
     @PostConstruct
     private void initChannel() {
         List<Channel> nodes = channelDao.findAll();
-
         channelTree = new ChannelTree(nodes);
-        System.out.println(channelTree);
-
     }
 
     public List<String> queryChildChannel(String channelCode) {
@@ -39,6 +36,14 @@ public class ChannelService {
             result.add(node.getName().toString());
         }
         return result;
+    }
+
+    public void updatePassword(String code, String pwd) {
+        Channel channel = channelDao.findOne(code);
+        if (channel != null) {
+            channel.setPassword(pwd);
+            channelDao.save(channel);
+        }
     }
 
 }
