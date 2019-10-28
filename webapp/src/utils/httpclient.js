@@ -1,8 +1,8 @@
 import axios from 'axios'
 import Cookies from "js-cookie"
 
-let base = 'http://localhost:8081';
-// let base = '';
+// let base = 'http://localhost:8081';
+let base = '';
 
 export const httpGet = (url,params) => {
   return axios({
@@ -37,7 +37,8 @@ export const httpPost = (url, params) => {
       return ret
     }],
     headers: {
-      'Content-Type': 'application/x-www-form-urlencoded'
+      'Content-Type': 'application/x-www-form-urlencoded',
+       'token': Cookies.get('token')
     }
   });
 }
@@ -64,7 +65,8 @@ export const httpPut = (url, params) => {
       return ret
     }],
     headers: {
-      'Content-Type': 'application/x-www-form-urlencoded'
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'token': Cookies.get('token')
     }
   });
 }

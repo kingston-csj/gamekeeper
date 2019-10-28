@@ -7,6 +7,7 @@ import com.kingston.jforgame.admin.security.SecurityUtils;
 import com.kingston.jforgame.admin.user.model.RoleKInds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import com.kingston.jforgame.admin.domain.Roles;
@@ -52,25 +53,24 @@ public class UserController {
 		}
 	}
 
-	@RequestMapping(value = "/resetPwd", method = RequestMethod.PUT)
+	@RequestMapping(value = "/resetPwd", method = RequestMethod.POST)
 	public SimplyReply updateUserRoles(@RequestParam(value = "targetUser") String targetUser,
-									   @RequestParam(value = "oldPwd") String oldPwd,
 									   @RequestParam(value = "newPwd") String newPwd) {
+		if (StringUtils.isEmpty(targetUser)) {
+			return SimplyReply.valueOfFail("请选择代理");
+		}
 		String myUser = currentUserName();
+		if (channelService.queryChildChannel(myUser).size() <= 1) {
+			return SimplyReply.valueOfFail("无法修改密码，请联系父代理");
+		}
+
+
 		// 超级管理员可以修改所有人的密码
-		if (!SecurityUtils.hasAuth(RoleKInds.ADMIN)) {
+		if (!SecurityUtils.hasAuth("ADMIN")) {
 			if (!channelService.queryChildChannel(myUser).contains(targetUser)) {
 				return SimplyReply.valueOfFail("更新失败");
 			}
 		}
-		UserDetails userDetails = userService.loadUserByUsername(myUser);
-		// 修改自己的密码，需要验证旧密码
-		if (myUser.equals(targetUser)) {
-			if (!userDetails.getPassword().equals(oldPwd)) {
-				return SimplyReply.valueOfFail("原密码错误");
-			}
-		}
-
 		channelService.updatePassword(targetUser, newPwd);
 		return SimplyReply.valueOfOk("修改成功");
 	}

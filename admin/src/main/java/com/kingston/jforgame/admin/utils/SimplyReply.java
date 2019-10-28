@@ -22,7 +22,7 @@ public class SimplyReply {
 
     public static SimplyReply valueOfFail(String msg) {
         SimplyReply reply = new SimplyReply();
-        reply.status = "success";
+        reply.status = "error";
         reply.msg = msg;
         return reply;
     }
