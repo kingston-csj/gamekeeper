@@ -107,7 +107,7 @@
         };
        
         var _this = this;
-        var url = "/channel/order" + "?page=" + this.currentPage + "&pageSize=" + this.pageSize 
+        var url = "/pay/order" + "?page=" + this.currentPage + "&pageSize=" + this.pageSize 
           + "&selectFrom=" + this.selectDateFrom.getTime() + "&selectTo=" + this.selectDateTo.getTime() ; 
         
         httpGet(url).then(resp=> {

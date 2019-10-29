@@ -22,7 +22,7 @@ import java.util.Map;
  * @Date: 2019/10/26 20:08
  */
 @RestController
-@RequestMapping("/channel")
+@RequestMapping("/pay")
 public class PayOrderController {
 
     @Autowired
