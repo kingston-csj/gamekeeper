@@ -12,16 +12,16 @@
    </el-select>
 
   <el-form>
-     <el-form-item v-if="visible" label="密码    ">
+     <el-form-item v-if="visible" label="输入密码">
                 <el-input type="password" v-model="newPassword" placeholder="请输入密码" style="width:200px">
                     <i slot="suffix" title="显示密码" @click="changePass('show')" style="cursor:pointer;"
-                       class="el-input__icon iconfont el-icon-open"></i>
+                       class="el-icon-view"></i>
                 </el-input>
             </el-form-item>
-            <el-form-item v-else label="密码    ">
+            <el-form-item v-else label="输入密码">
                 <el-input type="text" v-model="newPassword" placeholder="请输入密码" style="width:200px">
                     <i slot="suffix" title="隐藏密码" @click="changePass('hide')" style="cursor:pointer;"
-                       class="el-input__icon iconfont el-icon-turn-off"></i>
+                       class="el-icon-circle-close-outline"></i>
                 </el-input>
             </el-form-item>
   </el-form>
@@ -31,13 +31,13 @@
    <el-form-item v-if="visible2" label="确认密码">
               <el-input type="password" v-model="newPassword2" placeholder="请输入密码" style="width:200px">
                   <i slot="suffix" title="显示密码" @click="changePass2('show')" style="cursor:pointer;"
-                     class="el-input__icon iconfont el-icon-open"></i>
+                     class="el-icon-view"></i>
               </el-input>
           </el-form-item>
           <el-form-item v-else label="确认密码">
               <el-input type="text" v-model="newPassword2" placeholder="请输入密码" style="width:200px">
                   <i slot="suffix" title="隐藏密码" @click="changePass2('hide')" style="cursor:pointer;"
-                     class="el-input__icon iconfont el-icon-turn-off"></i>
+                     class="el-icon-circle-close-outline"></i>
               </el-input>
           </el-form-item>
   </el-form>
