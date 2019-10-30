@@ -4,7 +4,7 @@ import Login from '@/components/Login'
 import Home from '@/components/Home'
 import ServerList from '@/components/ServerList'
 import UserSetting from '@/components/UserSetting'
-import ServerMonitor from '@/components/ServerMonitor'
+import ServerCommand from '@/components/ServerCommand'
 import ChannelPay from '@/components/ChannelPay'
 import ChannelStatistics from '@/components/ChannelStatistics'
 
@@ -36,9 +36,9 @@ export default new Router({
             keepAlive: true
           }
         }, {
-          path: '/serverMonitor',
-          name: '服务监控',
-          component: ServerMonitor,
+          path: '/serverCommand',
+          name: '代码热更',
+          component: ServerCommand,
           meta: {
             keepAlive: false
           }
