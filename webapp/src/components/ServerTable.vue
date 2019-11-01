@@ -34,7 +34,7 @@
       <el-table-column
         label="服务器名称"
         width="200" align="left">
-        <template slot-scope="scope"><span style="color: #409eff;cursor: pointer" @click="itemClick(scope.row)">{{ scope.row.title}}</span>
+        <template slot-scope="scope"><span style="color: #409eff;cursor: pointer" @click="itemClick(scope.row)">{{ scope.row.name}}</span>
         </template>
       </el-table-column>
       <el-table-column

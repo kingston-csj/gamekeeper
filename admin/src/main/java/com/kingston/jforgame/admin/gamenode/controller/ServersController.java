@@ -43,7 +43,7 @@ public class ServersController {
             for (ServerInfo server : servers) {
                 ServerNodeInfo vo = new ServerNodeInfo();
                 vo.setId(server.getId());
-                vo.setTitle(server.getTitle());
+                vo.setName(String.format("%s(%d区)", server.getName(), server.getId()));
                 ServerMonitorNode monitorNode = monitorService.queryMonitorInfo(server.getId());
                 if (monitorNode != null) {
                     vo.setOnlinePlayerSum(monitorNode.getOnlinePlayerSum());
@@ -61,7 +61,7 @@ public class ServersController {
 
     @RequestMapping(value = "/serverIds", method = RequestMethod.GET)
     public Map<String, Object> queryServerIds() {
-        Map<String, Object> result = new HashMap<String, Object>();
+        Map<String, Object> result = new HashMap<>();
         List<Integer> ids = new ArrayList<>();
         List<ServerInfo> servers = serversManager.getServerNodeList(1, Integer.MAX_VALUE);
 

@@ -47,25 +47,25 @@
       submitClick() {
         this.btnDisabled = true;
         httpPost('/gameCmd/hotSwap', {
-          checkedServers: this.checkedServers.join(";")
+          selectedServers: this.checkedServers.join(";")
         }).then(resp=> {
-          _this.loading = false;
+          this.loading = false;
+          this.btnDisabled = false;
           if (resp.status == 200) {
             //成功
             var json = resp.data;
             if (json.status == 'success') {
-
-
+              this.$alert(json.msg, '执行结果');
             } else {
-              _this.$alert(json.msg, '失败!');
+              this.$alert(json.msg, '失败!');
             }
           } else {
             //失败
-            _this.$alert('执行失败!', '失败!');
+            this.$alert('执行失败!', '失败!');
           }
         }, resp=> {
-          _this.loading = false;
-          _this.$alert('找不到服务器', '失败!');
+          this.loading = false;
+          this.$alert('找不到服务器', '失败!');
         });
 
       }

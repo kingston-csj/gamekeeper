@@ -7,7 +7,7 @@ package com.kingston.jforgame.admin.gamenode.vo;
 public class ServerNodeInfo {
 
     private Integer id;
-    private String title;
+    private String name;
     private String ip;
 
     private Integer port;
@@ -28,20 +28,20 @@ public class ServerNodeInfo {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public String getIp() {
         return ip;
     }
 
     public void setIp(String ip) {
         this.ip = ip;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Integer getPort() {

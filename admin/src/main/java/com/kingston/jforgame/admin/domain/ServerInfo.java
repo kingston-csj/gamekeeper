@@ -10,7 +10,7 @@ public class ServerInfo {
     @Id
     private Integer id;
     @Column(name="name")
-    private String title;
+    private String name;
     @Column
     private String ip;
 
@@ -30,8 +30,8 @@ public class ServerInfo {
         return id;
     }
 
-    public String getTitle() {
-        return title;
+    public String getName() {
+        return name;
     }
 
     public String getIp() {
@@ -54,7 +54,7 @@ public class ServerInfo {
     public String toString() {
         return "ServerInfo{" +
                 "id=" + id +
-                ", title='" + title + '\'' +
+                ", name='" + name + '\'' +
                 ", ip='" + ip + '\'' +
                 ", port=" + port +
                 '}';
