@@ -55,6 +55,9 @@ public class PayOrderService {
         if (children.size() <= 0 && !SecurityUtils.hasAuth("ADMIN")) {
             return null;
         }
+        page = Math.abs(page);
+        pageSize = Math.abs(pageSize);
+        pageSize = Math.min(pageSize, 100);
         Pageable pageRequest = new PageRequest(page - 1, pageSize);
         Page<PayOrder> orders = payOrderDao.findAll(createQuerySpecification(startTime, endTime, children), pageRequest);
         return orders;

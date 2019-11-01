@@ -17,10 +17,8 @@ public class GameCmdController {
     private GameCmdService cmdService;
 
     @RequestMapping(value = "/hotSwap", method = RequestMethod.GET)
-    public @ResponseBody String hotSwap() {
+    public @ResponseBody String hotSwap(@RequestParam("selectedServers") String selectedServers) {
         return "执行成功";
     }
-
-
 
 }

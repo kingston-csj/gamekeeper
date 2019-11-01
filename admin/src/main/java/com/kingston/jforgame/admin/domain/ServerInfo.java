@@ -13,39 +13,41 @@ public class ServerInfo {
     private String title;
     @Column
     private String ip;
+
+    @Column
+    private int httpPort;
+
     @Column(name="jmxPort")
     private Integer port;
 
+    /**
+     * 大于0表示合区目标服
+     */
+    @Column
+    private int merged;
+
     public Integer getId() {
         return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public String getIp() {
         return ip;
-    }
-
-    public void setIp(String ip) {
-        this.ip = ip;
     }
 
     public Integer getPort() {
         return port;
     }
 
-    public void setPort(Integer port) {
-        this.port = port;
+    public int getHttpPort() {
+        return httpPort;
+    }
+
+    public int getMerged() {
+        return merged;
     }
 
     @Override

@@ -8,13 +8,12 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class ServersManager {
+public class ServerNodeService {
     
 	@Autowired
     private ServerInfoDao serverInfoDao;
 
     public List<ServerInfo> getServerNodeList(Integer page, Integer count) {
-        int start = (page - 1) * count;
         return serverInfoDao.findAll();
     }
 

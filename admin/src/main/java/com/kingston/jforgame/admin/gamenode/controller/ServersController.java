@@ -10,7 +10,6 @@ import com.kingston.jforgame.admin.monitor.service.MonitorService;
 import com.kingston.jforgame.admin.monitor.vo.ServerMonitorNode;
 import com.kingston.jforgame.admin.security.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,7 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kingston.jforgame.admin.domain.ServerInfo;
-import com.kingston.jforgame.admin.gamenode.service.ServersManager;
+import com.kingston.jforgame.admin.gamenode.service.ServerNodeService;
 import com.kingston.jforgame.admin.gamenode.vo.ServerNodeInfoList;
 
 @RestController
@@ -27,7 +26,7 @@ import com.kingston.jforgame.admin.gamenode.vo.ServerNodeInfoList;
 public class ServersController {
 
     @Autowired
-    private ServersManager serversManager;
+    private ServerNodeService serversManager;
     @Autowired
     private MonitorService monitorService;
 
@@ -67,7 +66,9 @@ public class ServersController {
         List<ServerInfo> servers = serversManager.getServerNodeList(1, Integer.MAX_VALUE);
 
         servers.forEach(server -> {
-            ids.add(server.getId());
+            if (server.getMerged() <= 0) {
+                ids.add(server.getId());
+            }
         });
 
         result.put("ids", ids);
