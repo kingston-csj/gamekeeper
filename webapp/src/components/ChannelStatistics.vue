@@ -89,7 +89,7 @@
         };
        
         var _this = this;
-        var url = "/channel/statistics" 
+        var url = "/pay/statistics" 
           + "?selectFrom=" + this.selectDateFrom.getTime() + "&selectTo=" + this.selectDateTo.getTime() ; 
         
         httpGet(url).then(resp=> {
