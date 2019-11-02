@@ -16,6 +16,16 @@ public class PlayerSimpleVo {
 
     private long gold;
 
+    private long money;
+
+    /**
+     * 禁言结束时间
+     */
+    private long banChat;
+    /**
+     * 封号结束时间
+     */
+    private long banLogin;
 
     public int getServerId() {
         return serverId;
@@ -55,5 +65,29 @@ public class PlayerSimpleVo {
 
     public void setGold(long gold) {
         this.gold = gold;
+    }
+
+    public long getMoney() {
+        return money;
+    }
+
+    public void setMoney(long money) {
+        this.money = money;
+    }
+
+    public long getBanChat() {
+        return banChat;
+    }
+
+    public void setBanChat(long banChat) {
+        this.banChat = banChat;
+    }
+
+    public long getBanLogin() {
+        return banLogin;
+    }
+
+    public void setBanLogin(long banLogin) {
+        this.banLogin = banLogin;
     }
 }

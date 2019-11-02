@@ -31,10 +31,9 @@
       border
       style="width: 100%">
       <el-table-column
-        fixed
         prop="date"
         label="日期"
-        width="150">
+        width="150"  v-if=""  style="display: none">
       </el-table-column>
       <el-table-column
         prop="name"
@@ -43,17 +42,17 @@
       </el-table-column>
       <el-table-column
         prop="province"
-        label="省份"
+        label="等级"
         width="120">
       </el-table-column>
       <el-table-column
         prop="city"
-        label="市区"
+        label="金币"
         width="120">
       </el-table-column>
       <el-table-column
         prop="address"
-        label="地址"
+        label="银币"
         width="300">
       </el-table-column>
       <el-table-column

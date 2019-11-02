@@ -1,14 +1,18 @@
 package com.kingston.jforgame.admin.gamecmd.service;
 
 import com.kingston.jforgame.admin.domain.ServerInfo;
+import com.kingston.jforgame.admin.gamecmd.vo.PlayerSimpleVo;
+import com.kingston.jforgame.admin.gamecmd.vo.SimplePlayerQueryResult;
 import com.kingston.jforgame.admin.gamenode.service.ServerNodeService;
 import com.kingston.jforgame.admin.security.SecurityUtils;
+import com.kingston.jforgame.admin.utils.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,14 +47,24 @@ public class GameCmdService {
         return result.toString();
     }
 
-    public String queryPlayerSimple(int serverId, String param) {
+    /**
+     *
+     * @param serverId
+     * @param sign 昵称或角色id
+     * @return
+     */
+    public SimplePlayerQueryResult queryPlayerSimple(int serverId, String sign) {
         ServerInfo server = serversManager.getServerNodeBy(serverId);
-        String url = String.format("http://localhost:%s/serverController/simplePlayer", server.getHttpPort());
-        return httpGet(url);
+        String url = String.format("http://localhost:%s/serverController/simplePlayer", server.getHttpPort(), "sign", sign);
+        String json = httpGet(url);
+        List<PlayerSimpleVo> vos = JsonUtil.string2Collection(json, ArrayList.class, PlayerSimpleVo.class);
+        SimplePlayerQueryResult result = new SimplePlayerQueryResult();
+        result.setVos(vos);
+        return result;
     }
 
-    private String httpGet(String url) {
-        ResponseEntity<String> result = restTemplate.getForEntity(url, String.class);
+    private String httpGet(String url, Object... uriVariables) {
+        ResponseEntity<String> result = restTemplate.getForEntity(url, String.class, uriVariables);
         return result.getBody();
     }
 

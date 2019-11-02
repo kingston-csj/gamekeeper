@@ -29,4 +29,10 @@ public class GameCmdController {
         return SimplyReply.valueOfOk(cmdService.hotSwap(servers));
     }
 
+    @RequestMapping(value = "/simplyPlayer", method = RequestMethod.GET)
+    public @ResponseBody SimplyReply simplyPlayer(@RequestParam("serverId") int serverId,
+                                                  @RequestParam("sign") String sign) {
+        return SimplyReply.valueOfOk(cmdService.queryPlayerSimple(serverId, sign));
+    }
+
 }
