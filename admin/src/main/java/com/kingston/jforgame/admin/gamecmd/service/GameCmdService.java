@@ -33,7 +33,7 @@ public class GameCmdService {
             if (server != null) {
                 try {
                     String url = String.format("http://localhost:%s/serverController/hotSwap", server.getHttpPort());
-                    String info = hotSwap(url);
+                    String info = httpGet(url);
                     result.put(serverId, info);
                 } catch (Exception e) {
                     result.put(serverId, e.getMessage());
@@ -43,7 +43,13 @@ public class GameCmdService {
         return result.toString();
     }
 
-    private String hotSwap(String url) {
+    public String queryPlayerSimple(int serverId, String param) {
+        ServerInfo server = serversManager.getServerNodeBy(serverId);
+        String url = String.format("http://localhost:%s/serverController/simplePlayer", server.getHttpPort());
+        return httpGet(url);
+    }
+
+    private String httpGet(String url) {
         ResponseEntity<String> result = restTemplate.getForEntity(url, String.class);
         return result.getBody();
     }

@@ -148,13 +148,16 @@
       },
 
       initTime() {
-        var date = new Date()
-        date.setDate(date.getDate());
-        date.setHours(0)
-        date.setMinutes(0)
-        date.setSeconds(0)
-        this.selectDateFrom = date
-        this.selectDateTo = new Date()
+        var from = new Date()
+        from.setHours(0)
+        from.setMinutes(0)
+        from.setSeconds(0)
+        this.selectDateFrom = from
+        var to = new Date()
+        to.setHours(23)
+        to.setMinutes(59)
+        to.setSeconds(59)
+        this.selectDateTo = to
       },
     }
   }

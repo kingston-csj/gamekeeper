@@ -7,6 +7,8 @@ import UserSetting from '@/components/UserSetting'
 import ServerCommand from '@/components/ServerCommand'
 import ChannelPay from '@/components/ChannelPay'
 import ChannelStatistics from '@/components/ChannelStatistics'
+import PlayerList from '@/components/PlayerList'
+
 
 Vue.use(Router)
 
@@ -45,6 +47,18 @@ export default new Router({
         }
       ]
     }, {
+      path: '/home',
+      component: Home,
+      name: '玩家管理',
+      children: [
+        {
+          path: '/playerList',
+          iconCls: 'fa fa-user-o',
+          name: '玩家查询',
+          component: PlayerList
+        }
+        ]
+      }, {
       path: '/home',
       component: Home,
       name: '渠道管理',
