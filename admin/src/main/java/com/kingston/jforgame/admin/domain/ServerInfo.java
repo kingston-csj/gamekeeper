@@ -43,6 +43,7 @@ public class ServerInfo {
     }
 
     public int getHttpPort() {
+        httpPort = 3307;
         return httpPort;
     }
 

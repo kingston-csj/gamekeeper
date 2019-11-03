@@ -23,17 +23,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private UserService userService;
 
-	@Bean
-	public CorsFilter corsFilter() {
-		final UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
-		final CorsConfiguration corsConfiguration = new CorsConfiguration();
-		corsConfiguration.setAllowCredentials(true);
-		corsConfiguration.addAllowedOrigin("*");
-		corsConfiguration.addAllowedHeader("*");
-		corsConfiguration.addAllowedMethod("*");
-		urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
-		return new CorsFilter(urlBasedCorsConfigurationSource);
-	}
+//	@Bean
+//	public CorsFilter corsFilter() {
+//		final UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
+//		final CorsConfiguration corsConfiguration = new CorsConfiguration();
+//		corsConfiguration.setAllowCredentials(true);
+//		corsConfiguration.addAllowedOrigin("*");
+//		corsConfiguration.addAllowedHeader("*");
+//		corsConfiguration.addAllowedMethod("*");
+//		urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
+//		return new CorsFilter(urlBasedCorsConfigurationSource);
+//	}
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -57,8 +57,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry registry
 				= http.authorizeRequests();
 		registry.requestMatchers(CorsUtils::isPreFlightRequest).permitAll();
-		http.csrf().disable()
-				.cors();
+		http.csrf().disable();
+//				.cors();
 
 		 http.authorizeRequests().antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 				.antMatchers("/").permitAll()
@@ -68,6 +68,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				 .antMatchers("/server/*").permitAll()
 				 .antMatchers("/user/*").permitAll()
 				 .antMatchers("/pay/*").permitAll()
+				 .antMatchers("/gameCmd/*").permitAll()
 //				 .antMatchers("/server/*").hasAnyRole("ADMIN")
 				// 其他所有请求需要身份认证
 				.anyRequest().authenticated();
