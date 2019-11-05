@@ -31,11 +31,6 @@ public class LoginRegController {
         return new SimplyReply("success", "登录成功!");
     }
 
-//    @RequestMapping("/")
-//    public void index(HttpServletResponse response) throws IOException {
-//        response.sendRedirect("/static/index.html");
-//    }
-
     @RequestMapping("/login_page")
     public SimplyReply loginPage() {
         return new SimplyReply("error", "尚未登录，请登录!");

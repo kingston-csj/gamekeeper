@@ -9,6 +9,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @Author: Kingston
@@ -98,6 +100,15 @@ public class SecurityUtils {
             }
         }
         return false;
+    }
+
+    public static List<String> getAuth() {
+        List<String> result = new ArrayList<>();
+        Authentication authentication = SecurityUtils.getAuthentication();
+        for (GrantedAuthority authority : authentication.getAuthorities()) {
+            result.add(authority.getAuthority());
+        }
+        return result;
     }
 
 }

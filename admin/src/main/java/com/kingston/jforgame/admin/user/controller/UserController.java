@@ -24,6 +24,12 @@ public class UserController {
 	@Autowired
 	private ChannelService channelService;
 
+	@RequestMapping("/findPermissions")
+	public String findPermissions() {
+		List<String> result = SecurityUtils.getAuth();
+		return String.join(";", result);
+	}
+
 	@RequestMapping("/currentUserName")
 	public String currentUserName() {
 		return userService.getCurrentUser();
@@ -37,11 +43,6 @@ public class UserController {
 	@RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
 	public User getUserById(@PathVariable Long id) {
 		return userService.getUserById(id);
-	}
-
-	@RequestMapping(value = "/roles", method = RequestMethod.GET)
-	public List<Roles> getAllRole() {
-		return userService.getAllRole();
 	}
 
 	@RequestMapping(value = "/user/{uid}", method = RequestMethod.DELETE)
