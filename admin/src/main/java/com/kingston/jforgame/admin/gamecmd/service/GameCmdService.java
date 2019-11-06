@@ -1,6 +1,10 @@
 package com.kingston.jforgame.admin.gamecmd.service;
 
 import com.kingston.jforgame.admin.domain.ServerInfo;
+import com.kingston.jforgame.admin.gamecmd.executor.AsyncTaskConstructor;
+import com.kingston.jforgame.admin.gamecmd.executor.AsyncTaskManager;
+import com.kingston.jforgame.admin.gamecmd.executor.SpringTaskExecutor;
+import com.kingston.jforgame.admin.gamecmd.model.TaskInfo;
 import com.kingston.jforgame.admin.gamecmd.vo.PlayerSimpleVo;
 import com.kingston.jforgame.admin.gamecmd.vo.SimplePlayerQueryResult;
 import com.kingston.jforgame.admin.gamenode.service.ServerNodeService;
@@ -9,21 +13,18 @@ import com.kingston.jforgame.admin.utils.JsonUtil;
 import com.kingston.jforgame.admin.utils.SimplyReply;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CountDownLatch;
 
 @Service
 public class GameCmdService {
@@ -33,6 +34,9 @@ public class GameCmdService {
 
     @Autowired
     private ServerNodeService serversManager;
+
+    @Autowired
+    private AsyncTaskManager asyncTaskManager;
 
     public String hotSwap(List<Integer> servers) {
         if (!SecurityUtils.hasAuth("ADMIN")) {
@@ -108,6 +112,25 @@ public class GameCmdService {
         return JsonUtil.string2Object(postResult, SimplyReply.class);
     }
 
+    /**
+     * 异步多线程执行
+     * @param serverIds
+     * @return
+     */
+    public String asyncHotSwap(List<Integer> serverIds) {
+        if (!SecurityUtils.hasAuth("ADMIN")) {
+            return "权限不够";
+        }
+        TaskInfo taskInfo = asyncTaskManager.submit(new AsyncTaskConstructor() {
+            @Override
+            public void async(int serverId) {
+                ServerInfo server = serversManager.getServerNodeBy(serverId);
+                String url = String.format("http://localhost:%s/serverController/hotSwap", server.getHttpPort());
+                String info = httpGet(url);
+            }
+        }, serverIds);
+        return JsonUtil.object2String(taskInfo);
+    }
 
     private String httpGet(String url, Object... uriVariables) {
         ResponseEntity<String> result = restTemplate.getForEntity(url, String.class, uriVariables);
