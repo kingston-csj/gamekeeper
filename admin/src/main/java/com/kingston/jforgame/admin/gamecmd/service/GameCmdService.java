@@ -44,7 +44,7 @@ public class GameCmdService {
             ServerInfo server = serversManager.getServerNodeBy(serverId);
             if (server != null) {
                 try {
-                    String url = String.format("http://localhost:%s/serverController/hotSwap", server.getHttpPort());
+                    String url = String.format("http://%s/serverController/hotSwap", getGameHost(server));
                     String info = httpGet(url);
                     result.put(serverId, info);
                 } catch (Exception e) {
@@ -64,7 +64,7 @@ public class GameCmdService {
         ServerInfo server = serversManager.getServerNodeBy(serverId);
         SimplePlayerQueryResult result = new SimplePlayerQueryResult();
         if (server != null) {
-            String url = String.format("http://localhost:%s/serverController/simplePlayer?sign=%s", server.getHttpPort(), sign);
+            String url = String.format("http://%s/serverController/simplePlayer?sign=%s", getGameHost(server), sign);
             String json = httpGet(url);
             SimplyReply simplyReply = JsonUtil.string2Object(json, SimplyReply.class);
             List<PlayerSimpleVo> vos = JsonUtil.string2Collection(simplyReply.getMsg(), ArrayList.class, PlayerSimpleVo.class);
@@ -83,7 +83,7 @@ public class GameCmdService {
             return SimplyReply.valueOfFail("权限不够");
         }
         ServerInfo server = serversManager.getServerNodeBy(serverId);
-        String url = String.format("http://localhost:%s/serverController/banLogin", server.getHttpPort());
+        String url = String.format("http://%s/serverController/banLogin", getGameHost(server));
         Map<String, String> params = new HashMap<>();
         params.put("uid", "" + uid);
         params.put("endTime", "" + endTime);
@@ -100,7 +100,7 @@ public class GameCmdService {
             return SimplyReply.valueOfFail("权限不够");
         }
         ServerInfo server = serversManager.getServerNodeBy(serverId);
-        String url = String.format("http://localhost:%s/serverController/banChat", server.getHttpPort());
+        String url = String.format("http://%s/serverController/banChat", getGameHost(server));
         Map<String, String> params = new HashMap<>();
         params.put("uid", "" + uid);
         params.put("endTime", "" + endTime);
@@ -125,4 +125,7 @@ public class GameCmdService {
         return restTemplate.postForObject(url, requestEntity, String.class);
     }
 
+    private String getGameHost(ServerInfo server) {
+        return server.getIp() + ":" + server.getHttpPort();
+    }
 }

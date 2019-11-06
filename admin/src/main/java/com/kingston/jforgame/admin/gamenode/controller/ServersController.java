@@ -39,6 +39,11 @@ public class ServersController {
         List<ServerInfo> servers = serversManager.getServerNodeList(page, count);
         List<ServerNodeInfo> vos = new ArrayList<>(servers.size());
 
+        int onlineSum = 0;
+        int cacheSum = 0;
+        ServerNodeInfo totalVo = new ServerNodeInfo();
+        totalVo.setName("总计");
+
         if (SecurityUtils.hasAuth("ADMIN")) {
             for (ServerInfo server : servers) {
                 ServerNodeInfo vo = new ServerNodeInfo();
@@ -49,9 +54,15 @@ public class ServersController {
                     vo.setOnlinePlayerSum(monitorNode.getOnlinePlayerSum());
                     vo.setCachePlayerSum(monitorNode.getCachePlayerSum());
                 }
+                onlineSum += vo.getOnlinePlayerSum();
+                cacheSum += vo.getCachePlayerSum();
                 vos.add(vo);
             }
         }
+
+        totalVo.setOnlinePlayerSum(onlineSum);
+        totalVo.setCachePlayerSum(cacheSum);
+        vos.add(totalVo);
 
         serverList.setTotalCount(totalCount);
         serverList.setServers(vos);

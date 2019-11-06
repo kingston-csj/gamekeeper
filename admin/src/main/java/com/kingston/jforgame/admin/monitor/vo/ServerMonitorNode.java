@@ -23,6 +23,11 @@ public class ServerMonitorNode {
      */
     private int playerDbQueueSum;
 
+    /**
+     * 收到的时间戳
+     */
+    private long heartTime;
+
     public int getServerId() {
         return serverId;
     }
@@ -53,5 +58,13 @@ public class ServerMonitorNode {
 
     public void setPlayerDbQueueSum(int playerDbQueueSum) {
         this.playerDbQueueSum = playerDbQueueSum;
+    }
+
+    public long getHeartTime() {
+        return heartTime;
+    }
+
+    public void setHeartTime(long heartTime) {
+        this.heartTime = heartTime;
     }
 }
