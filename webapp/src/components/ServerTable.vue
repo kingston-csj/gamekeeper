@@ -24,9 +24,7 @@
       ref="multipleTable"
       :data="servers"
       tooltip-effect="dark"
-      style="width: 100%;overflow-x: hidden; overflow-y: hidden;"
-      max-height="390"
-      @selection-change="handleSelectionChange" v-loading="loading">
+      style="width: 100%;overflow-x: hidden; overflow-y: hidden;" v-loading="loading">
       <el-table-column
         type="selection"
         width="35" align="left" v-if="showEdit || showDelete">
@@ -51,19 +49,6 @@
         label="缓存人数"
         width="120" align="left">
       </el-table-column>
-      <el-table-column label="操作" align="left" v-if="showEdit || showDelete">
-        <template slot-scope="scope">
-          <el-button
-            size="mini"
-            @click="handleEdit(scope.$index, scope.row)" v-if="showEdit">编辑
-          </el-button>
-          <el-button
-            size="mini"
-            type="danger"
-            @click="handleDelete(scope.$index, scope.row)" v-if="showDelete">删除
-          </el-button>
-        </template>
-      </el-table-column>
     </el-table>
     <div class="server_table_footer">
     </div>
@@ -78,13 +63,11 @@
     data() {
       return {
         servers: [],
-        selItems: [],
         loading: false,
         currentPage: 1,
         totalCount: -1,
-        pageSize: 6,
+        pageSize: 10,
         keywords: '',
-        dustbinData: []
       }
     },
     mounted: function () {
@@ -100,13 +83,6 @@
     methods: {
       searchClick(){
         this.loadRecords(1, this.pageSize);
-      },
-      itemClick(row){
-        
-      },
-      deleteMany(){
-        var selItems = this.selItems;
-        
       },
       //翻页
       currentChange(currentPage){
@@ -140,35 +116,6 @@
           _this.$message({type: 'error', message: '数据加载失败!'});
         })
       },
-      handleSelectionChange(val) {
-        this.selItems = val;
-      },
-      handleEdit(index, row) {
-        this.$router.push({path: '/editRecord', query: {from: this.activeName,id:row.id}});
-      },
-      handleDelete(index, row) {
-        this.dustbinData.push(row.id);
-        this.deleteRecord(row.state);
-      },
-      deleteRecord(state){
-        var _this = this;
-        this.$confirm(state != 2 ? '永久删除该记录，是否继续?' : '永久删除该记录, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          _this.loading = true;
-          var url = '';
-         
-        }).catch(() => {
-          _this.$message({
-            type: 'info',
-            message: '已取消删除'
-          });
-          _this.dustbinData = []
-        });
-      }
     },
-    props: ['state', 'showEdit', 'showDelete', 'activeName']
   }
 </script>

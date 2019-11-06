@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
  * 异步任务监控
  */
 @Component
-@Aspect
+//@Aspect
 public class AsyncTaskMonitor {
     @Autowired
     AsyncTaskManager manager;

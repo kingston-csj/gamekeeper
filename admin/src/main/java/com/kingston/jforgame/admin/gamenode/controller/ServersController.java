@@ -49,6 +49,7 @@ public class ServersController {
                 ServerNodeInfo vo = new ServerNodeInfo();
                 vo.setId(server.getId());
                 vo.setName(String.format("%s(%d区)", server.getName(), server.getId()));
+                vo.setIp(server.getIp());
                 ServerMonitorNode monitorNode = monitorService.queryMonitorInfo(server.getId());
                 if (monitorNode != null) {
                     vo.setOnlinePlayerSum(monitorNode.getOnlinePlayerSum());
@@ -64,7 +65,7 @@ public class ServersController {
         totalVo.setCachePlayerSum(cacheSum);
         vos.add(totalVo);
 
-        serverList.setTotalCount(totalCount);
+        serverList.setTotalCount(totalCount+1);
         serverList.setServers(vos);
 
         return serverList;
