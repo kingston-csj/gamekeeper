@@ -1,7 +1,10 @@
 package com.kingston.jforgame.admin.gamecmd.controller;
 
+import com.kingston.jforgame.admin.gamecmd.executor.AsyncTaskManager;
+import com.kingston.jforgame.admin.gamecmd.model.TaskInfo;
 import com.kingston.jforgame.admin.gamecmd.service.GameCmdService;
 import com.kingston.jforgame.admin.gamecmd.vo.SimplePlayerQueryResult;
+import com.kingston.jforgame.admin.utils.JsonUtil;
 import com.kingston.jforgame.admin.utils.SimplyReply;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +22,9 @@ public class GameCmdController {
 
     @Autowired
     private GameCmdService cmdService;
+
+    @Autowired
+    private AsyncTaskManager asyncTaskManager;
 
     @RequestMapping(value = "/hotSwap", method = RequestMethod.POST)
     public @ResponseBody
@@ -52,6 +58,32 @@ public class GameCmdController {
             return cmdService.banLogin(serverId, uid, endTime);
         }
         return cmdService.banChat(serverId, uid, endTime);
+    }
+
+    /**
+     * 异步发送命令
+     * @param selectedServers
+     * @return
+     */
+    @RequestMapping(value = "/hotSwap2", method = RequestMethod.POST)
+    public @ResponseBody SimplyReply asyncHotSwap(@RequestParam("selectedServers") String selectedServers) {
+        String[] params = selectedServers.split(";");
+        List<Integer> servers = new ArrayList<>(params.length);
+        for (String param : params) {
+            servers.add(Integer.parseInt(param));
+        }
+        return SimplyReply.valueOfOk(cmdService.asyncHotSwap(servers));
+    }
+
+    /**
+     * 查询任务状态
+     * @param taskId
+     * @return
+     */
+    @RequestMapping(value = "/getTaskStatus", method = RequestMethod.GET)
+    public @ResponseBody SimplyReply getTaskStatus(@RequestParam("taskId") long taskId) {
+        TaskInfo taskInfo = asyncTaskManager.getTaskInfo(taskId);
+        return SimplyReply.valueOfOk(JsonUtil.object2String(taskInfo));
     }
 
 }
