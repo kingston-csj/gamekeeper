@@ -3,7 +3,9 @@ package com.kingston.jforgame.admin.gamecmd.controller;
 import com.kingston.jforgame.admin.gamecmd.executor.AsyncTaskManager;
 import com.kingston.jforgame.admin.gamecmd.model.TaskInfo;
 import com.kingston.jforgame.admin.gamecmd.service.GameCmdService;
+import com.kingston.jforgame.admin.gamecmd.service.PlayerCmdService;
 import com.kingston.jforgame.admin.gamecmd.vo.SimplePlayerQueryResult;
+import com.kingston.jforgame.admin.security.SecurityUtils;
 import com.kingston.jforgame.admin.utils.JsonUtil;
 import com.kingston.jforgame.admin.utils.SimplyReply;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,9 @@ public class GameCmdController {
     private GameCmdService cmdService;
 
     @Autowired
+    private PlayerCmdService playerCmdService;
+
+    @Autowired
     private AsyncTaskManager asyncTaskManager;
 
     @RequestMapping(value = "/hotSwap", method = RequestMethod.POST)
@@ -41,7 +46,7 @@ public class GameCmdController {
     public @ResponseBody
     SimplePlayerQueryResult simplyPlayer(@RequestParam("serverId") int serverId,
                                          @RequestParam("sign") String sign) {
-        return cmdService.queryPlayerSimple(serverId, sign);
+        return playerCmdService.queryPlayerSimple(serverId, sign);
     }
 
 
@@ -54,10 +59,13 @@ public class GameCmdController {
                                  @RequestParam("banType") int banType,
                                  @RequestParam("uid") long uid,
                                  @RequestParam("endTime") long endTime) {
-        if (banType == 1) {
-            return cmdService.banLogin(serverId, uid, endTime);
+        if (!SecurityUtils.hasAuth("ADMIN")) {
+            return SimplyReply.valueOfFail("权限不够");
         }
-        return cmdService.banChat(serverId, uid, endTime);
+        if (banType == 1) {
+            return playerCmdService.banLogin(serverId, uid, endTime);
+        }
+        return playerCmdService.banChat(serverId, uid, endTime);
     }
 
     /**

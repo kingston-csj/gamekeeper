@@ -1,6 +1,7 @@
 package com.kingston.jforgame.admin.gamecmd.service;
 
 import com.kingston.jforgame.admin.domain.ServerInfo;
+import com.kingston.jforgame.admin.gamecmd.cmd.http.HotSwapCmd;
 import com.kingston.jforgame.admin.gamecmd.executor.AsyncTaskConstructor;
 import com.kingston.jforgame.admin.gamecmd.executor.AsyncTaskManager;
 import com.kingston.jforgame.admin.gamecmd.executor.SpringTaskExecutor;
@@ -30,9 +31,6 @@ import java.util.concurrent.CountDownLatch;
 public class GameCmdService {
 
     @Autowired
-    private RestTemplate restTemplate;
-
-    @Autowired
     private ServerNodeService serversManager;
 
     @Autowired
@@ -48,68 +46,14 @@ public class GameCmdService {
             ServerInfo server = serversManager.getServerNodeBy(serverId);
             if (server != null) {
                 try {
-                    String url = String.format("http://%s/serverController/hotSwap", getGameHost(server));
-                    String info = httpGet(url);
-                    result.put(serverId, info);
+                    HotSwapCmd cmd = new HotSwapCmd(server);
+                    result.put(serverId, cmd.action());
                 } catch (Exception e) {
                     result.put(serverId, e.getMessage());
                 }
             }
         }
         return result.toString();
-    }
-
-    /**
-     * @param serverId
-     * @param sign     昵称或角色id
-     * @return
-     */
-    public SimplePlayerQueryResult queryPlayerSimple(int serverId, String sign) {
-        ServerInfo server = serversManager.getServerNodeBy(serverId);
-        SimplePlayerQueryResult result = new SimplePlayerQueryResult();
-        if (server != null) {
-            String url = String.format("http://%s/serverController/simplePlayer?sign=%s", getGameHost(server), sign);
-            String json = httpGet(url);
-            SimplyReply simplyReply = JsonUtil.string2Object(json, SimplyReply.class);
-            List<PlayerSimpleVo> vos = JsonUtil.string2Collection(simplyReply.getMsg(), ArrayList.class, PlayerSimpleVo.class);
-
-            result.setVos(vos);
-        }
-        return result;
-    }
-
-    /**
-     * 封号
-     */
-    public SimplyReply banLogin(int serverId, long uid,
-                                long endTime) {
-        if (!SecurityUtils.hasAuth("ADMIN")) {
-            return SimplyReply.valueOfFail("权限不够");
-        }
-        ServerInfo server = serversManager.getServerNodeBy(serverId);
-        String url = String.format("http://%s/serverController/banLogin", getGameHost(server));
-        Map<String, String> params = new HashMap<>();
-        params.put("uid", "" + uid);
-        params.put("endTime", "" + endTime);
-        String postResult = httpPost(url, params);
-        return JsonUtil.string2Object(postResult, SimplyReply.class);
-    }
-
-    /**
-     * 禁言
-     */
-    public SimplyReply banChat(int serverId, long uid,
-                                long endTime) {
-        if (!SecurityUtils.hasAuth("ADMIN")) {
-            return SimplyReply.valueOfFail("权限不够");
-        }
-        ServerInfo server = serversManager.getServerNodeBy(serverId);
-        String url = String.format("http://%s/serverController/banChat", getGameHost(server));
-        Map<String, String> params = new HashMap<>();
-        params.put("uid", "" + uid);
-        params.put("endTime", "" + endTime);
-        String postResult = httpPost(url, params);
-        return JsonUtil.string2Object(postResult, SimplyReply.class);
     }
 
     /**
@@ -126,29 +70,10 @@ public class GameCmdService {
             public void async(int serverId) {
                 ServerInfo server = serversManager.getServerNodeBy(serverId);
                 String url = String.format("http://localhost:%s/serverController/hotSwap", server.getHttpPort());
-                String info = httpGet(url);
+//                String info = httpGet(url);
             }
         }, serverIds);
         return JsonUtil.object2String(taskInfo);
     }
 
-    private String httpGet(String url, Object... uriVariables) {
-        ResponseEntity<String> result = restTemplate.getForEntity(url, String.class, uriVariables);
-        return result.getBody();
-    }
-
-    private String httpPost(String url, Map<String, String> params) {
-        MultiValueMap<String, String> requestMap = new LinkedMultiValueMap<>();
-
-        for (Map.Entry<String, String> entry : params.entrySet()) {
-            requestMap.add(entry.getKey(), entry.getValue());
-
-        }
-        HttpEntity requestEntity = new HttpEntity(requestMap, null);
-        return restTemplate.postForObject(url, requestEntity, String.class);
-    }
-
-    private String getGameHost(ServerInfo server) {
-        return server.getIp() + ":" + server.getHttpPort();
-    }
 }
