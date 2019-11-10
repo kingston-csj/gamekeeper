@@ -1,9 +1,11 @@
 package com.kingston.jforgame.admin.gamecmd.controller;
 
+import com.kingston.jforgame.admin.gamecmd.cmd.CmdTypes;
 import com.kingston.jforgame.admin.gamecmd.executor.AsyncTaskManager;
 import com.kingston.jforgame.admin.gamecmd.model.TaskInfo;
 import com.kingston.jforgame.admin.gamecmd.service.GameCmdService;
 import com.kingston.jforgame.admin.gamecmd.service.PlayerCmdService;
+import com.kingston.jforgame.admin.gamecmd.vo.CommandVo;
 import com.kingston.jforgame.admin.gamecmd.vo.SimplePlayerQueryResult;
 import com.kingston.jforgame.admin.security.SecurityUtils;
 import com.kingston.jforgame.admin.utils.JsonUtil;
@@ -31,15 +33,44 @@ public class GameCmdController {
     @Autowired
     private AsyncTaskManager asyncTaskManager;
 
-    @RequestMapping(value = "/hotSwap", method = RequestMethod.POST)
+
+    @RequestMapping(value = "/commands", method = RequestMethod.GET)
     public @ResponseBody
-    SimplyReply hotSwap(@RequestParam("selectedServers") String selectedServers) {
-        String[] params = selectedServers.split(";");
-        List<Integer> servers = new ArrayList<>(params.length);
-        for (String param : params) {
-            servers.add(Integer.parseInt(param));
+    List<CommandVo> queryCommands() {
+        List<CommandVo> vos = new ArrayList<>();
+        for (CmdTypes cmd : CmdTypes.values()) {
+            if (cmd.getType() != CmdTypes.TYPE_SERVER) {
+                continue;
+            }
+            CommandVo vo = new CommandVo();
+            vo.setName(cmd.getName());
+            vo.setParams(cmd.getParams());
+            vo.setType(cmd.getId());
+            vos.add(vo);
         }
-        return SimplyReply.valueOfOk(cmdService.hotSwap(servers));
+        return vos;
+    }
+
+
+    @RequestMapping(value = "/exec", method = RequestMethod.POST)
+    public @ResponseBody
+    SimplyReply exec(@RequestParam("selectedServers") String selectedServers,
+                     @RequestParam("type") int type,
+                     @RequestParam("params") String params) {
+        if (!SecurityUtils.hasAuth("ADMIN")) {
+            return SimplyReply.valueOfFail("权限不够");
+        }
+        String[] serversParam = selectedServers.split(";");
+        List<Integer> servers = new ArrayList<>(serversParam.length);
+        for (String server : serversParam) {
+            servers.add(Integer.parseInt(server));
+        }
+
+        CmdTypes cmdType = CmdTypes.queryCmd(type);
+        if (cmdType.getType() == CmdTypes.TYPE_SERVER) {
+            return SimplyReply.valueOfOk(cmdService.execServerCmd(servers, type, params));
+        }
+        return SimplyReply.valueOfFail("无效指令");
     }
 
     @RequestMapping(value = "/simplyPlayer", method = RequestMethod.GET)
@@ -70,11 +101,13 @@ public class GameCmdController {
 
     /**
      * 异步发送命令
+     *
      * @param selectedServers
      * @return
      */
     @RequestMapping(value = "/hotSwap2", method = RequestMethod.POST)
-    public @ResponseBody SimplyReply asyncHotSwap(@RequestParam("selectedServers") String selectedServers) {
+    public @ResponseBody
+    SimplyReply asyncHotSwap(@RequestParam("selectedServers") String selectedServers) {
         String[] params = selectedServers.split(";");
         List<Integer> servers = new ArrayList<>(params.length);
         for (String param : params) {
@@ -85,11 +118,13 @@ public class GameCmdController {
 
     /**
      * 查询任务状态
+     *
      * @param taskId
      * @return
      */
     @RequestMapping(value = "/getTaskStatus", method = RequestMethod.GET)
-    public @ResponseBody SimplyReply getTaskStatus(@RequestParam("taskId") long taskId) {
+    public @ResponseBody
+    SimplyReply getTaskStatus(@RequestParam("taskId") long taskId) {
         TaskInfo taskInfo = asyncTaskManager.getTaskInfo(taskId);
         return SimplyReply.valueOfOk(JsonUtil.object2String(taskInfo));
     }

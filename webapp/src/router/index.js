@@ -47,7 +47,7 @@ const router = new Router({
           }
         }, {
           path: '/serverCommand',
-          name: '代码热更',
+          name: '后台指令',
           component: ServerCommand,
           meta: {
             keepAlive: false

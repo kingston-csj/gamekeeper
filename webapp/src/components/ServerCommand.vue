@@ -6,7 +6,40 @@
     <el-checkbox v-for="server in servers" :label="server" :key="server">{{server}}</el-checkbox>
   </el-checkbox-group>
 
-  <el-button type="primary" size="small" :disabled = "btnDisabled"  @click.native.prevent="submitClick">执行</el-button>
+
+    <el-table
+        ref="multipleTable"
+        :data="commands"
+        tooltip-effect="dark"
+        style="overflow-x: hidden; overflow-y: hidden;" v-loading="loading">
+        <el-table-column
+          label="后台命令"
+          width="200" align="left">
+          <template slot-scope="scope"><span style="color: #409eff;cursor: pointer" @click="itemClick(scope.row)">{{ scope.row.name}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          label="参数说明" width="400" align="left">
+          <template slot-scope="scope">{{ scope.row.params}}</template>
+        </el-table-column>
+        <el-table-column
+          label="参数" width="400" align="left">
+          <template slot-scope="scope">
+            <el-input v-model="cmdParams" placeholder="指令参数"></el-input> 
+         </template>
+
+        </el-table-column>
+        <el-table-column
+          width="120" align="left">
+          <template slot-scope="scope">
+             <el-button type="primary" size="small" :disabled = "btnDisabled"  
+             @click="cmdType=scope.row.type;submitClick()">执行</el-button>
+          </template>
+        </el-table-column>
+    </el-table>
+
+
+ 
 </div>
 </template>
 <script>
@@ -24,14 +57,19 @@
             _this.servers = resp.data.ids;
           }
       });
+      this.loadCommands();
     },
     data() {
       return {
         checkAll: false,
         checkedServers: [],
         servers: [],
+        commands:[],
         isIndeterminate: true,
-        btnDisabled:false
+        btnDisabled:false,
+        loading:false,
+        cmdParams:'',
+        cmdType:1
       };
     },
     methods: {
@@ -44,10 +82,30 @@
         this.checkAll = checkedCount === this.servers.length;
         this.isIndeterminate = checkedCount > 0 && checkedCount < this.servers.length;
       },
+
+      loadCommands() {
+        var _this = this;
+        var url = "/gameCmd/commands"; 
+      
+        httpGet(url).then(resp=> {
+          if (resp.status == 200) {
+            this.commands = resp.data;
+          } else {
+            this.$message({type: 'error', message: '数据加载失败!'});
+          }
+        }, resp=> {
+
+        }).catch(resp=> {
+
+        })
+      },
+
       submitClick() {
         this.btnDisabled = true;
-        httpPost('/gameCmd/hotSwap', {
-          selectedServers: this.checkedServers.join(";")
+        httpPost('/gameCmd/exec', {
+          selectedServers: this.checkedServers.join(";"),
+          type:this.cmdType,
+          params:this.cmdParams
         }).then(resp=> {
           this.loading = false;
           this.btnDisabled = false;

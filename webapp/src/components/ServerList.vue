@@ -3,7 +3,7 @@
     <el-main class="main">
       <el-tabs v-model="activeName" @tab-click="handleClick" type="card">
         <el-tab-pane label="全部服务器" name="all">
-          <server_table :showEdit="false" :showDelete="false" :activeName="activeName"></server_table>
+          <server_table :showEdit="false"  :activeName="activeName"></server_table>
         </el-tab-pane>
         <el-tab-pane label="邮箱配置" name="blogcfg">
           <email_cfg></email_cfg>

@@ -3,25 +3,27 @@ package com.kingston.jforgame.admin.gamecmd.cmd.http;
 import com.kingston.jforgame.admin.domain.ServerInfo;
 import com.kingston.jforgame.admin.gamecmd.cmd.CmdTypes;
 
-public class HotSwapCmd extends HttpServerAdminCmd {
+import java.util.HashMap;
 
-    public HotSwapCmd(ServerInfo serverNode, String params) {
+public class CloseServerCmd extends HttpServerAdminCmd {
+
+    public CloseServerCmd(ServerInfo serverNode, String params) {
         super(serverNode, params);
     }
 
     @Override
     public String httpMethod() {
-        return "hotSwap";
+        return "closeServer";
     }
 
     @Override
     public String action() {
         String url = url();
-        return httpGet(url);
+        return httpPost(url, new HashMap<>());
     }
 
     @Override
     public CmdTypes meta() {
-        return CmdTypes.HOT_SWAP;
+        return CmdTypes.CLOSE_SERVER;
     }
 }
