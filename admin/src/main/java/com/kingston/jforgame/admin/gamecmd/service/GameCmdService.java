@@ -64,9 +64,6 @@ public class GameCmdService {
      * @return
      */
     public String asyncHotSwap(List<Integer> serverIds) {
-        if (!SecurityUtils.hasAuth("ADMIN")) {
-            return "权限不够";
-        }
         TaskInfo taskInfo = asyncTaskManager.submit(new AsyncTaskConstructor() {
             @Override
             public void async(int serverId) {

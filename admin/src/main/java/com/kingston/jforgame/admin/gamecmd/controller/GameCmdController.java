@@ -57,9 +57,6 @@ public class GameCmdController {
     SimplyReply exec(@RequestParam("selectedServers") String selectedServers,
                      @RequestParam("type") int type,
                      @RequestParam("params") String params) {
-        if (!SecurityUtils.hasAuth("ADMIN")) {
-            return SimplyReply.valueOfFail("权限不够");
-        }
         String[] serversParam = selectedServers.split(";");
         List<Integer> servers = new ArrayList<>(serversParam.length);
         for (String server : serversParam) {
@@ -90,9 +87,6 @@ public class GameCmdController {
                                  @RequestParam("banType") int banType,
                                  @RequestParam("uid") long uid,
                                  @RequestParam("endTime") long endTime) {
-        if (!SecurityUtils.hasAuth("ADMIN")) {
-            return SimplyReply.valueOfFail("权限不够");
-        }
         if (banType == 1) {
             return playerCmdService.banLogin(serverId, uid, endTime);
         }

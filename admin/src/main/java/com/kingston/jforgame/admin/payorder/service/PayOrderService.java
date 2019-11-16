@@ -6,6 +6,7 @@ import com.kingston.jforgame.admin.payorder.domain.PayOrder;
 import com.kingston.jforgame.admin.payorder.domain.PayOrderGroup;
 import com.kingston.jforgame.admin.payorder.vo.PayChannelStatistics;
 import com.kingston.jforgame.admin.security.SecurityUtils;
+import com.kingston.jforgame.admin.user.model.RoleKInds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -52,7 +53,7 @@ public class PayOrderService {
         // 父渠道可以查询所有子渠道的订单
         List<String> children = channelService.queryChildChannel(channelId);
         // 超级管理员可以查看所有渠道
-        if (children.size() <= 0 && !SecurityUtils.hasAuth("ADMIN")) {
+        if (children.size() <= 0 && !SecurityUtils.hasAuth(RoleKInds.ADMIN)) {
             return null;
         }
         page = Math.abs(page);
@@ -97,7 +98,7 @@ public class PayOrderService {
         List<String> children = channelService.queryChildChannel(channelId);
         PayChannelStatistics result = new PayChannelStatistics();
         // 超级管理员可以查看所有渠道
-        boolean isAdmin = SecurityUtils.hasAuth("ADMIN");
+        boolean isAdmin = SecurityUtils.hasAuth(RoleKInds.ADMIN);
         if (children.size() <= 0 && !isAdmin) {
             return result;
         }

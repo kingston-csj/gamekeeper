@@ -33,7 +33,7 @@ public class ServersController {
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     public @ResponseBody
     ServerNodeInfoList getServerNodesList(@RequestParam(value = "page", defaultValue = "1") Integer page,
-                                         @RequestParam(value = "count", defaultValue = "10") Integer count) {
+                                          @RequestParam(value = "count", defaultValue = "10") Integer count) {
         ServerNodeInfoList serverList = new ServerNodeInfoList();
         int totalCount = serversManager.getServerNodeSum();
         List<ServerInfo> servers = serversManager.getServerNodeList(page, count);
@@ -44,28 +44,26 @@ public class ServersController {
         ServerNodeInfo totalVo = new ServerNodeInfo();
         totalVo.setName("总计");
 
-        if (SecurityUtils.hasAuth("ADMIN")) {
-            for (ServerInfo server : servers) {
-                ServerNodeInfo vo = new ServerNodeInfo();
-                vo.setId(server.getId());
-                vo.setName(String.format("%s(%d区)", server.getName(), server.getId()));
-                vo.setIp(server.getIp());
-                ServerMonitorNode monitorNode = monitorService.queryMonitorInfo(server.getId());
-                if (monitorNode != null) {
-                    vo.setOnlinePlayerSum(monitorNode.getOnlinePlayerSum());
-                    vo.setCachePlayerSum(monitorNode.getCachePlayerSum());
-                }
-                onlineSum += vo.getOnlinePlayerSum();
-                cacheSum += vo.getCachePlayerSum();
-                vos.add(vo);
+        for (ServerInfo server : servers) {
+            ServerNodeInfo vo = new ServerNodeInfo();
+            vo.setId(server.getId());
+            vo.setName(String.format("%s(%d区)", server.getName(), server.getId()));
+            vo.setIp(server.getIp());
+            ServerMonitorNode monitorNode = monitorService.queryMonitorInfo(server.getId());
+            if (monitorNode != null) {
+                vo.setOnlinePlayerSum(monitorNode.getOnlinePlayerSum());
+                vo.setCachePlayerSum(monitorNode.getCachePlayerSum());
             }
+            onlineSum += vo.getOnlinePlayerSum();
+            cacheSum += vo.getCachePlayerSum();
+            vos.add(vo);
         }
 
         totalVo.setOnlinePlayerSum(onlineSum);
         totalVo.setCachePlayerSum(cacheSum);
         vos.add(totalVo);
 
-        serverList.setTotalCount(totalCount+1);
+        serverList.setTotalCount(totalCount + 1);
         serverList.setServers(vos);
 
         return serverList;

@@ -67,7 +67,7 @@ public class UserController {
 
 
 		// 超级管理员可以修改所有人的密码
-		if (!SecurityUtils.hasAuth("ADMIN")) {
+		if (!SecurityUtils.hasAuth(RoleKInds.ADMIN)) {
 			if (!channelService.queryChildChannel(myUser).contains(targetUser)) {
 				return SimplyReply.valueOfFail("更新失败");
 			}

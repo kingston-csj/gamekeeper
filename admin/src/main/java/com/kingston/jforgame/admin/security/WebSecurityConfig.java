@@ -63,13 +63,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		 http.authorizeRequests().antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 				.antMatchers("/").permitAll()
 				.antMatchers("/login").permitAll()
-				 .antMatchers("/monitor/*").permitAll()
+				 .antMatchers("/monitor/*").hasAnyRole("ADMIN")
 				 .antMatchers("/channel/*").permitAll()
 				 .antMatchers("/server/*").permitAll()
 				 .antMatchers("/user/*").permitAll()
 				 .antMatchers("/pay/*").permitAll()
-				 .antMatchers("/gameCmd/*").permitAll()
-//				 .antMatchers("/server/*").hasAnyRole("ADMIN")
+				 .antMatchers("/gameCmd/*").hasAnyRole("ADMIN")
 				// 其他所有请求需要身份认证
 				.anyRequest().authenticated();
 		// 退出登录处理器
