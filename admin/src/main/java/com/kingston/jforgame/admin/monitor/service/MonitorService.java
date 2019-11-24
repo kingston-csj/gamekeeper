@@ -2,6 +2,8 @@ package com.kingston.jforgame.admin.monitor.service;
 
 import com.kingston.jforgame.admin.monitor.vo.ServerMonitorNode;
 import com.kingston.jforgame.admin.utils.DateUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +14,8 @@ import java.util.concurrent.ConcurrentMap;
 
 @Service
 public class MonitorService {
+
+    private final static Logger logger = LoggerFactory.getLogger(MonitorService.class.getName());
 
     private ConcurrentMap<Integer, ServerMonitorNode> serversMonitor = new ConcurrentHashMap<>();
 
@@ -39,6 +43,7 @@ public class MonitorService {
      */
     public void updateMonitorInfo(ServerMonitorNode node) {
         node.setHeartTime(System.currentTimeMillis());
+//        logger.info("收到{}服的心跳数据 {}", node.getServerId(), node);
         serversMonitor.put(node.getServerId(), node);
     }
 

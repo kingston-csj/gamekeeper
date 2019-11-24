@@ -67,4 +67,15 @@ public class ServerMonitorNode {
     public void setHeartTime(long heartTime) {
         this.heartTime = heartTime;
     }
+
+    @Override
+    public String toString() {
+        return "ServerMonitorNode{" +
+                "serverId=" + serverId +
+                ", onlinePlayerSum=" + onlinePlayerSum +
+                ", cachePlayerSum=" + cachePlayerSum +
+                ", playerDbQueueSum=" + playerDbQueueSum +
+                ", heartTime=" + heartTime +
+                '}';
+    }
 }

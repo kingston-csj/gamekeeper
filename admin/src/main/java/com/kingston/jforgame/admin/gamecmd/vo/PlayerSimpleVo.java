@@ -8,6 +8,8 @@ public class PlayerSimpleVo {
 
     private int serverId;
 
+    private String account;
+
     private String name;
 
     private long uid;
@@ -89,5 +91,13 @@ public class PlayerSimpleVo {
 
     public void setBanLogin(long banLogin) {
         this.banLogin = banLogin;
+    }
+
+    public String getAccount() {
+        return account;
+    }
+
+    public void setAccount(String account) {
+        this.account = account;
     }
 }

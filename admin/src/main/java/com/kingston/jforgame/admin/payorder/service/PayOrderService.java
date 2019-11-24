@@ -111,7 +111,7 @@ public class PayOrderService {
         for (Object o : groups) {
             Object[] params = (Object[]) o;
             int money = ((BigDecimal) params[0]).intValue();
-            String channel =  params[1].toString().toUpperCase();
+            String channel =  params[1].toString().toUpperCase().trim();
             if (!isAdmin && !children.contains(channel)) {
                 continue;
             }

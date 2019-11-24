@@ -1,6 +1,5 @@
 package com.kingston.jforgame.admin.security;
 
-import org.omg.CORBA.PUBLIC_MEMBER;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -44,7 +43,7 @@ public class SecurityUtils {
      */
     public static void checkAuthentication(HttpServletRequest request) {
         // 获取令牌并根据令牌获取登录认证信息
-        Authentication authentication = JwtTokenUtils.getAuthenticationeFromToken(request);
+        Authentication authentication = JwtTokenUtils.getAuthenticationFromToken(request);
         // 设置登录认证信息到上下文
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }

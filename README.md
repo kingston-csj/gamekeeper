@@ -1,4 +1,4 @@
-gamekeeper是一个游戏后台管理平台，可供jforgame或mmorpg项目使用。  
+﻿gamekeeper是一个游戏后台管理平台，可供jforgame或mmorpg项目使用。  
 
 使用的前端技术：
 vue + webpack + elementUi
@@ -14,6 +14,9 @@ spring-boot全家桶
 
 订单查询界面 
 ![](/screenshots/payOrder.png "订单查询界面 ")  
+
+后台命令界面 
+![](/screenshots/adminCmd.png "后台命令界面 ")  
 
 
 ### QuickStart  

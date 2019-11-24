@@ -1,10 +1,14 @@
 package com.kingston.jforgame.admin.security;
 
+import com.kingston.jforgame.admin.utils.DateUtil;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
@@ -15,6 +19,8 @@ import java.util.*;
  * @Date: 2019/10/26 10:54
  */
 public class JwtTokenUtils implements Serializable {
+
+    private final static Logger logger = LoggerFactory.getLogger(JwtTokenUtils.class.getName());
 
     private static final long serialVersionUID = 1L;
 
@@ -33,11 +39,11 @@ public class JwtTokenUtils implements Serializable {
     /**
      * 密钥
      */
-    private static final String SECRET = "abcdefgh";
+    private static final String SECRET = UUID.randomUUID().toString();
     /**
      * 有效期12小时
      */
-    private static final long EXPIRE_TIME = 12 * 60 * 60 * 1000;
+    private static final long EXPIRE_TIME = 31 * DateUtil.ONE_DAY;
 
     /**
      * 生成令牌
@@ -45,7 +51,7 @@ public class JwtTokenUtils implements Serializable {
      * @return 令牌
      */
     public static String generateToken(Authentication authentication) {
-        Map<String, Object> claims = new HashMap<>(3);
+        Map<String, Object> claims = new HashMap<>();
         claims.put(USERNAME, SecurityUtils.getUsername(authentication));
         claims.put(CREATED, new Date());
         claims.put(AUTHORITIES, authentication.getAuthorities());
@@ -82,29 +88,31 @@ public class JwtTokenUtils implements Serializable {
 
     /**
      * 根据请求令牌获取登录认证信息
+     *
      * @return 用户名
      */
-    public static Authentication getAuthenticationeFromToken(HttpServletRequest request) {
+    public static Authentication getAuthenticationFromToken(HttpServletRequest request) {
         Authentication authentication = null;
         // 获取请求携带的令牌
         String token = JwtTokenUtils.getToken(request);
-        if(token != null) {
+        if (token != null) {
             // 请求令牌不能为空
-            if(SecurityUtils.getAuthentication() == null) {
+            if (SecurityUtils.getAuthentication() == null) {
                 // 上下文中Authentication为空
                 Claims claims = getClaimsFromToken(token);
-                if(claims == null) {
+                if (claims == null) {
                     return null;
                 }
                 String username = claims.getSubject();
-                if(username == null) {
+                if (username == null) {
                     return null;
                 }
-                if(isTokenExpired(token)) {
+                if (isTokenExpired(token)) {
                     return null;
                 }
+                refreshToken(token);
                 Object authors = claims.get(AUTHORITIES);
-                List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+                List<GrantedAuthority> authorities = new ArrayList<>();
                 if (authors != null && authors instanceof List) {
                     for (Object object : (List) authors) {
                         authorities.add(new GrantedAuthorityImpl((String) ((Map) object).get("authority")));
@@ -112,9 +120,10 @@ public class JwtTokenUtils implements Serializable {
                 }
                 authentication = new JwtAuthenticatioToken(username, null, authorities, token);
             } else {
-                if(validateToken(token, SecurityUtils.getUsername())) {
+                if (validateToken(token, SecurityUtils.getUsername())) {
                     // 如果上下文中Authentication非空，且请求令牌合法，直接返回当前登录认证信息
                     authentication = SecurityUtils.getAuthentication();
+                    refreshToken(token);
                 }
             }
         }
@@ -139,30 +148,31 @@ public class JwtTokenUtils implements Serializable {
 
     /**
      * 验证令牌
+     *
      * @param token
-     * @param username
+     * @param name
      * @return
      */
-    public static Boolean validateToken(String token, String username) {
+    public static Boolean validateToken(String token, String name) {
+        if (StringUtils.isEmpty(name)) {
+            return false;
+        }
         String userName = getUsernameFromToken(token);
-        return (userName.equals(username) && !isTokenExpired(token));
+        return name.equals(userName) && !isTokenExpired(token);
     }
 
     /**
      * 刷新令牌
+     *
      * @param token
      * @return
      */
-    public static String refreshToken(String token) {
-        String refreshedToken;
-        try {
-            Claims claims = getClaimsFromToken(token);
-            claims.put(CREATED, new Date());
-            refreshedToken = generateToken(claims);
-        } catch (Exception e) {
-            refreshedToken = null;
+    public static void refreshToken(String token) {
+        Date expirationDate = new Date(System.currentTimeMillis() + EXPIRE_TIME);
+        Claims claims = getClaimsFromToken(token);
+        if (claims != null) {
+            claims.setExpiration(expirationDate);
         }
-        return refreshedToken;
     }
 
     /**
@@ -177,24 +187,26 @@ public class JwtTokenUtils implements Serializable {
             Date expiration = claims.getExpiration();
             return expiration.before(new Date());
         } catch (Exception e) {
-            return false;
+            logger.error("", e);
+            return true;
         }
     }
 
     /**
      * 获取请求token
+     *
      * @param request
      * @return
      */
     public static String getToken(HttpServletRequest request) {
         String token = request.getHeader("Authorization");
         String tokenHead = "Bearer ";
-        if(token == null) {
+        if (token == null) {
             token = request.getHeader("token");
-        } else if(token.contains(tokenHead)){
+        } else if (token.contains(tokenHead)) {
             token = token.substring(tokenHead.length());
         }
-        if("".equals(token)) {
+        if ("".equals(token)) {
             token = null;
         }
         return token;

@@ -26,7 +26,12 @@
       style="width: 100%">
       <el-table-column
         prop="name"
-        label="姓名"
+        label="昵称"
+        width="120">
+      </el-table-column>
+      <el-table-column
+        prop="account"
+        label="所属账号"
         width="120">
       </el-table-column>
       <el-table-column
