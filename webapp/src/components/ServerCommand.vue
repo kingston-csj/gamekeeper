@@ -25,7 +25,7 @@
         <el-table-column
           label="参数" width="400" align="left">
           <template slot-scope="scope">
-            <el-input v-model="cmdParams" placeholder="指令参数"></el-input> 
+            <el-input placeholder="指令参数" @change="onCmdParamChanged($event, scope.row, scope.$index)"></el-input> 
          </template>
 
         </el-table-column>
@@ -68,8 +68,9 @@
         isIndeterminate: true,
         btnDisabled:false,
         loading:false,
-        cmdParams:'',
-        cmdType:1
+        cmdParam:'',
+        cmdType:1,
+        params:[],
       };
     },
     methods: {
@@ -100,12 +101,16 @@
         })
       },
 
+      onCmdParamChanged(param, row) {
+          this.params[row.type] = param;
+      },
+
       submitClick() {
         this.btnDisabled = true;
         httpPost('/gameCmd/exec', {
           selectedServers: this.checkedServers.join(";"),
           type:this.cmdType,
-          params:this.cmdParams
+          params:this.params[this.cmdType]
         }).then(resp=> {
           this.loading = false;
           this.btnDisabled = false;

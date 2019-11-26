@@ -12,6 +12,7 @@ import com.kingston.jforgame.admin.user.model.RoleKInds;
 import com.kingston.jforgame.admin.utils.JsonUtil;
 import com.kingston.jforgame.admin.utils.SimplyReply;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -63,8 +64,11 @@ public class GameCmdController {
     SimplyReply exec(@RequestParam("selectedServers") String selectedServers,
                      @RequestParam("type") int type,
                      @RequestParam("params") String params) {
+        if (StringUtils.isEmpty(selectedServers)) {
+            return SimplyReply.valueOfFail("无选中服务器");
+        }
+        List<Integer> servers = new ArrayList<>();
         String[] serversParam = selectedServers.split(";");
-        List<Integer> servers = new ArrayList<>(serversParam.length);
         for (String server : serversParam) {
             servers.add(Integer.parseInt(server));
         }
