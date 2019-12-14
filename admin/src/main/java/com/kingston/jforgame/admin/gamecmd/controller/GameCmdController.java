@@ -8,7 +8,7 @@ import com.kingston.jforgame.admin.gamecmd.service.PlayerCmdService;
 import com.kingston.jforgame.admin.gamecmd.vo.CommandVo;
 import com.kingston.jforgame.admin.gamecmd.vo.SimplePlayerQueryResult;
 import com.kingston.jforgame.admin.security.SecurityUtils;
-import com.kingston.jforgame.admin.user.model.RoleKInds;
+import com.kingston.jforgame.admin.user.model.RoleKinds;
 import com.kingston.jforgame.admin.utils.JsonUtil;
 import com.kingston.jforgame.admin.utils.SimplyReply;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +41,7 @@ public class GameCmdController {
     List<CommandVo> queryCommands() {
         List<CommandVo> vos = new ArrayList<>();
 
-        if (!SecurityUtils.hasAuth(RoleKInds.ADMIN)) {
+        if (!SecurityUtils.hasAuth(RoleKinds.ADMIN)) {
             return vos;
         }
 

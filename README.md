@@ -1,4 +1,4 @@
-﻿gamekeeper是一个游戏后台管理平台，可供jforgame或mmorpg项目使用。  
+﻿gamekeeper是一个游戏后台管理平台，可供jforgame或mmorpg项目使用。前后端权限控制分离。  
 
 使用的前端技术：
 vue + webpack + elementUi

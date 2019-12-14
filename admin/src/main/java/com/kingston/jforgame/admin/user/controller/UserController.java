@@ -4,13 +4,11 @@ import java.util.List;
 
 import com.kingston.jforgame.admin.channel.service.ChannelService;
 import com.kingston.jforgame.admin.security.SecurityUtils;
-import com.kingston.jforgame.admin.user.model.RoleKInds;
+import com.kingston.jforgame.admin.user.model.RoleKinds;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import com.kingston.jforgame.admin.domain.Roles;
 import com.kingston.jforgame.admin.domain.User;
 import com.kingston.jforgame.admin.user.service.UserService;
 import com.kingston.jforgame.admin.utils.SimplyReply;
@@ -67,7 +65,7 @@ public class UserController {
 
 
 		// 超级管理员可以修改所有人的密码
-		if (!SecurityUtils.hasAuth(RoleKInds.ADMIN)) {
+		if (!SecurityUtils.hasAuth(RoleKinds.ADMIN)) {
 			if (!channelService.queryChildChannel(myUser).contains(targetUser)) {
 				return SimplyReply.valueOfFail("更新失败");
 			}
