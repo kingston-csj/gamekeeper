@@ -14,7 +14,7 @@ public class DateUtil {
     };
 
 
-    private static String baseFmt = "yyyy-MM-dd hh:MM:ss";
+    private static String baseFmt = "yyyy-MM-dd HH:mm:ss";
 
 
     /**
