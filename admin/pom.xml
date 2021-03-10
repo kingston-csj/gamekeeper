@@ -4,12 +4,12 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.kingston.jforgame</groupId>
+	<groupId>org.jforgame</groupId>
 	<artifactId>gamekeeper</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>blogserver</name>
+	<name>gamekeeper</name>
 	<description>游戏后台管理平台</description>
 
 	<repositories>
@@ -27,7 +27,7 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>1.5.2.RELEASE</version>
-		<relativePath /> <!-- lookup parent from repository -->
+		<relativePath />
 	</parent>
 
 	<properties>
@@ -105,7 +105,7 @@
 						<manifest>
 							<addClasspath>true</addClasspath>
 							<classpathPrefix>libs/</classpathPrefix>
-							<mainClass>com.kingston.jforgame.admin.WebStartup</mainClass>
+							<mainClass>jforgame.admin.WebStartup</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
