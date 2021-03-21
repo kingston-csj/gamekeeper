@@ -21,7 +21,7 @@
     </el-form>
         
     <el-table :data="tableData" style="width: 100%" v-loading="loading2" element-loading-text="拼命加载中">
-      <el-table-column prop="channelCode" label="归属代理" width="180">
+      <el-table-column prop="channelCode" label="归属渠道" width="180">
         <template slot-scope="scope">{{ scope.row.channelCode}}</template>
       </el-table-column>
 

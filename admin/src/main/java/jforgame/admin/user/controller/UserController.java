@@ -56,11 +56,11 @@ public class UserController {
 	public SimplyReply updateUserRoles(@RequestParam(value = "targetUser") String targetUser,
 									   @RequestParam(value = "newPwd") String newPwd) {
 		if (StringUtils.isEmpty(targetUser)) {
-			return SimplyReply.valueOfFail("请选择代理");
+			return SimplyReply.valueOfFail("请选择渠道");
 		}
 		String myUser = currentUserName();
 		if (channelService.queryChildChannel(myUser).size() <= 1) {
-			return SimplyReply.valueOfFail("无法修改密码，请联系父代理");
+			return SimplyReply.valueOfFail("无法修改密码，请联系父渠道");
 		}
 
 

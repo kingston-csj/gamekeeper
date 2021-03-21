@@ -11,8 +11,8 @@ import java.util.concurrent.Executor;
 /**
  * Created by qizhao.liao on 2019/11/4.
  */
-@Configuration
-@EnableAsync
+//@Configuration
+//@EnableAsync
 public class SpringTaskExecutor implements AsyncConfigurer {
 
     private static final int DEFAULT_INIT_THREAD_POOL_SIZE = Runtime.getRuntime().availableProcessors() / 10;

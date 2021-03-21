@@ -34,7 +34,7 @@
       <el-table-column prop="money" label="充值金额" width="180">
         <template slot-scope="scope">{{ scope.row.money}}</template>
       </el-table-column>
-      <el-table-column prop="channel" label="归属代理" width="180">
+      <el-table-column prop="channel" label="归属渠道" width="180">
         <template slot-scope="scope">{{ scope.row.channel}}</template>
       </el-table-column>
 

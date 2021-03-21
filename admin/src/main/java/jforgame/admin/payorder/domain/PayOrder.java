@@ -9,7 +9,7 @@ import java.util.Date;
  * @Author: Kinson
  * @Date: 2019/10/25 17:17
  */
-@Entity(name="t_payinfo")
+@Entity(name="t_payorder")
 public class PayOrder {
 
 

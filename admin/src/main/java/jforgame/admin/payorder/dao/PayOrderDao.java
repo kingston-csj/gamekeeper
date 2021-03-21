@@ -18,7 +18,7 @@ public interface PayOrderDao extends JpaRepository<PayOrder, String> , JpaSpecif
     // TODO 优雅的实现？？
     @Query(nativeQuery =true, value="SELECT sum(money) as money,channelCode "
 
-            + " FROM t_payinfo"
+            + " FROM t_payorder"
 
             + " WHERE createTime >= ? "
             + " AND createTime <= ? "
