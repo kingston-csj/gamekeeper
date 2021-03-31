@@ -22,7 +22,7 @@ public class ServerNodeService {
     }
 
     public ServerInfo getServerNodeBy(Integer id) {
-       return serverInfoDao.findOne(id);
+       return serverInfoDao.getOne(id);
     }
 
 }

@@ -24,4 +24,8 @@ target/
 *.diff
 *.patch
 *.tmp
-**/tmp*
+
+# npm ignore
+**/node_modules/
+webapptmp/
+webapp/dist/

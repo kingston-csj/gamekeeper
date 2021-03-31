@@ -1,5 +1,6 @@
 package jforgame.admin.security;
 
+import jforgame.admin.utils.PasswordEncoder;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -26,11 +27,9 @@ public class JwtAuthenticationProvider extends DaoAuthenticationProvider {
         }
 
         String presentedPassword = authentication.getCredentials().toString();
-
-//        String salt = ((JwtUserDetails) userDetails).getSalt();
-//        // 覆写密码验证逻辑
-        if (!presentedPassword.equals(userDetails.getPassword())) {
-//            if (!new PasswordEncoder(salt).matches(userDetails.getPassword(), presentedPassword)) {
+        String salt = ((JwtUserDetails) userDetails).getSalt();
+        // 覆写密码验证逻辑
+        if (!new PasswordEncoder(salt).matches(userDetails.getPassword(), presentedPassword)) {
             logger.debug("Authentication failed: password does not match stored value");
             throw new BadCredentialsException(messages.getMessage("AbstractUserDetailsAuthenticationProvider.badCredentials", "Bad credentials"));
         }

@@ -18,16 +18,6 @@ public class SpringContext implements ApplicationContextAware {
      */
     private static ApplicationContext applicationContext = null;
 
-    @PostConstruct
-    private void init() {
-        self = this;
-    }
-
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        SpringContext.applicationContext = applicationContext;
-    }
-
     public final static <T> T getBean(Class<T> clazz) {
         return applicationContext.getBean(clazz);
     }
@@ -38,5 +28,15 @@ public class SpringContext implements ApplicationContextAware {
 
     public final static <T> T getBean(String name, Class<T> requiredType) {
         return applicationContext.getBean(name, requiredType);
+    }
+
+    @PostConstruct
+    private void init() {
+        self = this;
+    }
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        SpringContext.applicationContext = applicationContext;
     }
 }

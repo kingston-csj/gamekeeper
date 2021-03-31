@@ -6,17 +6,6 @@ import java.util.Date;
 
 public class DateUtil {
 
-    private static ThreadLocal<SimpleDateFormat> dateFormat = new ThreadLocal() {
-        @Override
-        public DateFormat initialValue() {
-            return new SimpleDateFormat(baseFmt);
-        }
-    };
-
-
-    private static String baseFmt = "yyyy-MM-dd HH:mm:ss";
-
-
     /**
      * 一毫秒
      */
@@ -41,7 +30,13 @@ public class DateUtil {
      * 一天总共有{@value}小时
      */
     public static final int HOURS_OF_DAY = 24;
-
+    private static final String baseFmt = "yyyy-MM-dd HH:mm:ss";
+    private static final ThreadLocal<SimpleDateFormat> dateFormat = new ThreadLocal() {
+        @Override
+        public DateFormat initialValue() {
+            return new SimpleDateFormat(baseFmt);
+        }
+    };
 
     public static String format(Date date) {
         return dateFormat.get().format(date);

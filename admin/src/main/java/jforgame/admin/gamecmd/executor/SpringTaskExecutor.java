@@ -1,5 +1,6 @@
 package jforgame.admin.gamecmd.executor;
 
+import jforgame.admin.utils.NameThreadFactory;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.AsyncConfigurer;

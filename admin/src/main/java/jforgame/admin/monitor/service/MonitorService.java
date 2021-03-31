@@ -2,8 +2,6 @@ package jforgame.admin.monitor.service;
 
 import jforgame.admin.monitor.vo.ServerMonitorNode;
 import jforgame.admin.utils.DateUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -14,8 +12,6 @@ import java.util.concurrent.ConcurrentMap;
 
 @Service
 public class MonitorService {
-
-    private final static Logger logger = LoggerFactory.getLogger(MonitorService.class.getName());
 
     private ConcurrentMap<Integer, ServerMonitorNode> serversMonitor = new ConcurrentHashMap<>();
 

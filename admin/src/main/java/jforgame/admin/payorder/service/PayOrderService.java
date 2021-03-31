@@ -6,7 +6,7 @@ import jforgame.admin.payorder.domain.PayOrder;
 import jforgame.admin.payorder.domain.PayOrderGroup;
 import jforgame.admin.payorder.vo.PayChannelStatistics;
 import jforgame.admin.security.SecurityUtils;
-import jforgame.admin.user.model.RoleKinds;
+import jforgame.admin.system.model.RoleKinds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -54,36 +54,33 @@ public class PayOrderService {
         List<String> children = channelService.queryChildChannel(channelId);
         // 超级管理员可以查看所有渠道
         if (children.size() <= 0 && !SecurityUtils.hasAuth(RoleKinds.ADMIN)) {
-            return null;
+//            return null;
         }
         page = Math.abs(page);
         pageSize = Math.abs(pageSize);
         pageSize = Math.min(pageSize, 100);
-        Pageable pageRequest = new PageRequest(page - 1, pageSize);
+        Pageable pageRequest =  PageRequest.of(page - 1, pageSize);
         Page<PayOrder> orders = payOrderDao.findAll(createQuerySpecification(startTime, endTime, children), pageRequest);
         return orders;
     }
 
     private Specification<PayOrder> createQuerySpecification(long startTime, long endTime, List<String> channels) {
-        return new Specification<PayOrder>() {
-            @Override
-            public Predicate toPredicate(Root<PayOrder> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                List<Predicate> predicateList = new ArrayList<>();
-                predicateList.add(cb.greaterThanOrEqualTo(root.get("createTime").as(Date.class), new Date(startTime)));
-                predicateList.add(cb.lessThanOrEqualTo(root.get("createTime").as(Date.class), new Date(endTime)));
+        return (root, query, cb) -> {
+            List<Predicate> predicateList = new ArrayList<>();
+            predicateList.add(cb.greaterThanOrEqualTo(root.get("createTime").as(Date.class), new Date(startTime)));
+            predicateList.add(cb.lessThanOrEqualTo(root.get("createTime").as(Date.class), new Date(endTime)));
 
 
-                if (channels.size() > 0) {
-                    Path<Object> path = root.get("channelCode");
-                    CriteriaBuilder.In<Object> in = cb.in(path);
-                    for (String channel : channels) {
-                        in.value(channel);
-                    }
-                    predicateList.add(cb.and(cb.and(in)));
+            if (channels.size() > 0) {
+                Path<Object> path = root.get("channelCode");
+                CriteriaBuilder.In<Object> in = cb.in(path);
+                for (String channel : channels) {
+                    in.value(channel);
                 }
-
-                return cb.and(predicateList.toArray(new Predicate[predicateList.size()]));
+                predicateList.add(cb.and(cb.and(in)));
             }
+
+            return cb.and(predicateList.toArray(new Predicate[predicateList.size()]));
         };
     }
 
@@ -100,7 +97,7 @@ public class PayOrderService {
         // 超级管理员可以查看所有渠道
         boolean isAdmin = SecurityUtils.hasAuth(RoleKinds.ADMIN);
         if (children.size() <= 0 && !isAdmin) {
-            return result;
+//            return result;
         }
 
         List<Object> groups = payOrderDao.queryOrderStatistics(new Date(startTime), new Date(endTime));
@@ -113,7 +110,7 @@ public class PayOrderService {
             int money = ((BigDecimal) params[0]).intValue();
             String channel =  params[1].toString().toUpperCase().trim();
             if (!isAdmin && !children.contains(channel)) {
-                continue;
+//                continue;
             }
             int prev = channelMap.getOrDefault(channel, 0);
             channelMap.put(channel, prev + money);

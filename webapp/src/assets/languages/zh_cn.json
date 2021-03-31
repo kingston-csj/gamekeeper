@@ -1,0 +1,39 @@
+{
+    "common": {
+        "home": "首页",
+        "login": "登录",
+        "logout": "退出登录",
+        "doc": "文档",
+        "blog": "博客",
+        "projectRepo": "项目",
+        "myMsg": "我的消息",
+        "config": "系统配置",           
+        "backup": "备份",
+        "restore": "还原",
+        "versionName": "版本名称",             
+        "exit": "退出"
+    },
+    "action": {
+        "operation": "操作",
+        "add": "新增",
+        "edit": "编辑",
+        "delete": "删除",
+        "batchDelete": "批量删除",
+        "search": "查询",
+        "loading": "拼命加载中",
+        "submit": "提交",
+        "comfirm": "确定",
+        "cancel": "取消",
+        "reset": "重置"
+        
+    },
+    "sys": {
+        "sysMng": "系统管理",
+        "userMng": "用户管理",
+        "deptMng": "机构管理",
+        "roleMng": "角色管理",
+        "menuMng": "菜单管理",
+        "logMng": "日志管理",
+        "sysMonitor": "系统监控"
+    }
+}

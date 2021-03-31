@@ -44,7 +44,7 @@ public class ChannelService {
     }
 
     public void updatePassword(String code, String pwd) {
-        Channel channel = channelDao.findOne(code);
+        Channel channel = channelDao.getOne(code);
         if (channel != null) {
             channel.setPassword(pwd);
             channelDao.save(channel);

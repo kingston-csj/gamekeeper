@@ -5,13 +5,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import jforgame.admin.domain.SysDict;
 import jforgame.admin.gamenode.vo.ServerNodeInfo;
+import jforgame.admin.http.HttpResult;
+import jforgame.admin.http.PageRequest;
+import jforgame.admin.http.PageResult;
 import jforgame.admin.monitor.service.MonitorService;
 import jforgame.admin.monitor.vo.ServerMonitorNode;
 import jforgame.admin.domain.ServerInfo;
 import jforgame.admin.gamenode.service.ServerNodeService;
 import jforgame.admin.gamenode.vo.ServerNodeInfoList;
+import jforgame.admin.system.vo.SysDictVo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,13 +35,11 @@ public class ServersController {
     @Autowired
     private MonitorService monitorService;
 
-    @RequestMapping(value = "/all", method = RequestMethod.GET)
-    public @ResponseBody
-    ServerNodeInfoList getServerNodesList(@RequestParam(value = "page", defaultValue = "1") Integer page,
-                                          @RequestParam(value = "count", defaultValue = "10") Integer count) {
+    @RequestMapping(value = "/findPage", method = RequestMethod.GET)
+    public HttpResult getServerNodesList(PageRequest request) {
         ServerNodeInfoList serverList = new ServerNodeInfoList();
         int totalCount = serversManager.getServerNodeSum();
-        List<ServerInfo> servers = serversManager.getServerNodeList(page, count);
+        List<ServerInfo> servers = serversManager.getServerNodeList(0, 100);
         List<ServerNodeInfo> vos = new ArrayList<>(servers.size());
 
         int onlineSum = 0;
@@ -64,7 +69,20 @@ public class ServersController {
         serverList.setTotalCount(totalCount + 1);
         serverList.setServers(vos);
 
-        return serverList;
+
+        int page = Math.abs(request.getPageNum());
+        int pageSize = request.getPageSize();
+        pageSize = Math.abs(pageSize);
+        pageSize = Math.min(pageSize, 100);
+        Pageable pageRequest = org.springframework.data.domain.PageRequest.of(page - 1, pageSize);
+
+        PageResult pageResult = new PageResult();
+        pageResult.setPageNum(page);
+        pageResult.setPageSize(pageSize);
+        pageResult.setTotalPages(1);
+        pageResult.setContent(vos);
+
+        return HttpResult.ok(pageResult);
     }
 
     @RequestMapping(value = "/serverIds", method = RequestMethod.GET)

@@ -6,13 +6,14 @@ import jforgame.admin.gamecmd.model.TaskInfo;
 import jforgame.admin.gamecmd.service.GameCmdService;
 import jforgame.admin.gamecmd.service.PlayerCmdService;
 import jforgame.admin.gamecmd.vo.CommandVo;
-import jforgame.admin.gamecmd.vo.SimplePlayerQueryResult;
-import jforgame.admin.security.SecurityUtils;
-import jforgame.admin.user.model.RoleKinds;
+import jforgame.admin.gamecmd.vo.PlayerSimpleVo;
+import jforgame.admin.gamecmd.vo.ReqExecCommand;
+import jforgame.admin.http.HttpResult;
 import jforgame.admin.utils.JsonUtil;
-import jforgame.admin.utils.SimplyReply;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/gameCmd")
+@RequestMapping("gameCmd")
 public class GameCmdController {
 
     @Autowired
@@ -41,10 +42,6 @@ public class GameCmdController {
     List<CommandVo> queryCommands() {
         List<CommandVo> vos = new ArrayList<>();
 
-        if (!SecurityUtils.hasAuth(RoleKinds.ADMIN)) {
-            return vos;
-        }
-
         for (CmdTypes cmd : CmdTypes.values()) {
             if (cmd.getType() != CmdTypes.TYPE_SERVER) {
                 continue;
@@ -61,42 +58,40 @@ public class GameCmdController {
 
     @RequestMapping(value = "/exec", method = RequestMethod.POST)
     public @ResponseBody
-    SimplyReply exec(@RequestParam("selectedServers") String selectedServers,
-                     @RequestParam("type") int type,
-                     @RequestParam("params") String params) {
-        if (StringUtils.isEmpty(selectedServers)) {
-            return SimplyReply.valueOfFail("无选中服务器");
+    HttpResult exec(@RequestBody ReqExecCommand req) {
+        if (StringUtils.isEmpty(req.getSelectedServers())) {
+            return HttpResult.error("无选中服务器");
         }
         List<Integer> servers = new ArrayList<>();
-        String[] serversParam = selectedServers.split(";");
+        String[] serversParam = req.getSelectedServers().split(";");
         for (String server : serversParam) {
             servers.add(Integer.parseInt(server));
         }
 
-        CmdTypes cmdType = CmdTypes.queryCmd(type);
+        CmdTypes cmdType = CmdTypes.queryCmd(req.getType());
         if (cmdType.getType() == CmdTypes.TYPE_SERVER) {
-            return SimplyReply.valueOfOk(cmdService.execServerCmd(servers, type, params));
+            return HttpResult.ok(cmdService.execServerCmd(servers, req.getType(), req.getParams()));
         }
-        return SimplyReply.valueOfFail("无效指令");
+        return HttpResult.error("无效指令");
     }
 
-    @RequestMapping(value = "/simplyPlayer", method = RequestMethod.GET)
+    @GetMapping(value = "/simplyPlayer")
     public @ResponseBody
-    SimplePlayerQueryResult simplyPlayer(@RequestParam("serverId") int serverId,
-                                         @RequestParam("sign") String sign) {
-        return playerCmdService.queryPlayerSimple(serverId, sign);
+    HttpResult simplyPlayer(@RequestParam int serverId,
+                            @RequestParam String sign) {
+        List<PlayerSimpleVo> playerInfo = playerCmdService.queryPlayerSimple(serverId, sign);
+        return HttpResult.ok(playerInfo);
     }
-
 
     /**
      * 封号或禁言
      */
     @RequestMapping(path = "banPlayer", method = RequestMethod.POST)
     @ResponseBody
-    public SimplyReply banPlayer(@RequestParam("serverId") int serverId,
-                                 @RequestParam("banType") int banType,
-                                 @RequestParam("uid") long uid,
-                                 @RequestParam("endTime") long endTime) {
+    public HttpResult banPlayer(@RequestParam int serverId,
+                                @RequestParam int banType,
+                                @RequestParam long uid,
+                                @RequestParam long endTime) {
         if (banType == 1) {
             return playerCmdService.banLogin(serverId, uid, endTime);
         }
@@ -111,13 +106,13 @@ public class GameCmdController {
      */
     @RequestMapping(value = "/hotSwap2", method = RequestMethod.POST)
     public @ResponseBody
-    SimplyReply asyncHotSwap(@RequestParam("selectedServers") String selectedServers) {
+    HttpResult asyncHotSwap(@RequestParam("selectedServers") String selectedServers) {
         String[] params = selectedServers.split(";");
         List<Integer> servers = new ArrayList<>(params.length);
         for (String param : params) {
             servers.add(Integer.parseInt(param));
         }
-        return SimplyReply.valueOfOk(cmdService.asyncHotSwap(servers));
+        return HttpResult.ok(cmdService.asyncHotSwap(servers));
     }
 
     /**
@@ -128,9 +123,9 @@ public class GameCmdController {
      */
     @RequestMapping(value = "/getTaskStatus", method = RequestMethod.GET)
     public @ResponseBody
-    SimplyReply getTaskStatus(@RequestParam("taskId") long taskId) {
+    HttpResult getTaskStatus(@RequestParam("taskId") long taskId) {
         TaskInfo taskInfo = asyncTaskManager.getTaskInfo(taskId);
-        return SimplyReply.valueOfOk(JsonUtil.object2String(taskInfo));
+        return HttpResult.ok(JsonUtil.object2String(taskInfo));
     }
 
 }
