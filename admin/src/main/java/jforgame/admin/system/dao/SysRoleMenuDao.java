@@ -10,7 +10,7 @@ public interface SysRoleMenuDao extends JpaRepository<SysRoleMenu, Long> {
 
     @Modifying(clearAutomatically=true)
     @Transactional
-    @Query("delete from sys_role_menu m where m.roleId = ?1 ")
+    @Query("delete from #{#entityName} m where m.roleId = ?1 ")
     void deleteByRoleId(Long roleId);
 
 

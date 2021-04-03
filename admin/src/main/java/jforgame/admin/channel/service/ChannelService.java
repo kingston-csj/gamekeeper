@@ -30,6 +30,10 @@ public class ChannelService {
         channelTree = new ChannelTree(nodes);
     }
 
+    public Channel findChannelByUserName(String name) {
+        return channelDao.findChannelByUserName(name);
+    }
+
     public List<String> queryChildChannel(String channelCode) {
         List<String> result = new ArrayList<>();
         List<TreeNode> nodes = channelTree.findChildren(channelCode);
@@ -41,14 +45,6 @@ public class ChannelService {
 
     public List<String> queryAllChannels() {
         return channelTree.getTree().stream().map(ele -> (String)ele.getName()).collect(Collectors.toList());
-    }
-
-    public void updatePassword(String code, String pwd) {
-        Channel channel = channelDao.getOne(code);
-        if (channel != null) {
-            channel.setPassword(pwd);
-            channelDao.save(channel);
-        }
     }
 
 }

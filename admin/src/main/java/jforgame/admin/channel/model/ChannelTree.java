@@ -16,7 +16,7 @@ public class ChannelTree implements Tree {
 
     private Map<String, TreeNode<String>> channelNodes = new HashMap<>();
 
-    public ChannelTree( List<Channel> nodes) {
+    public ChannelTree(List<Channel> nodes) {
         for (Channel node : nodes) {
             TreeNode treeNode = new TreeNode(node.getChannelNo(), null);
             channelNodes.put(node.getChannelNo(), treeNode);
@@ -60,7 +60,7 @@ public class ChannelTree implements Tree {
     }
 
     @Override
-    public <E> List<TreeNode>  findChildren(E node) {
+    public <E> List<TreeNode> findChildren(E node) {
         List<TreeNode> result = new ArrayList<>();
         TreeNode<String> treeNode = channelNodes.get(node);
         if (treeNode != null) {

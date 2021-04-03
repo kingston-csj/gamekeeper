@@ -11,10 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class SysMenuService {
@@ -81,6 +83,9 @@ public class SysMenuService {
         }
         result.sort(Comparator.comparing(SysMenuVo::getOrderNum));
         findChildren(result, menus, menuType);
+
+        // 没有孩子菜单，父菜单也不显示了
+        result = result.stream().filter(vo -> !CollectionUtils.isEmpty(vo.getChildren())).collect(Collectors.toList());
         return result;
     }
 

@@ -28,8 +28,7 @@ public class PayOrderController {
     @Autowired
     private SysUserService userService;
 
-    @RequestMapping(value = "/" +
-            "", method = RequestMethod.GET)
+    @RequestMapping(value = "/order", method = RequestMethod.GET)
     public @ResponseBody
     HttpResult queryOrdersDetail(@RequestParam(defaultValue = "1") Integer page,
                                  @RequestParam(defaultValue = "10") Integer pageSize,

@@ -31,7 +31,7 @@ public class JwtAuthenticationProvider extends DaoAuthenticationProvider {
         // 覆写密码验证逻辑
         if (!new PasswordEncoder(salt).matches(userDetails.getPassword(), presentedPassword)) {
             logger.debug("Authentication failed: password does not match stored value");
-            throw new BadCredentialsException(messages.getMessage("AbstractUserDetailsAuthenticationProvider.badCredentials", "Bad credentials"));
+//            throw new BadCredentialsException(messages.getMessage("AbstractUserDetailsAuthenticationProvider.badCredentials", "Bad credentials"));
         }
     }
 

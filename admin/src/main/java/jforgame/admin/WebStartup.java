@@ -7,7 +7,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication
-@EnableTransactionManagement(proxyTargetClass = true)
+@EnableTransactionManagement
 @EnableScheduling
 @ServletComponentScan
 public class WebStartup {

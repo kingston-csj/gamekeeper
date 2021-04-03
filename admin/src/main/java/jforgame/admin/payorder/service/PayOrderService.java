@@ -1,11 +1,11 @@
 package jforgame.admin.payorder.service;
 
+import jforgame.admin.channel.domain.Channel;
 import jforgame.admin.channel.service.ChannelService;
 import jforgame.admin.payorder.dao.PayOrderDao;
 import jforgame.admin.payorder.domain.PayOrder;
 import jforgame.admin.payorder.domain.PayOrderGroup;
 import jforgame.admin.payorder.vo.PayChannelStatistics;
-import jforgame.admin.security.SecurityUtils;
 import jforgame.admin.system.model.RoleKinds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,12 +15,11 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -42,19 +41,24 @@ public class PayOrderService {
     /**
      * 查看订单列表详情
      *
-     * @param channelId
+     * @param userName
      * @param startTime
      * @param endTime
      * @param page
      * @param pageSize
      * @return
      */
-    public Page<PayOrder> queryOrdersDetail(String channelId, long startTime, long endTime, int page, int pageSize) {
+    public Page<PayOrder> queryOrdersDetail(String userName, long startTime, long endTime, int page, int pageSize) {
         // 父渠道可以查询所有子渠道的订单
-        List<String> children = channelService.queryChildChannel(channelId);
+        Channel channel = channelService.findChannelByUserName(userName);
+        List<String> children = Collections.emptyList();
+        boolean isAdmin = RoleKinds.ADMIN.equalsIgnoreCase(userName);
+        if (channel != null) {
+            children = channelService.queryChildChannel(channel.getChannelNo());
+        }
         // 超级管理员可以查看所有渠道
-        if (children.size() <= 0 && !SecurityUtils.hasAuth(RoleKinds.ADMIN)) {
-//            return null;
+        if (children.size() <= 0 && !isAdmin) {
+            return null;
         }
         page = Math.abs(page);
         pageSize = Math.abs(pageSize);
@@ -69,8 +73,6 @@ public class PayOrderService {
             List<Predicate> predicateList = new ArrayList<>();
             predicateList.add(cb.greaterThanOrEqualTo(root.get("createTime").as(Date.class), new Date(startTime)));
             predicateList.add(cb.lessThanOrEqualTo(root.get("createTime").as(Date.class), new Date(endTime)));
-
-
             if (channels.size() > 0) {
                 Path<Object> path = root.get("channelCode");
                 CriteriaBuilder.In<Object> in = cb.in(path);
@@ -86,18 +88,23 @@ public class PayOrderService {
 
     /**
      * 渠道金额统计
-     * @param channelId
+     * @param userName
      * @param startTime
      * @param endTime
      * @return
      */
-    public PayChannelStatistics queryOrderStatistics(String channelId, long startTime, long endTime) {
-        List<String> children = channelService.queryChildChannel(channelId);
+    public PayChannelStatistics queryOrderStatistics(String userName, long startTime, long endTime) {
+        // 父渠道可以查询所有子渠道的订单
+        Channel channel = channelService.findChannelByUserName(userName);
+        List<String> children = Collections.emptyList();
+        if (channel != null) {
+            children = channelService.queryChildChannel(channel.getChannelNo());
+        }
         PayChannelStatistics result = new PayChannelStatistics();
         // 超级管理员可以查看所有渠道
-        boolean isAdmin = SecurityUtils.hasAuth(RoleKinds.ADMIN);
+        boolean isAdmin = RoleKinds.ADMIN.equalsIgnoreCase(userName);
         if (children.size() <= 0 && !isAdmin) {
-//            return result;
+            return result;
         }
 
         List<Object> groups = payOrderDao.queryOrderStatistics(new Date(startTime), new Date(endTime));
@@ -108,12 +115,12 @@ public class PayOrderService {
         for (Object o : groups) {
             Object[] params = (Object[]) o;
             int money = ((BigDecimal) params[0]).intValue();
-            String channel =  params[1].toString().toUpperCase().trim();
-            if (!isAdmin && !children.contains(channel)) {
-//                continue;
+            String channelNo =  params[1].toString().toUpperCase().trim();
+            if (!isAdmin && !children.contains(channelNo)) {
+                continue;
             }
             int prev = channelMap.getOrDefault(channel, 0);
-            channelMap.put(channel, prev + money);
+            channelMap.put(channelNo, prev + money);
             moneySum += money;
         }
 

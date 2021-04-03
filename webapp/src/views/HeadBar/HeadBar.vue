@@ -74,7 +74,7 @@ export default {
   data() {
     return {
       user: {
-        name: "Louis",
+        name: "Hang",
         avatar: "",
         role: "超级管理员",
         registeInfo: "注册时间：2018-12-20 "

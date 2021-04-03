@@ -11,6 +11,7 @@
  Target Server Version : 50641
  File Encoding         : 65001
 
+ Date: 03/04/2021 12:29:03
 */
 
 SET NAMES utf8mb4;
@@ -180,7 +181,7 @@ CREATE TABLE `sys_role_menu` (
   `create_by` varchar(50) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=806 DEFAULT CHARSET=utf8 COMMENT='角色菜单';
+) ENGINE=InnoDB AUTO_INCREMENT=842 DEFAULT CHARSET=utf8 COMMENT='角色菜单';
 
 -- ----------------------------
 -- Records of sys_role_menu
@@ -206,18 +207,6 @@ INSERT INTO `sys_role_menu` VALUES (240, 4, 28, 'admin', '2020-01-01 01:02:03');
 INSERT INTO `sys_role_menu` VALUES (241, 4, 29, 'admin', '2020-01-01 01:02:03');
 INSERT INTO `sys_role_menu` VALUES (242, 4, 30, 'admin', '2020-01-01 01:02:03');
 INSERT INTO `sys_role_menu` VALUES (243, 4, 35, 'admin', '2020-01-01 01:02:03');
-INSERT INTO `sys_role_menu` VALUES (783, 8, 9, NULL, '2020-01-01 01:02:03');
-INSERT INTO `sys_role_menu` VALUES (784, 8, 13, NULL, '2020-01-01 01:02:03');
-INSERT INTO `sys_role_menu` VALUES (785, 8, 17, NULL, '2020-01-01 01:02:03');
-INSERT INTO `sys_role_menu` VALUES (786, 8, 21, NULL, '2020-01-01 01:02:03');
-INSERT INTO `sys_role_menu` VALUES (787, 8, 31, NULL, '2020-01-01 01:02:03');
-INSERT INTO `sys_role_menu` VALUES (788, 8, 6, NULL, '2020-01-01 01:02:03');
-INSERT INTO `sys_role_menu` VALUES (789, 8, 35, NULL, '2020-01-01 01:02:03');
-INSERT INTO `sys_role_menu` VALUES (794, 2, 1, NULL, '2020-01-01 01:02:03');
-INSERT INTO `sys_role_menu` VALUES (795, 2, 43, NULL, '2020-01-01 01:02:03');
-INSERT INTO `sys_role_menu` VALUES (796, 2, 44, NULL, '2020-01-01 01:02:03');
-INSERT INTO `sys_role_menu` VALUES (797, 2, 41, NULL, '2020-01-01 01:02:03');
-INSERT INTO `sys_role_menu` VALUES (798, 2, 35, NULL, '2020-01-01 01:02:03');
 INSERT INTO `sys_role_menu` VALUES (799, 3, 1, NULL, '2020-01-01 01:02:03');
 INSERT INTO `sys_role_menu` VALUES (800, 3, 2, NULL, '2020-01-01 01:02:03');
 INSERT INTO `sys_role_menu` VALUES (801, 3, 9, NULL, '2020-01-01 01:02:03');
@@ -225,6 +214,24 @@ INSERT INTO `sys_role_menu` VALUES (802, 3, 3, NULL, '2020-01-01 01:02:03');
 INSERT INTO `sys_role_menu` VALUES (803, 3, 13, NULL, '2020-01-01 01:02:03');
 INSERT INTO `sys_role_menu` VALUES (804, 3, 43, NULL, '2020-01-01 01:02:03');
 INSERT INTO `sys_role_menu` VALUES (805, 3, 6, NULL, '2020-01-01 01:02:03');
+INSERT INTO `sys_role_menu` VALUES (824, 2, 1, NULL, NULL);
+INSERT INTO `sys_role_menu` VALUES (825, 2, 2, NULL, NULL);
+INSERT INTO `sys_role_menu` VALUES (826, 2, 9, NULL, NULL);
+INSERT INTO `sys_role_menu` VALUES (827, 2, 43, NULL, NULL);
+INSERT INTO `sys_role_menu` VALUES (828, 2, 44, NULL, NULL);
+INSERT INTO `sys_role_menu` VALUES (829, 2, 41, NULL, NULL);
+INSERT INTO `sys_role_menu` VALUES (830, 2, 28, NULL, NULL);
+INSERT INTO `sys_role_menu` VALUES (831, 2, 29, NULL, NULL);
+INSERT INTO `sys_role_menu` VALUES (832, 2, 30, NULL, NULL);
+INSERT INTO `sys_role_menu` VALUES (833, 8, 1, NULL, NULL);
+INSERT INTO `sys_role_menu` VALUES (834, 8, 2, NULL, NULL);
+INSERT INTO `sys_role_menu` VALUES (835, 8, 9, NULL, NULL);
+INSERT INTO `sys_role_menu` VALUES (836, 8, 17, NULL, NULL);
+INSERT INTO `sys_role_menu` VALUES (837, 8, 21, NULL, NULL);
+INSERT INTO `sys_role_menu` VALUES (838, 8, 31, NULL, NULL);
+INSERT INTO `sys_role_menu` VALUES (839, 8, 28, NULL, NULL);
+INSERT INTO `sys_role_menu` VALUES (840, 8, 29, NULL, NULL);
+INSERT INTO `sys_role_menu` VALUES (841, 8, 30, NULL, NULL);
 COMMIT;
 
 -- ----------------------------
@@ -341,26 +348,25 @@ DROP TABLE IF EXISTS `t_channel`;
 CREATE TABLE `t_channel` (
   `channelNo` varchar(128) NOT NULL COMMENT '渠道码',
   `parentChannel` varchar(128) DEFAULT NULL COMMENT '父类渠道',
-  `password` varchar(128) DEFAULT NULL COMMENT '密码',
-  PRIMARY KEY (`channelNo`)
+  `id` bigint(20) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_channel
 -- ----------------------------
 BEGIN;
-INSERT INTO `t_channel` VALUES ('2222DJ', NULL, '454');
-INSERT INTO `t_channel` VALUES ('3333DJ', NULL, '45978');
-INSERT INTO `t_channel` VALUES ('5555DJ', NULL, '23798');
-INSERT INTO `t_channel` VALUES ('6666DJ', '2222DJ', '123123');
-INSERT INTO `t_channel` VALUES ('8888DJ', '', '89');
-INSERT INTO `t_channel` VALUES ('9999DJ', '', '56');
-INSERT INTO `t_channel` VALUES ('DDOS', '', '5+64');
-INSERT INTO `t_channel` VALUES ('DJ882', '8888DJ', '123');
-INSERT INTO `t_channel` VALUES ('DJ883', '6666DJ', '132');
-INSERT INTO `t_channel` VALUES ('DJ884', 'DJ883', '677');
-INSERT INTO `t_channel` VALUES ('DJ885', '8888DJ', '222');
-INSERT INTO `t_channel` VALUES ('DJ886', '8888DJ', '555');
+INSERT INTO `t_channel` VALUES ('2222DJ', NULL, 22);
+INSERT INTO `t_channel` VALUES ('3333DJ', NULL, 23);
+INSERT INTO `t_channel` VALUES ('5555DJ', NULL, 24);
+INSERT INTO `t_channel` VALUES ('6666DJ', '2222DJ', 25);
+INSERT INTO `t_channel` VALUES ('8888DJ', '', 29);
+INSERT INTO `t_channel` VALUES ('9999DJ', '', 30);
+INSERT INTO `t_channel` VALUES ('DDOS', '', 31);
+INSERT INTO `t_channel` VALUES ('DJ882', '8888DJ', 32);
+INSERT INTO `t_channel` VALUES ('DJ883', '6666DJ', 33);
+INSERT INTO `t_channel` VALUES ('DJ884', 'DJ883', 34);
+INSERT INTO `t_channel` VALUES ('DJ885', '8888DJ', 35);
 COMMIT;
 
 -- ----------------------------
@@ -387,9 +393,9 @@ CREATE TABLE `t_payorder` (
 -- ----------------------------
 BEGIN;
 INSERT INTO `t_payorder` VALUES ('1', '1', 'aaa', '2021-03-21 23:28:07', 121245, 45, '1', '飞狐外传', NULL, '2222DJ', NULL);
-INSERT INTO `t_payorder` VALUES ('2', '2', 'bbb', '2019-10-08 23:28:52', 101000, 445, NULL, '飞狐外传', NULL, '6666DJ', NULL);
+INSERT INTO `t_payorder` VALUES ('2', '2', 'bbb', '2021-03-21 23:28:07', 101000, 445, NULL, '飞狐外传', NULL, '6666DJ', NULL);
 INSERT INTO `t_payorder` VALUES ('3', '3', 'ccc', '2021-03-21 23:28:07', 45, 45, NULL, '连城诀', NULL, 'DJ882', NULL);
-INSERT INTO `t_payorder` VALUES ('4', '4', 'fff', '2019-10-04 23:29:58', 222222222, 345, NULL, '连城诀', NULL, 'DJ886', NULL);
+INSERT INTO `t_payorder` VALUES ('4', '4', 'fff', '2021-03-21 23:28:07', 222222222, 345, NULL, '连城诀', NULL, 'DJ886', NULL);
 COMMIT;
 
 -- ----------------------------
