@@ -38,7 +38,11 @@ spring-boot全家桶
 4. 客户端开发步骤，命令行环境cd webapp后，执行npm install下载依赖库
 5. 客户端打包步骤，执行npm run build，把dist生成的static目录和index.html文件拷贝到服务端指定位置
 6. 服务端创建admin数据库后，导入resouce/admin.sql。
-7. 服务端启动入口为WebStartup.java
+7. 服务端启动入口为WebStartup.java  
+
+
+### 注意
+本项目选择的node是15.14.0，客户端二次开发的时候，一定要选好版本。不然下载node-sass绝对是个噩梦。
 
 
 
