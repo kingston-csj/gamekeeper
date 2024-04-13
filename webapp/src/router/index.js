@@ -178,7 +178,6 @@ function addDynamicRoutes (menuList = [], routes = []) {
  if (temp.length >= 1) {
    addDynamicRoutes(temp, routes)
  } else {
-   console.log('动态路由加载...')
    console.log(routes)
    console.log('动态路由加载完成.')
  }

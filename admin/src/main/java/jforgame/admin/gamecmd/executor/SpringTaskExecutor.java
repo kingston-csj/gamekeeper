@@ -1,10 +1,8 @@
 package jforgame.admin.gamecmd.executor;
 
-import jforgame.admin.utils.NameThreadFactory;
+import jforgame.commons.thread.NamedThreadFactory;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.AsyncConfigurer;
-import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import java.util.concurrent.Executor;
@@ -40,7 +38,7 @@ public class SpringTaskExecutor implements AsyncConfigurer {
         taskExecutor.setCorePoolSize(DEFAULT_INIT_THREAD_POOL_SIZE);
         taskExecutor.setMaxPoolSize(DEFAULT_INIT_THREAD_POOL_SIZE * 2);
         taskExecutor.setQueueCapacity(1000);
-        taskExecutor.setThreadFactory(new NameThreadFactory("执行线程池"));
+        taskExecutor.setThreadFactory(new NamedThreadFactory("执行线程池"));
         taskExecutor.initialize();
         return taskExecutor;
     }

@@ -7,7 +7,7 @@ import jforgame.admin.gamecmd.cmd.http.QueryPlayerCmd;
 import jforgame.admin.gamecmd.vo.PlayerSimpleVo;
 import jforgame.admin.gamenode.service.ServerNodeService;
 import jforgame.admin.http.HttpResult;
-import jforgame.admin.utils.JsonUtil;
+import jforgame.commons.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

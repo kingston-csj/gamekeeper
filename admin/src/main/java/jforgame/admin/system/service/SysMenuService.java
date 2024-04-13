@@ -1,12 +1,11 @@
 package jforgame.admin.system.service;
 
+import jforgame.admin.constants.MenuTypes;
 import jforgame.admin.domain.SysMenu;
-import jforgame.admin.domain.SysRole;
 import jforgame.admin.http.PageRequest;
 import jforgame.admin.http.PageResult;
 import jforgame.admin.system.dao.SysMenuDao;
 import jforgame.admin.system.vo.SysMenuVo;
-import jforgame.admin.system.vo.SysRoleVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -76,7 +75,7 @@ public class SysMenuService {
             if (menu.getParentId() == null || menu.getParentId() == 0) {
                 SysMenuVo vo = menu.simpleView();
                 vo.setLevel(0);
-                if (!exists(result, menu)) {
+                if (notExist(result, menu)) {
                     result.add(vo);
                 }
             }
@@ -90,7 +89,7 @@ public class SysMenuService {
     }
 
     public List<SysMenu> findByUser(String userName) {
-        if (userName == null || "".equals(userName) || "admin".equalsIgnoreCase(userName)) {
+        if (userName == null || userName.isEmpty() || "admin".equalsIgnoreCase(userName)) {
             return sysMenuDao.findAll();
         }
         return sysMenuDao.findByUserName(userName);
@@ -100,12 +99,12 @@ public class SysMenuService {
         for (SysMenuVo menuVo : parentVos) {
             List<SysMenuVo> children = new ArrayList<>();
             for (SysMenu menu : allMenus) {
-                if (menuType == 1 && menu.getType() == 2) {
+                if (menuType == MenuTypes.MENU && menu.getType() == MenuTypes.BUTTON) {
                     // 如果是获取类型不需要按钮，且菜单类型是按钮的，直接过滤掉
                     continue;
                 }
                 if (menuVo.getId() != null && menuVo.getId().equals(menu.getParentId())) {
-                    if (!exists(children, menu)) {
+                    if (notExist(children, menu)) {
                         SysMenuVo vo = menu.simpleView();
                         vo.setParentName(menuVo.getName());
                         vo.setLevel(menuVo.getLevel() + 1);
@@ -119,14 +118,15 @@ public class SysMenuService {
         }
     }
 
-    private boolean exists(List<SysMenuVo> sysMenus, SysMenu sysMenu) {
+    private boolean notExist(List<SysMenuVo> sysMenus, SysMenu sysMenu) {
         boolean exist = false;
         for (SysMenuVo menu : sysMenus) {
             if (menu.getId().equals(sysMenu.getId())) {
                 exist = true;
+                break;
             }
         }
-        return exist;
+        return !exist;
     }
 
 }

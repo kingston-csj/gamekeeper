@@ -112,9 +112,6 @@ public class SysUserService implements UserDetailsService {
         for (Iterator<SysUserRole> iter = userRoles.iterator(); iter.hasNext(); ) {
             SysUserRole userRole = iter.next();
             SysRole sysRole = sysRoleDao.getOne(userRole.getRoleId());
-            if (sysRole == null) {
-                continue;
-            }
             sb.append(sysRole.getRemark());
             if (iter.hasNext()) {
                 sb.append(", ");

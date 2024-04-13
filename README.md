@@ -37,8 +37,9 @@ spring-boot全家桶
 3. 客户端源代码位于webapp下，如需二次开发，需安装npm环境
 4. 客户端开发步骤，命令行环境cd webapp后，执行npm install下载依赖库
 5. 客户端打包步骤，执行npm run build，把dist生成的static目录和index.html文件拷贝到服务端指定位置
-6. 服务端创建admin数据库后，导入resouce/admin.sql。
-7. 服务端启动入口为WebStartup.java  
+6. 客户端本地开发，执行npm run start，开启代理服务器
+7. 服务端创建admin数据库后，导入resouce/admin.sql。
+8. 服务端启动入口为WebStartup.java  
 
 
 ### 注意

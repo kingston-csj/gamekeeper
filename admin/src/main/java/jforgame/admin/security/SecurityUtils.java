@@ -57,7 +57,7 @@ public class SecurityUtils {
         Authentication authentication = getAuthentication();
         if(authentication != null) {
             Object principal = authentication.getPrincipal();
-            if(principal != null && principal instanceof UserDetails) {
+            if(principal instanceof UserDetails) {
                 username = ((UserDetails) principal).getUsername();
             }
         }
@@ -72,7 +72,7 @@ public class SecurityUtils {
         String username = null;
         if(authentication != null) {
             Object principal = authentication.getPrincipal();
-            if(principal != null && principal instanceof UserDetails) {
+            if(principal instanceof UserDetails) {
                 username = ((UserDetails) principal).getUsername();
             }
         }
@@ -87,12 +87,12 @@ public class SecurityUtils {
         if(SecurityContextHolder.getContext() == null) {
             return null;
         }
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return authentication;
+        return SecurityContextHolder.getContext().getAuthentication();
     }
 
     public static boolean hasAuth(String auth) {
         Authentication authentication = SecurityUtils.getAuthentication();
+        assert authentication != null;
         for (GrantedAuthority authority : authentication.getAuthorities()) {
             if (authority.getAuthority().equals(auth)) {
                 return true;
@@ -104,6 +104,7 @@ public class SecurityUtils {
     public static List<String> getAuth() {
         List<String> result = new ArrayList<>();
         Authentication authentication = SecurityUtils.getAuthentication();
+        assert authentication != null;
         for (GrantedAuthority authority : authentication.getAuthorities()) {
             result.add(authority.getAuthority());
         }

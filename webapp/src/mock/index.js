@@ -6,7 +6,6 @@ import * as role from './modules/role'
 import * as dept from './modules/dept'
 import * as menu from './modules/menu'
 import * as dict from './modules/dict'
-import * as log from './modules/log'
 
 // 1. 开启/关闭[所有模块]拦截, 通过调[openMock参数]设置.
 // 2. 开启/关闭[业务模块]拦截, 通过调用fnCreate方法[isOpen参数]设置.
@@ -19,7 +18,6 @@ fnCreate(role, openMock)
 fnCreate(dept, openMock)
 fnCreate(menu, openMock)
 fnCreate(dict, openMock)
-fnCreate(log, openMock)
 
 /**
  * 创建mock模拟数据
@@ -37,6 +35,7 @@ function fnCreate (mod, isOpen = true) {
             url = url + "/"
           }
           url = url + res.url
+          console.log('register mock')
           Mock.mock(new RegExp(url), res.type, (opts) => {
             opts['data'] = opts.body ? JSON.parse(opts.body) : null
             delete opts.body

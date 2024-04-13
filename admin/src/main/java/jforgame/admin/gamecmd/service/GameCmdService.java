@@ -7,7 +7,7 @@ import jforgame.admin.gamecmd.executor.AsyncTaskConstructor;
 import jforgame.admin.gamecmd.executor.AsyncTaskManager;
 import jforgame.admin.gamecmd.model.TaskInfo;
 import jforgame.admin.gamenode.service.ServerNodeService;
-import jforgame.admin.utils.JsonUtil;
+import jforgame.commons.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
