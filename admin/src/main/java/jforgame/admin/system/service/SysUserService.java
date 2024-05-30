@@ -24,6 +24,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -45,18 +46,27 @@ public class SysUserService implements UserDetailsService {
 
     @Transactional
     public int save(SysUser record) {
+        if (record == null) {
+            return 0;
+        }
         sysUserDao.save(record);
         return 1;
     }
 
     @Transactional
     public int delete(SysUser record) {
+        if (record == null) {
+            return 0;
+        }
         sysUserDao.deleteById(record.getId());
         return 1;
     }
 
     @Transactional
     public int delete(List<SysUser> records) {
+        if (CollectionUtils.isEmpty(records)) {
+            return 0;
+        }
         sysUserDao.deleteAllInBatch(records);
         return 1;
     }
@@ -154,4 +164,5 @@ public class SysUserService implements UserDetailsService {
         List<GrantedAuthority> grantedAuthorities = permissions.stream().map(GrantedAuthorityImpl::new).collect(Collectors.toList());
         return new JwtUserDetails(user.getName(), user.getPassword(), user.getSalt(), grantedAuthorities);
     }
+
 }

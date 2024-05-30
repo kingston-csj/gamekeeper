@@ -8,9 +8,9 @@ import java.util.Map;
 
 public class BanPlayerChatCmd extends HttpAdminCmd {
 
-    private String uid;
+    private final String uid;
 
-    private String endTime;
+    private final String endTime;
 
     public BanPlayerChatCmd(ServerInfo serverNode, String uid, String endTime) {
         super(serverNode);

@@ -24,6 +24,9 @@ public class SysMenuService {
     private SysMenuDao sysMenuDao;
 
     public int save(SysMenu record) {
+        if (record == null) {
+            return 0;
+        }
         if (record.getParentId() == null) {
             record.setParentId(0L);
         }
@@ -32,19 +35,21 @@ public class SysMenuService {
     }
 
     public int delete(SysMenu record) {
+        if (record == null) {
+            return 0;
+        }
         sysMenuDao.deleteById(record.getId());
         return 1;
     }
 
     public int delete(List<SysMenu> records) {
+        if (CollectionUtils.isEmpty(records)) {
+            return 0;
+        }
         for (SysMenu record : records) {
             delete(record);
         }
         return 1;
-    }
-
-    public SysMenu findById(Long id) {
-        return sysMenuDao.getById(id);
     }
 
     public PageResult findPage(PageRequest request) {

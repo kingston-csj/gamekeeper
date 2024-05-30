@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,16 +21,25 @@ public class SysDictService {
     private SysDictDao sysDictDao;
 
     public int save(SysDict record) {
+        if (record == null) {
+            return 0;
+        }
         sysDictDao.save(record);
         return 1;
     }
 
     public int delete(SysDict record) {
+        if (record == null) {
+            return 0;
+        }
         sysDictDao.deleteById(record.getId());
         return 1;
     }
 
     public int delete(List<SysDict> records) {
+        if (CollectionUtils.isEmpty(records)) {
+            return 0;
+        }
         sysDictDao.deleteAllInBatch(records);
         return 1;
     }
@@ -55,12 +65,4 @@ public class SysDictService {
         return pageResult;
     }
 
-    public SysDict findById(Long id) {
-        return sysDictDao.getById(id);
-    }
-
-
-    public List<SysDict> findByLabel(String label) {
-        return new ArrayList<>();
-    }
 }

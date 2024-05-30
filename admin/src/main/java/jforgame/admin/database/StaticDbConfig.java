@@ -1,6 +1,7 @@
 package jforgame.admin.database;
 
 import java.util.Map;
+import java.util.Objects;
 
 import javax.persistence.EntityManager;
 import javax.sql.DataSource;
@@ -53,7 +54,7 @@ public class StaticDbConfig {
 	@Primary
 	@Bean(name = "configDbTransactionManager")
 	public PlatformTransactionManager configDbTransactionManager(EntityManagerFactoryBuilder builder) {
-		return new JpaTransactionManager(configEntityManagerFactory(builder).getObject());
+		return new JpaTransactionManager(Objects.requireNonNull(configEntityManagerFactory(builder).getObject()));
 	}
 
 }

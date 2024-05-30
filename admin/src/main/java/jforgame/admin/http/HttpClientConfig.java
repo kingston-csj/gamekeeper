@@ -40,8 +40,6 @@ public class HttpClientConfig {
 
     /**
      * HttpClient连接池
-     *
-     * @return
      */
     @Bean
     public HttpClientConnectionManager httpClientConnectionManager() {
@@ -53,8 +51,6 @@ public class HttpClientConfig {
 
     /**
      * 注册RequestConfig
-     *
-     * @return
      */
     @Bean
     public RequestConfig requestConfig() {
@@ -65,10 +61,6 @@ public class HttpClientConfig {
 
     /**
      * 注册HttpClient
-     *
-     * @param manager
-     * @param config
-     * @return
      */
     @Bean
     public HttpClient httpClient(HttpClientConnectionManager manager, RequestConfig config) {
@@ -78,9 +70,6 @@ public class HttpClientConfig {
 
     /**
      * 使用连接池管理连接
-     *
-     * @param httpClient
-     * @return
      */
     @Bean
     public ClientHttpRequestFactory requestFactory(HttpClient httpClient) {
@@ -89,9 +78,6 @@ public class HttpClientConfig {
 
     /**
      * 使用HttpClient来初始化一个RestTemplate
-     *
-     * @param requestFactory
-     * @return
      */
     @Bean
     public RestTemplate restTemplate(ClientHttpRequestFactory requestFactory) {

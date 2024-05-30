@@ -5,8 +5,10 @@ import jforgame.admin.system.dao.SysDeptDao;
 import jforgame.admin.system.vo.SysDeptVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -16,6 +18,9 @@ public class SysDeptService {
     private SysDeptDao sysDeptDao;
 
     public int save(SysDept record) {
+        if (record == null) {
+            return 0;
+        }
         sysDeptDao.save(record);
         return 1;
     }
@@ -25,12 +30,11 @@ public class SysDeptService {
     }
 
     public int delete(List<SysDept> records) {
+        if (CollectionUtils.isEmpty(records)) {
+            return 0;
+        }
         sysDeptDao.deleteAllInBatch(records);
         return 1;
-    }
-
-    public SysDept findById(Long id) {
-        return sysDeptDao.getById(id);
     }
 
     public List<SysDeptVo> findTree() {

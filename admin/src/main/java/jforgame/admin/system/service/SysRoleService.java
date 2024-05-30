@@ -31,16 +31,25 @@ public class SysRoleService {
     private SysMenuDao sysMenuDao;
 
     public int save(SysRole record) {
+        if (record == null) {
+            return 0;
+        }
         sysRoleDao.save(record);
         return 1;
     }
 
     public int delete(SysRole record) {
+        if (record == null) {
+            return 0;
+        }
         sysRoleDao.delete(record);
         return 1;
     }
 
     public int delete(List<SysRole> records) {
+        if (CollectionUtils.isEmpty(records)) {
+            return 0;
+        }
         for (SysRole record : records) {
             delete(record);
         }
@@ -96,10 +105,6 @@ public class SysRoleService {
             sysRoleMenuDao.save(record);
         }
         return 1;
-    }
-
-    public List<SysRole> findByName(String name) {
-        return new ArrayList<>();
     }
 
 }
