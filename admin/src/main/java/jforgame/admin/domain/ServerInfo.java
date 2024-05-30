@@ -1,10 +1,13 @@
 package jforgame.admin.domain;
 
+import lombok.Data;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity(name="t_server")
+@Data
 public class ServerInfo {
 
     @Id
@@ -26,37 +29,4 @@ public class ServerInfo {
     @Column
     private int merged;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getIp() {
-        return ip;
-    }
-
-    public Integer getPort() {
-        return port;
-    }
-
-    public int getHttpPort() {
-        return httpPort;
-    }
-
-    public int getMerged() {
-        return merged;
-    }
-
-    @Override
-    public String toString() {
-        return "ServerInfo{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", ip='" + ip + '\'' +
-                ", port=" + port +
-                '}';
-    }
 }

@@ -2,7 +2,7 @@
   "name": "GameAdmin",
   "version": "1.0.0",
   "description": "game admin project",
-  "author": "Hang",
+  "author": "jforgame",
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
@@ -62,12 +62,12 @@
     "webpack-merge": "^4.1.0"
   },
   "engines": {
-    "node": ">= 6.0.0",
-    "npm": ">= 3.0.0"
+    "node": ">= 15.14.0",
+    "npm": ">= 7.7.6"
   },
   "browserslist": [
-    "> 1%",
+    "> 2%",
     "last 2 versions",
-    "not ie <= 8"
+    "not dead"
   ]
 }

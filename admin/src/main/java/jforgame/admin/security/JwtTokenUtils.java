@@ -14,10 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 import java.util.*;
 
-/**
- * @Author: Kinson
- * @Date: 2019/10/26 10:54
- */
 public class JwtTokenUtils implements Serializable {
 
     private final static Logger logger = LoggerFactory.getLogger(JwtTokenUtils.class.getName());

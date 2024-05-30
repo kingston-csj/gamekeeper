@@ -11,10 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @Author: Kinson
- * @Date: 2019/10/26 10:46
- */
 public class SecurityUtils {
 
     /**

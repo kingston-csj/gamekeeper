@@ -124,7 +124,7 @@ public class SysUserService implements UserDetailsService {
         Set<String> perms = new HashSet<>();
         List<SysMenu> sysMenus = sysMenuService.findByUser(userName);
         for (SysMenu sysMenu : sysMenus) {
-            if (sysMenu.getPerms() != null && !"".equals(sysMenu.getPerms())) {
+            if (sysMenu.getPerms() != null && !sysMenu.getPerms().isEmpty()) {
                 perms.add(sysMenu.getPerms());
             }
         }

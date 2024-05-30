@@ -26,15 +26,15 @@ public enum CmdTypes {
 
     ;
 
-    int id;
+    final int id;
 
-    String name;
+    final String name;
 
-    String params;
+    final String params;
 
-    int type;
+    final int type;
 
-    Class clazz;
+    final Class clazz;
 
     public static final int TYPE_SERVER = 1;
     public static final int TYPE_PLAYER = 2;

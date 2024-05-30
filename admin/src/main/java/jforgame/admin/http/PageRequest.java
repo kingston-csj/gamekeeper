@@ -1,8 +1,13 @@
 package jforgame.admin.http;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.HashMap;
 import java.util.Map;
 
+@Getter
+@Setter
 public class PageRequest {
     /**
      * 当前页码
@@ -16,30 +21,6 @@ public class PageRequest {
      * 每页数量
      */
     private Map<String, ColumnFilter> columnFilters = new HashMap<String, ColumnFilter>();
-
-    public int getPageNum() {
-        return pageNum;
-    }
-
-    public void setPageNum(int pageNum) {
-        this.pageNum = pageNum;
-    }
-
-    public int getPageSize() {
-        return pageSize;
-    }
-
-    public void setPageSize(int pageSize) {
-        this.pageSize = pageSize;
-    }
-
-    public Map<String, ColumnFilter> getColumnFilters() {
-        return columnFilters;
-    }
-
-    public void setColumnFilters(Map<String, ColumnFilter> columnFilters) {
-        this.columnFilters = columnFilters;
-    }
 
     public ColumnFilter getColumnFilter(String name) {
         return columnFilters.get(name);

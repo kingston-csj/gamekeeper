@@ -1,5 +1,7 @@
 package jforgame.admin.gamecmd.model;
 
+import lombok.Data;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +10,7 @@ import java.util.Map;
  * Created by qizhao.liao on 2019/11/5.
  * 任务信息
  */
+@Data
 public class TaskInfo {
     private long id;
     private long startTime;
@@ -24,38 +27,6 @@ public class TaskInfo {
         this.startTime = System.currentTimeMillis();
         this.serverIds = serverIds;
         this.serverStatusMap = new HashMap<>();
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public long getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(long startTime) {
-        this.startTime = startTime;
-    }
-
-    public long getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(long endTime) {
-        this.endTime = endTime;
-    }
-
-    public Map<Integer, String> getServerStatusMap() {
-        return serverStatusMap;
-    }
-
-    public void setServerStatusMap(Map<Integer, String> serverStatusMap) {
-        this.serverStatusMap = serverStatusMap;
     }
 
 }

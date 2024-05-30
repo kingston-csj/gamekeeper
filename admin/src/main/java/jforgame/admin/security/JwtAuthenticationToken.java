@@ -5,10 +5,6 @@ import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
 
-/**
- * @Author: Kinson
- * @Date: 2019/10/26 10:47
- */
 public class JwtAuthenticationToken extends UsernamePasswordAuthenticationToken {
 
     private static final long serialVersionUID = 1L;

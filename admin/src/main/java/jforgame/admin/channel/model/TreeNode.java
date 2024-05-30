@@ -1,12 +1,13 @@
 package jforgame.admin.channel.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @Author: Kinson
- * @Date: 2019/10/24 20:06
- */
+@Setter
+@Getter
 public class TreeNode<E> {
 
     private E name;
@@ -20,27 +21,7 @@ public class TreeNode<E> {
         this.parent = parent;
     }
 
-    public E getName() {
-        return name;
-    }
-
-    public void setName(E name) {
-        this.name = name;
-    }
-
-    public TreeNode<E> getParent() {
-        return parent;
-    }
-
-    public void setParent(TreeNode<E> parent) {
-        this.parent = parent;
-    }
-
     public void addChild(TreeNode<E> child) {
         this.children.add(child);
-    }
-
-    public List<TreeNode<E>> getChildren() {
-        return children;
     }
 }

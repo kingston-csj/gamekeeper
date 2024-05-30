@@ -4,7 +4,7 @@ import jforgame.admin.domain.ServerInfo;
 import jforgame.admin.gamecmd.cmd.http.BanPlayerChatCmd;
 import jforgame.admin.gamecmd.cmd.http.BanPlayerLoginCmd;
 import jforgame.admin.gamecmd.cmd.http.QueryPlayerCmd;
-import jforgame.admin.gamecmd.vo.PlayerSimpleVo;
+import jforgame.admin.gamecmd.io.PlayerSimpleVo;
 import jforgame.admin.gamenode.service.ServerNodeService;
 import jforgame.admin.http.HttpResult;
 import jforgame.commons.JsonUtil;

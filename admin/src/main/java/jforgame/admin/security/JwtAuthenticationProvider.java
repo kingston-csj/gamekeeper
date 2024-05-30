@@ -8,10 +8,6 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
-/**
- * @Author: Kinson
- * @Date: 2019/10/26 11:08
- */
 public class JwtAuthenticationProvider extends DaoAuthenticationProvider {
 
     public JwtAuthenticationProvider(UserDetailsService userDetailsService) {

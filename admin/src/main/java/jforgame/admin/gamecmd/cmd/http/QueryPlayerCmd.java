@@ -2,7 +2,7 @@ package jforgame.admin.gamecmd.cmd.http;
 
 import jforgame.admin.domain.ServerInfo;
 import jforgame.admin.gamecmd.cmd.CmdTypes;
-import jforgame.admin.gamecmd.vo.PlayerSimpleVo;
+import jforgame.admin.gamecmd.io.PlayerSimpleVo;
 
 import java.util.ArrayList;
 import java.util.List;

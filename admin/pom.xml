@@ -40,19 +40,27 @@
 		<log4j.version>1.2.17</log4j.version>
 		<kaptcha.version>0.0.9</kaptcha.version>
 		<mysql.version>8.0.28</mysql.version>
+		<jforgame.version>1.1.0</jforgame.version>
+		<lombok.version>1.18.28</lombok.version>
 	</properties>
 
 	<dependencies>
 		<dependency>
 			<groupId>io.github.jforgame</groupId>
 			<artifactId>jforgame-commons</artifactId>
-			<version>1.1.0</version>
+			<version>${jforgame.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.github.penggle</groupId>
 			<artifactId>kaptcha</artifactId>
 			<version>2.3.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>${lombok.version}</version>
 		</dependency>
 
 		<!-- spring security -->

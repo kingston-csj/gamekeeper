@@ -1,4 +1,4 @@
-package jforgame.admin.gamecmd.request;
+package jforgame.admin.gamecmd.io;
 
 public class ReqBanPlayer {
 

@@ -1,17 +1,15 @@
 package jforgame.admin.payorder.domain;
 
+import lombok.Data;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.util.Date;
 
-/**
- * @Author: Kinson
- * @Date: 2019/10/25 17:17
- */
+@Data
 @Entity(name="t_payorder")
 public class PayOrder {
-
 
     @Id
     @Column
@@ -25,35 +23,4 @@ public class PayOrder {
 
     private Date createTime;
 
-    public String getTradeNo() {
-        return tradeNo;
-    }
-
-    public void setTradeNo(String tradeNo) {
-        this.tradeNo = tradeNo;
-    }
-
-    public String getChannelCode() {
-        return channelCode;
-    }
-
-    public void setChannelCode(String channelCode) {
-        this.channelCode = channelCode;
-    }
-
-    public int getMoney() {
-        return money;
-    }
-
-    public void setMoney(int money) {
-        this.money = money;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
 }

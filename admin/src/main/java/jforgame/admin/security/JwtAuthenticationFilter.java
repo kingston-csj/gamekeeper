@@ -10,10 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-/**
- * @Author: Kinson
- * @Date: 2019/10/26 10:45
- */
 public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
 
     @Autowired

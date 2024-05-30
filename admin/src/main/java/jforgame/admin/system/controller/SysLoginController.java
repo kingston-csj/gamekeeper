@@ -8,7 +8,6 @@ import jforgame.admin.security.JwtAuthenticationToken;
 import jforgame.admin.security.SecurityUtils;
 import jforgame.admin.system.service.SysUserService;
 import jforgame.admin.system.vo.LoginBean;
-import jforgame.admin.utils.IOUtils;
 import jforgame.admin.utils.PasswordUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -49,9 +48,9 @@ public class SysLoginController {
         // 保存到验证码到 session
         request.getSession().setAttribute(Constants.KAPTCHA_SESSION_KEY, text);
 
-        ServletOutputStream out = response.getOutputStream();
-        ImageIO.write(image, "jpg", out);
-        IOUtils.closeQuietly(out);
+        try (ServletOutputStream out = response.getOutputStream()) {
+            ImageIO.write(image, "jpg", out);
+        }
     }
 
     /**
@@ -71,7 +70,6 @@ public class SysLoginController {
 //		if(!captcha.equals(kaptcha)){
 //			return HttpResult.error("验证码不正确");
 //		}
-
         // 用户信息
         UserDetails user = userService.loadUserByUsername(username);
 
@@ -79,14 +77,12 @@ public class SysLoginController {
         if (user == null) {
             return HttpResult.error("账号不存在");
         }
-
         if (!PasswordUtils.matches("", password, user.getPassword())) {
 //            return HttpResult.error("密码不正确");
         }
 
         // 系统登录认证
         JwtAuthenticationToken token = SecurityUtils.login(request, username, password, authenticationManager);
-
         return HttpResult.ok(token);
     }
 
