@@ -67,7 +67,7 @@ public enum CmdTypes {
         this.clazz = clazz;
     }
 
-    private static Map<Integer, CmdTypes> cmds = new HashMap<>();
+    private static final Map<Integer, CmdTypes> cmds = new HashMap<>();
 
     static {
         for (CmdTypes cmd : CmdTypes.values()) {

@@ -1,7 +1,7 @@
 package jforgame.admin.monitor.service;
 
 import jforgame.admin.monitor.vo.ServerMonitorNode;
-import jforgame.admin.utils.DateUtil;
+import jforgame.commons.TimeUtil;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +26,7 @@ public class MonitorService {
         while (it.hasNext()) {
             ServerMonitorNode node = it.next().getValue();
             long diff = now - node.getHeartTime();
-            if (diff > 3 * DateUtil.ONE_MINUTE) {
+            if (diff > 3 * TimeUtil.MILLIS_PER_MINUTE) {
                 it.remove();
             }
         }

@@ -57,12 +57,12 @@ public class SysUserService implements UserDetailsService {
 
     @Transactional
     public int delete(List<SysUser> records) {
-        sysUserDao.deleteInBatch(records);
+        sysUserDao.deleteAllInBatch(records);
         return 1;
     }
 
     public SysUser findById(Long id) {
-        return sysUserDao.getOne(id);
+        return sysUserDao.getById(id);
     }
 
     public PageResult findPage(PageRequest request) {
@@ -111,7 +111,7 @@ public class SysUserService implements UserDetailsService {
         StringBuilder sb = new StringBuilder();
         for (Iterator<SysUserRole> iter = userRoles.iterator(); iter.hasNext(); ) {
             SysUserRole userRole = iter.next();
-            SysRole sysRole = sysRoleDao.getOne(userRole.getRoleId());
+            SysRole sysRole = sysRoleDao.getById(userRole.getRoleId());
             sb.append(sysRole.getRemark());
             if (iter.hasNext()) {
                 sb.append(", ");

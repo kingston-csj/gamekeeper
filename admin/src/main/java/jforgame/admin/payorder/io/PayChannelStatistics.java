@@ -1,4 +1,4 @@
-package jforgame.admin.payorder.vo;
+package jforgame.admin.payorder.io;
 
 import jforgame.admin.payorder.domain.PayOrderGroup;
 import lombok.Getter;

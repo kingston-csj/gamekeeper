@@ -11,10 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-/**
- * @Author: Kinson
- * @Date: 2019/10/28 16:15
- */
 @RestController
 @RequestMapping("/channel")
 public class ChannelController {

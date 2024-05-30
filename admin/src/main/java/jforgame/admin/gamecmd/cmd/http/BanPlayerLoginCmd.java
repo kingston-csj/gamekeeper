@@ -8,9 +8,9 @@ import java.util.Map;
 
 public class BanPlayerLoginCmd extends HttpAdminCmd {
 
-    private String uid;
+    private final String uid;
 
-    private String endTime;
+    private final String endTime;
 
     public BanPlayerLoginCmd(ServerInfo serverNode, String uid, String endTime) {
         super(serverNode);
@@ -26,8 +26,8 @@ public class BanPlayerLoginCmd extends HttpAdminCmd {
     @Override
     public String action() {
         Map<String, String> params = new HashMap<>();
-        params.put("uid", "" + uid);
-        params.put("endTime", "" + endTime);
+        params.put("uid", uid);
+        params.put("endTime", endTime);
         return httpPost(url(), params);
     }
 

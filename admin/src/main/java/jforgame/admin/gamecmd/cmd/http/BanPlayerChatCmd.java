@@ -26,8 +26,8 @@ public class BanPlayerChatCmd extends HttpAdminCmd {
     @Override
     public String action() {
         Map<String, String> params = new HashMap<>();
-        params.put("uid", "" + uid);
-        params.put("endTime", "" + endTime);
+        params.put("uid",  uid);
+        params.put("endTime", endTime);
         return httpPost(url(), params);
     }
 

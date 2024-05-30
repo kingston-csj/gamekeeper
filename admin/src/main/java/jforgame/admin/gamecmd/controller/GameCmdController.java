@@ -2,6 +2,7 @@ package jforgame.admin.gamecmd.controller;
 
 import jforgame.admin.gamecmd.cmd.CmdTypes;
 import jforgame.admin.gamecmd.executor.AsyncTaskManager;
+import jforgame.admin.gamecmd.io.ReqBanPlayer;
 import jforgame.admin.gamecmd.model.TaskInfo;
 import jforgame.admin.gamecmd.service.GameCmdService;
 import jforgame.admin.gamecmd.service.PlayerCmdService;
@@ -13,6 +14,7 @@ import jforgame.commons.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("gameCmd")
+@RequestMapping("/gameCmd")
 public class GameCmdController {
 
     @Autowired
@@ -38,10 +40,8 @@ public class GameCmdController {
 
 
     @RequestMapping(value = "/commands", method = RequestMethod.GET)
-    public @ResponseBody
-    List<CommandVo> queryCommands() {
+    public List<CommandVo> queryCommands() {
         List<CommandVo> vos = new ArrayList<>();
-
         for (CmdTypes cmd : CmdTypes.values()) {
             if (cmd.getType() != CmdTypes.TYPE_SERVER) {
                 continue;
@@ -55,10 +55,8 @@ public class GameCmdController {
         return vos;
     }
 
-
     @RequestMapping(value = "/exec", method = RequestMethod.POST)
-    public @ResponseBody
-    HttpResult exec(@RequestBody ReqExecCommand req) {
+    public HttpResult exec(@RequestBody ReqExecCommand req) {
         if (StringUtils.isEmpty(req.getSelectedServers())) {
             return HttpResult.error("无选中服务器");
         }
@@ -76,8 +74,7 @@ public class GameCmdController {
     }
 
     @GetMapping(value = "/simplyPlayer")
-    public @ResponseBody
-    HttpResult simplyPlayer(@RequestParam int serverId,
+    public HttpResult simplyPlayer(@RequestParam int serverId,
                             @RequestParam String sign) {
         List<PlayerSimpleVo> playerInfo = playerCmdService.queryPlayerSimple(serverId, sign);
         return HttpResult.ok(playerInfo);
@@ -86,16 +83,15 @@ public class GameCmdController {
     /**
      * 封号或禁言
      */
-    @RequestMapping(path = "banPlayer", method = RequestMethod.POST)
-    @ResponseBody
-    public HttpResult banPlayer(@RequestParam int serverId,
-                                @RequestParam int banType,
-                                @RequestParam long uid,
-                                @RequestParam long endTime) {
-        if (banType == 1) {
-            return playerCmdService.banLogin(serverId, uid, endTime);
+    @PostMapping(value = "/banPlayer")
+    public HttpResult banPlayer(@RequestBody ReqBanPlayer req) {
+        if (req.getServerId() <= 0) {
+            return HttpResult.error("无选择服务器");
         }
-        return playerCmdService.banChat(serverId, uid, endTime);
+        if (req.getBanType() == 1) {
+            return playerCmdService.banLogin(req.getServerId(), req.getUid(), req.getEndTime());
+        }
+        return playerCmdService.banChat(req.getServerId(), req.getUid(), req.getEndTime());
     }
 
     /**
@@ -105,8 +101,7 @@ public class GameCmdController {
      * @return
      */
     @RequestMapping(value = "/hotSwap2", method = RequestMethod.POST)
-    public @ResponseBody
-    HttpResult asyncHotSwap(@RequestParam("selectedServers") String selectedServers) {
+    public HttpResult asyncHotSwap(@RequestParam("selectedServers") String selectedServers) {
         String[] params = selectedServers.split(";");
         List<Integer> servers = new ArrayList<>(params.length);
         for (String param : params) {
@@ -122,8 +117,7 @@ public class GameCmdController {
      * @return
      */
     @RequestMapping(value = "/getTaskStatus", method = RequestMethod.GET)
-    public @ResponseBody
-    HttpResult getTaskStatus(@RequestParam("taskId") long taskId) {
+    public HttpResult getTaskStatus(@RequestParam("taskId") long taskId) {
         TaskInfo taskInfo = asyncTaskManager.getTaskInfo(taskId);
         return HttpResult.ok(JsonUtil.object2String(taskInfo));
     }

@@ -25,7 +25,8 @@
         <el-table-column
           label="参数" width="400" align="left">
           <template slot-scope="scope">
-            <el-input placeholder="指令参数" @change="onCmdParamChanged($event, scope.row, scope.$index)"></el-input> 
+            <!-- <el-input placeholder="指令参数" @change="onCmdParamChanged($event, scope.row, scope.$index)"></el-input>  -->
+            <el-input  placeholder="指令参数" v-model="scope.row.real_params"></el-input>
          </template>
 
         </el-table-column>
@@ -33,7 +34,7 @@
           width="120" align="left">
           <template slot-scope="scope">
              <el-button type="primary" size="small" :disabled = "btnDisabled"  
-             @click="cmdType=scope.row.type;submitClick()">执行</el-button>
+             @click="cmdType=scope.row.type;cmdParam=scope.row.real_params;submitClick()">执行</el-button>
           </template>
         </el-table-column>
     </el-table>
@@ -64,7 +65,6 @@
         loading:false,
         cmdParam:'',
         cmdType:1,
-        params:[],
       };
     },
     methods: {
@@ -84,16 +84,12 @@
         })
       },
 
-      onCmdParamChanged(param, row) {
-          this.params[row.type] = param;
-      },
-
       submitClick() {
         this.btnDisabled = true;
         this.$api.server.execCommand({
           selectedServers: this.checkedServers.join(";"),
           type:this.cmdType,
-          params:this.params[this.cmdType]
+          params:this.cmdParam
         }).then((res) => {
           this.loading = false;
           this.btnDisabled = false;

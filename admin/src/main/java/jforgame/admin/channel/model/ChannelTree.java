@@ -8,10 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * @Author: Kinson
- * @Date: 2019/10/24 22:12
- */
 public class ChannelTree implements Tree {
 
     private Map<String, TreeNode<String>> channelNodes = new HashMap<>();

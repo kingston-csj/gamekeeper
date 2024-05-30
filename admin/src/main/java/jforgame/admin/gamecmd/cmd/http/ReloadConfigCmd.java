@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class ReloadConfigCmd extends HttpServerAdminCmd {
 
-    private String tableName;
+    private final String tableName;
 
     public ReloadConfigCmd(ServerInfo serverNode, String tableName) {
         super(serverNode, tableName);

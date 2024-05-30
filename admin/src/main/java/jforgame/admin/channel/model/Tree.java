@@ -2,10 +2,6 @@ package jforgame.admin.channel.model;
 
 import java.util.List;
 
-/**
- * @Author: Kinson
- * @Date: 2019/10/24 20:10
- */
 public interface Tree {
 
     /**

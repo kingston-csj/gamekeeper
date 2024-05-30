@@ -14,7 +14,6 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
@@ -107,43 +106,4 @@ public class HttpClientConfig {
         return template;
     }
 
-    public Integer getMaxTotal() {
-        return maxTotal;
-    }
-
-    public void setMaxTotal(Integer maxTotal) {
-        this.maxTotal = maxTotal;
-    }
-
-    public Integer getDefaultMaxPerRoute() {
-        return defaultMaxPerRoute;
-    }
-
-    public void setDefaultMaxPerRoute(Integer defaultMaxPerRoute) {
-        this.defaultMaxPerRoute = defaultMaxPerRoute;
-    }
-
-    public Integer getConnectTimeout() {
-        return connectTimeout;
-    }
-
-    public void setConnectTimeout(Integer connectTimeout) {
-        this.connectTimeout = connectTimeout;
-    }
-
-    public Integer getConnectionRequestTimeout() {
-        return connectionRequestTimeout;
-    }
-
-    public void setConnectionRequestTimeout(Integer connectionRequestTimeout) {
-        this.connectionRequestTimeout = connectionRequestTimeout;
-    }
-
-    public Integer getSocketTimeout() {
-        return socketTimeout;
-    }
-
-    public void setSocketTimeout(Integer socketTimeout) {
-        this.socketTimeout = socketTimeout;
-    }
 }

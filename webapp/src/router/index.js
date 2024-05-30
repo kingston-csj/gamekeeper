@@ -73,7 +73,7 @@ function addDynamicMenuAndRoutes(userName, to, from) {
   // 处理IFrame嵌套页面
   handleIFrameUrl(to.path)
   if(store.state.app.menuRouteLoaded) {
-    console.log('动态菜单和路由已经存在.')
+    // console.log('动态菜单和路由已经存在.')
     return
   }
   api.menu.findNavTree({'userName':userName})
@@ -179,7 +179,7 @@ function addDynamicRoutes (menuList = [], routes = []) {
    addDynamicRoutes(temp, routes)
  } else {
    console.log(routes)
-   console.log('动态路由加载完成.')
+  //  console.log('动态路由加载完成.')
  }
  return routes
 }

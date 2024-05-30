@@ -25,12 +25,12 @@ public class SysDeptService {
     }
 
     public int delete(List<SysDept> records) {
-        sysDeptDao.deleteInBatch(records);
+        sysDeptDao.deleteAllInBatch(records);
         return 1;
     }
 
     public SysDept findById(Long id) {
-        return sysDeptDao.getOne(id);
+        return sysDeptDao.getById(id);
     }
 
     public List<SysDeptVo> findTree() {

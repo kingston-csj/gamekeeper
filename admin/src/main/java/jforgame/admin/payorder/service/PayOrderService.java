@@ -5,7 +5,7 @@ import jforgame.admin.channel.service.ChannelService;
 import jforgame.admin.payorder.dao.PayOrderDao;
 import jforgame.admin.payorder.domain.PayOrder;
 import jforgame.admin.payorder.domain.PayOrderGroup;
-import jforgame.admin.payorder.vo.PayChannelStatistics;
+import jforgame.admin.payorder.io.PayChannelStatistics;
 import jforgame.admin.system.model.RoleKinds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -25,10 +25,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * @Author: Kinson
- * @Date: 2019/10/25 17:08
- */
 @Service
 public class PayOrderService {
 
@@ -73,7 +69,7 @@ public class PayOrderService {
             List<Predicate> predicateList = new ArrayList<>();
             predicateList.add(cb.greaterThanOrEqualTo(root.get("createTime").as(Date.class), new Date(startTime)));
             predicateList.add(cb.lessThanOrEqualTo(root.get("createTime").as(Date.class), new Date(endTime)));
-            if (channels.size() > 0) {
+            if (!channels.isEmpty()) {
                 Path<Object> path = root.get("channelCode");
                 CriteriaBuilder.In<Object> in = cb.in(path);
                 for (String channel : channels) {
@@ -82,7 +78,7 @@ public class PayOrderService {
                 predicateList.add(cb.and(cb.and(in)));
             }
 
-            return cb.and(predicateList.toArray(new Predicate[predicateList.size()]));
+            return cb.and(predicateList.toArray(new Predicate[0]));
         };
     }
 

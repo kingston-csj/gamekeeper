@@ -30,7 +30,7 @@ public class SysDictService {
     }
 
     public int delete(List<SysDict> records) {
-        sysDictDao.deleteInBatch(records);
+        sysDictDao.deleteAllInBatch(records);
         return 1;
     }
 
@@ -56,7 +56,7 @@ public class SysDictService {
     }
 
     public SysDict findById(Long id) {
-        return sysDictDao.getOne(id);
+        return sysDictDao.getById(id);
     }
 
 

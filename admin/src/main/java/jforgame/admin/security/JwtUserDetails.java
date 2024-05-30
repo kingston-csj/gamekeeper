@@ -1,6 +1,7 @@
 package jforgame.admin.security;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -10,10 +11,11 @@ public class JwtUserDetails implements UserDetails {
 
     private static final long serialVersionUID = 1L;
 
-    private String username;
-    private String password;
-    private String salt;
-    private Collection<? extends GrantedAuthority> authorities;
+    private final String username;
+    private final String password;
+    @Getter
+    private final String salt;
+    private final Collection<? extends GrantedAuthority> authorities;
 
     public JwtUserDetails(String username, String password, String salt, Collection<? extends GrantedAuthority> authorities) {
         this.username = username;
@@ -31,10 +33,6 @@ public class JwtUserDetails implements UserDetails {
     @Override
     public String getPassword() {
         return password;
-    }
-
-    public String getSalt() {
-        return salt;
     }
 
     @Override

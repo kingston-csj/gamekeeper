@@ -1,5 +1,6 @@
 package jforgame.admin.utils;
 
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 
 public class PasswordEncoder {
@@ -10,8 +11,8 @@ public class PasswordEncoder {
     private final static String MD5 = "MD5";
     private final static String SHA = "SHA";
 
-    private Object salt;
-    private String algorithm;
+    private final Object salt;
+    private final String algorithm;
 
     public PasswordEncoder(Object salt) {
         this(salt, MD5);
@@ -32,7 +33,7 @@ public class PasswordEncoder {
         try {
             MessageDigest md = MessageDigest.getInstance(algorithm);
             // 加密后的字符串
-            result = byteArrayToHexString(md.digest(mergePasswordAndSalt(rawPass).getBytes("utf-8")));
+            result = byteArrayToHexString(md.digest(mergePasswordAndSalt(rawPass).getBytes(StandardCharsets.UTF_8)));
         } catch (Exception ex) {
         }
         return result;
@@ -45,10 +46,8 @@ public class PasswordEncoder {
      * @return
      */
     public boolean matches(String encPass, String rawPass) {
-        String pass1 = "" + encPass;
         String pass2 = encode(rawPass);
-
-        return pass1.equals(pass2);
+        return encPass.equals(pass2);
     }
 
     private String mergePasswordAndSalt(String password) {
@@ -59,7 +58,7 @@ public class PasswordEncoder {
         if ((salt == null) || "".equals(salt)) {
             return password;
         } else {
-            return password + "{" + salt.toString() + "}";
+            return password + "{" + salt + "}";
         }
     }
 
@@ -71,11 +70,11 @@ public class PasswordEncoder {
      * @return 16进制字串
      */
     private String byteArrayToHexString(byte[] b) {
-        StringBuffer resultSb = new StringBuffer();
-        for (int i = 0; i < b.length; i++) {
-            resultSb.append(byteToHexString(b[i]));
+        StringBuilder sb = new StringBuilder();
+        for (byte value : b) {
+            sb.append(byteToHexString(value));
         }
-        return resultSb.toString();
+        return sb.toString();
     }
 
     /**

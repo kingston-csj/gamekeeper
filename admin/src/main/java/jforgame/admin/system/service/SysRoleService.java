@@ -48,7 +48,7 @@ public class SysRoleService {
     }
 
     public SysRole findById(Long id) {
-        return sysRoleDao.getOne(id);
+        return sysRoleDao.getById(id);
     }
 
     public PageResult findPage(PageRequest request) {
@@ -77,7 +77,7 @@ public class SysRoleService {
     }
 
     public List<SysMenu> findRoleMenus(Long roleId) {
-        SysRole sysRole = sysRoleDao.getOne(roleId);
+        SysRole sysRole = sysRoleDao.getById(roleId);
         if (RoleKinds.ADMIN.equalsIgnoreCase(sysRole.getName())) {
             // 如果是超级管理员，返回全部
             return sysMenuDao.findAll();
@@ -92,7 +92,6 @@ public class SysRoleService {
         }
         Long roleId = records.get(0).getRoleId();
         sysRoleMenuDao.deleteByRoleId(roleId);
-//        sysRoleMenuDao.flush();
         for (SysRoleMenu record : records) {
             sysRoleMenuDao.save(record);
         }

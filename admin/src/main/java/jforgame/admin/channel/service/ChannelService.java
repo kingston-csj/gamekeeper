@@ -12,10 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * @Author: Kinson
- * @Date: 2019/10/24 19:57
- */
+
 @Service
 public class ChannelService {
 

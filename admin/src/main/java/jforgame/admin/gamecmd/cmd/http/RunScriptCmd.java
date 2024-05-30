@@ -2,13 +2,14 @@ package jforgame.admin.gamecmd.cmd.http;
 
 import jforgame.admin.domain.ServerInfo;
 import jforgame.admin.gamecmd.cmd.CmdTypes;
+import org.springframework.util.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class RunScriptCmd extends HttpServerAdminCmd {
 
-    private String script;
+    private final String script;
 
     public RunScriptCmd(ServerInfo serverNode, String script) {
         super(serverNode, script);
@@ -23,7 +24,10 @@ public class RunScriptCmd extends HttpServerAdminCmd {
     @Override
     public String action() {
         Map<String, String> params = new HashMap<>();
-        params.put("script", script);
+        if (!StringUtils.hasLength(script)) {
+            return "Exception:IllegalArgument";
+        }
+        params.put("command", script);
         return httpPost(url(), params);
     }
 

@@ -8,10 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.Date;
 import java.util.List;
 
-/**
- * @Author: Kinson
- * @Date: 2019/10/25 17:19
- */
 public interface PayOrderDao extends JpaRepository<PayOrder, String> , JpaSpecificationExecutor<PayOrder> {
 
 

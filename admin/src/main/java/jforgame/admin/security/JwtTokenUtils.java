@@ -1,9 +1,9 @@
 package jforgame.admin.security;
 
-import jforgame.admin.utils.DateUtil;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import jforgame.commons.TimeUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
@@ -12,7 +12,12 @@ import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 public class JwtTokenUtils implements Serializable {
 
@@ -39,7 +44,7 @@ public class JwtTokenUtils implements Serializable {
     /**
      * 有效期12小时
      */
-    private static final long EXPIRE_TIME = 31 * DateUtil.ONE_DAY;
+    private static final long EXPIRE_TIME = 12 * TimeUtil.MILLIS_PER_HOUR;
 
     /**
      * 生成令牌

@@ -44,7 +44,7 @@ public class SysMenuService {
     }
 
     public SysMenu findById(Long id) {
-        return sysMenuDao.getOne(id);
+        return sysMenuDao.getById(id);
     }
 
     public PageResult findPage(PageRequest request) {

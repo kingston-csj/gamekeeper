@@ -4,11 +4,14 @@ import jforgame.admin.core.SpringContext;
 import jforgame.admin.domain.ServerInfo;
 import jforgame.admin.gamecmd.cmd.AdminCmd;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public abstract class HttpAdminCmd implements AdminCmd {
@@ -24,7 +27,7 @@ public abstract class HttpAdminCmd implements AdminCmd {
      * @return
      */
     public String url() {
-        return String.format("http://%s/serverController/%s", getGameHost(serverNode), httpMethod());
+        return String.format("http://%s/admin/%s", getGameHost(serverNode), httpMethod());
     }
 
     public abstract String httpMethod();
@@ -40,13 +43,9 @@ public abstract class HttpAdminCmd implements AdminCmd {
     }
 
     protected String httpPost(String url, Map<String, String> params) {
-        MultiValueMap<String, String> requestMap = new LinkedMultiValueMap<>();
-
-        for (Map.Entry<String, String> entry : params.entrySet()) {
-            requestMap.add(entry.getKey(), entry.getValue());
-
-        }
-        HttpEntity requestEntity = new HttpEntity(requestMap, null);
+        HttpHeaders headers = new HttpHeaders();
+        HttpEntity requestEntity = new HttpEntity(params, headers);
+        headers.setContentType(MediaType.APPLICATION_JSON);
         RestTemplate restTemplate = SpringContext.getBean(RestTemplate.class);
         return restTemplate.postForObject(url, requestEntity, String.class);
     }

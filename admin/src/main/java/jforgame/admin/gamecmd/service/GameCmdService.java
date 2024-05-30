@@ -26,6 +26,7 @@ public class GameCmdService {
     private AsyncTaskManager asyncTaskManager;
 
     public String execServerCmd(List<Integer> servers, int type, String params) {
+        Class clazz = CmdTypes.queryCmd(type).getClazz();
         Map<Integer, String> result = new HashMap<>();
         for (Integer serverId : servers) {
             ServerInfo server = serversManager.getServerNodeBy(serverId);
@@ -33,7 +34,6 @@ public class GameCmdService {
                 continue;
             }
             try {
-                Class clazz = CmdTypes.queryCmd(type).getClazz();
                 Constructor constructor = clazz.getConstructor(ServerInfo.class, String.class);
                 HttpServerAdminCmd adminCmd = (HttpServerAdminCmd) constructor.newInstance(server, params);
                 result.put(serverId, (String) adminCmd.action());
