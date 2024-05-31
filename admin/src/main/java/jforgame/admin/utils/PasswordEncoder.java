@@ -25,8 +25,8 @@ public class PasswordEncoder {
 
     /**
      * 密码加密
-     * @param rawPass
-     * @return
+     * @param rawPass 原始字符串
+     * @return 加密后的字符串
      */
     public String encode(String rawPass) {
         String result = null;

@@ -33,8 +33,4 @@ public class JwtAuthenticationToken extends UsernamePasswordAuthenticationToken 
         this.token = token;
     }
 
-    public static long getSerialversionuid() {
-        return serialVersionUID;
-    }
-
 }

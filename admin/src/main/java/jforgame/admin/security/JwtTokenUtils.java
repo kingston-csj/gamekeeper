@@ -11,7 +11,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -19,11 +18,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public class JwtTokenUtils implements Serializable {
+public class JwtTokenUtils   {
 
     private final static Logger logger = LoggerFactory.getLogger(JwtTokenUtils.class.getName());
-
-    private static final long serialVersionUID = 1L;
 
     /**
      * 用户名称
@@ -93,7 +90,6 @@ public class JwtTokenUtils implements Serializable {
      * @return 用户名
      */
     public static Authentication getAuthenticationFromToken(HttpServletRequest request) {
-        Authentication authentication = null;
         // 获取请求携带的令牌
         String token = JwtTokenUtils.getToken(request);
         if (token != null) {
@@ -114,21 +110,21 @@ public class JwtTokenUtils implements Serializable {
                 refreshToken(token);
                 Object authors = claims.get(AUTHORITIES);
                 List<GrantedAuthority> authorities = new ArrayList<>();
-                if (authors != null && authors instanceof List) {
+                if (authors instanceof List) {
                     for (Object object : (List) authors) {
                         authorities.add(new GrantedAuthorityImpl((String) ((Map) object).get("authority")));
                     }
                 }
-                authentication = new JwtAuthenticationToken(username, null, authorities, token);
+                return new JwtAuthenticationToken(username, null, authorities, token);
             } else {
                 if (validateToken(token, SecurityUtils.getUsername())) {
                     // 如果上下文中Authentication非空，且请求令牌合法，直接返回当前登录认证信息
-                    authentication = SecurityUtils.getAuthentication();
                     refreshToken(token);
+                    return SecurityUtils.getAuthentication();
                 }
             }
         }
-        return authentication;
+        return null;
     }
 
     /**
@@ -169,11 +165,11 @@ public class JwtTokenUtils implements Serializable {
      * @return
      */
     public static void refreshToken(String token) {
-        Date expirationDate = new Date(System.currentTimeMillis() + EXPIRE_TIME);
-        Claims claims = getClaimsFromToken(token);
-        if (claims != null) {
-            claims.setExpiration(expirationDate);
-        }
+//        Date expirationDate = new Date(System.currentTimeMillis() + EXPIRE_TIME);
+//        Claims claims = getClaimsFromToken(token);
+//        if (claims != null) {
+//            claims.setExpiration(expirationDate);
+//        }
     }
 
     /**
@@ -200,13 +196,7 @@ public class JwtTokenUtils implements Serializable {
      * @return
      */
     public static String getToken(HttpServletRequest request) {
-        String token = request.getHeader("Authorization");
-        String tokenHead = "Bearer ";
-        if (token == null) {
-            token = request.getHeader("token");
-        } else if (token.contains(tokenHead)) {
-            token = token.substring(tokenHead.length());
-        }
+        String token = request.getHeader("token");
         if ("".equals(token)) {
             token = null;
         }

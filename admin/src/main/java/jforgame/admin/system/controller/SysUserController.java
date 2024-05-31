@@ -64,7 +64,7 @@ public class SysUserController {
         return HttpResult.ok(sysUserService.loadUserByUsername(name));
     }
 
-    @PreAuthorize("hasAuthority('sys:user:view')")
+//    @PreAuthorize("hasAuthority('sys:user:view')")
     @GetMapping(value = "/findPermissions")
     public HttpResult findPermissions(@RequestParam String name) {
         return HttpResult.ok(sysUserService.findPermissions(name));
@@ -83,8 +83,8 @@ public class SysUserController {
     }
 
 
-    @RequestMapping("/findPermissions")
-    public String findPermissions() {
+    @RequestMapping("/findPermissions2")
+    public String findPermissions2() {
         List<String> result = SecurityUtils.getAuth();
         return String.join(";", result);
     }

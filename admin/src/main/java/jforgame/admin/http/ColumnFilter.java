@@ -1,5 +1,10 @@
 package jforgame.admin.http;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class ColumnFilter {
 
     /**
@@ -11,20 +16,5 @@ public class ColumnFilter {
      */
     private String value;
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
-    }
 
 }

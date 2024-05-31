@@ -46,13 +46,13 @@ export default {
   },
   methods: {
     handleopen() {
-      console.log('handleopen')
+      // console.log('handleopen')
     },
     handleclose() {
-      console.log('handleclose')
+      // console.log('handleclose')
     },
     handleselect(a, b) {
-      console.log('handleselect')
+      // console.log('handleselect')
     },
     // 路由操作处理
     handleRoute (route) {
@@ -89,7 +89,6 @@ export default {
     top: 60px;
     bottom: 0px;
     text-align: left;
-    // background-color: #2968a30c;
   }
   .logo {
     position:absolute;

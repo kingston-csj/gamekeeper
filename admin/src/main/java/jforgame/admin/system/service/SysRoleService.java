@@ -107,4 +107,8 @@ public class SysRoleService {
         return 1;
     }
 
+    public List<SysRole> findByName(String name) {
+        return new ArrayList<>();
+    }
+
 }

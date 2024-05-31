@@ -15,6 +15,7 @@ public class SecurityUtils {
 
     /**
      * 系统登录认证
+     *
      * @param request
      * @param username
      * @param password
@@ -30,11 +31,13 @@ public class SecurityUtils {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         // 生成令牌并返回给客户端
         token.setToken(JwtTokenUtils.generateToken(authentication));
+        System.out.println("token==" + token);
         return token;
     }
 
     /**
      * 获取令牌进行认证
+     *
      * @param request
      */
     public static void checkAuthentication(HttpServletRequest request) {
@@ -46,15 +49,18 @@ public class SecurityUtils {
 
     /**
      * 获取当前用户名
+     *
      * @return
      */
     public static String getUsername() {
         String username = null;
         Authentication authentication = getAuthentication();
-        if(authentication != null) {
+        if (authentication != null) {
             Object principal = authentication.getPrincipal();
-            if(principal instanceof UserDetails) {
+            if (principal instanceof UserDetails) {
                 username = ((UserDetails) principal).getUsername();
+            } else if (principal instanceof String) {
+                username = principal.toString();
             }
         }
         return username;
@@ -62,13 +68,14 @@ public class SecurityUtils {
 
     /**
      * 获取用户名
+     *
      * @return
      */
     public static String getUsername(Authentication authentication) {
         String username = null;
-        if(authentication != null) {
+        if (authentication != null) {
             Object principal = authentication.getPrincipal();
-            if(principal instanceof UserDetails) {
+            if (principal instanceof UserDetails) {
                 username = ((UserDetails) principal).getUsername();
             }
         }
@@ -77,10 +84,11 @@ public class SecurityUtils {
 
     /**
      * 获取当前登录信息
+     *
      * @return
      */
     public static Authentication getAuthentication() {
-        if(SecurityContextHolder.getContext() == null) {
+        if (SecurityContextHolder.getContext() == null) {
             return null;
         }
         return SecurityContextHolder.getContext().getAuthentication();

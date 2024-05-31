@@ -53,15 +53,14 @@ public class PayOrderService {
             children = channelService.queryChildChannel(channel.getChannelNo());
         }
         // 超级管理员可以查看所有渠道
-        if (children.size() <= 0 && !isAdmin) {
+        if (children.isEmpty() && !isAdmin) {
             return null;
         }
         page = Math.abs(page);
         pageSize = Math.abs(pageSize);
         pageSize = Math.min(pageSize, 100);
         Pageable pageRequest =  PageRequest.of(page - 1, pageSize);
-        Page<PayOrder> orders = payOrderDao.findAll(createQuerySpecification(startTime, endTime, children), pageRequest);
-        return orders;
+        return payOrderDao.findAll(createQuerySpecification(startTime, endTime, children), pageRequest);
     }
 
     private Specification<PayOrder> createQuerySpecification(long startTime, long endTime, List<String> channels) {
@@ -115,7 +114,8 @@ public class PayOrderService {
             if (!isAdmin && !children.contains(channelNo)) {
                 continue;
             }
-            int prev = channelMap.getOrDefault(channel, 0);
+            assert channel != null;
+            int prev = channelMap.getOrDefault(channel.getChannelNo(), 0);
             channelMap.put(channelNo, prev + money);
             moneySum += money;
         }

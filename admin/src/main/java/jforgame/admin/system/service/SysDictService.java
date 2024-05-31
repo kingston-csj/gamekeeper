@@ -65,4 +65,7 @@ public class SysDictService {
         return pageResult;
     }
 
+    public List<SysDict> findByLabel(String label) {
+        return new ArrayList<>();
+    }
 }
