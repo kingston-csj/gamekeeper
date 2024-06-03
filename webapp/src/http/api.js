@@ -14,6 +14,8 @@ import * as server from './moudules/server'
 import * as player from './moudules/player'
 import * as pay from './moudules/pay'
 
+import * as oss from './moudules/oss'
+
 
 // 默认全部导出
 export default {
@@ -26,5 +28,6 @@ export default {
     log,
     server,
     player,
-    pay
+    pay,
+    oss
 }

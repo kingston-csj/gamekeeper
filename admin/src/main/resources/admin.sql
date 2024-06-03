@@ -26,8 +26,6 @@ CREATE TABLE `sys_dept`  (
   `name` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '机构名称',
   `parent_id` bigint(0) NULL DEFAULT NULL COMMENT '上级机构ID，一级机构为0',
   `order_num` int(0) NULL DEFAULT NULL COMMENT '排序',
-  `create_by` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建人',
-  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 37 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '机构管理' ROW_FORMAT = Dynamic;
 
@@ -60,8 +58,6 @@ CREATE TABLE `sys_dict`  (
   `type` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '类型',
   `description` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT '描述',
   `sort` decimal(10, 0) NOT NULL COMMENT '排序（升序）',
-  `create_by` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建人',
-  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   `remarks` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '备注信息',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '字典表' ROW_FORMAT = Dynamic;
@@ -85,8 +81,6 @@ CREATE TABLE `sys_menu`  (
   `type` int(0) NULL DEFAULT NULL COMMENT '类型   0：目录   1：菜单   2：按钮',
   `icon` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '菜单图标',
   `order_num` int(0) NULL DEFAULT NULL COMMENT '排序',
-  `create_by` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建人',
-  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 45 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '菜单管理' ROW_FORMAT = Dynamic;
 
@@ -136,8 +130,6 @@ CREATE TABLE `sys_role`  (
   `id` bigint(0) NOT NULL AUTO_INCREMENT COMMENT '编号',
   `name` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '角色名称',
   `remark` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '备注',
-  `create_by` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建人',
-  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '角色管理' ROW_FORMAT = Dynamic;
 
@@ -157,8 +149,6 @@ CREATE TABLE `sys_role_dept`  (
   `id` bigint(0) NOT NULL AUTO_INCREMENT COMMENT '编号',
   `role_id` bigint(0) NULL DEFAULT NULL COMMENT '角色ID',
   `dept_id` bigint(0) NULL DEFAULT NULL COMMENT '机构ID',
-  `create_by` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建人',
-  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '角色机构' ROW_FORMAT = Dynamic;
 
@@ -170,8 +160,6 @@ CREATE TABLE `sys_role_menu`  (
   `id` bigint(0) NOT NULL AUTO_INCREMENT COMMENT '编号',
   `role_id` bigint(0) NULL DEFAULT NULL COMMENT '角色ID',
   `menu_id` bigint(0) NULL DEFAULT NULL COMMENT '菜单ID',
-  `create_by` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建人',
-  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 841 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '角色菜单' ROW_FORMAT = Dynamic;
 
@@ -232,8 +220,6 @@ CREATE TABLE `sys_user`  (
   `mobile` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '手机号',
   `status` tinyint(0) NULL DEFAULT NULL COMMENT '状态  0：禁用   1：正常',
   `dept_id` bigint(0) NULL DEFAULT NULL COMMENT '机构ID',
-  `create_by` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建人',
-  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `name`(`name`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 38 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '用户管理' ROW_FORMAT = Dynamic;
@@ -258,8 +244,6 @@ CREATE TABLE `sys_user_role`  (
   `id` bigint(0) NOT NULL AUTO_INCREMENT COMMENT '编号',
   `user_id` bigint(0) NULL DEFAULT NULL COMMENT '用户ID',
   `role_id` bigint(0) NULL DEFAULT NULL COMMENT '角色ID',
-  `create_by` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建人',
-  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 72 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '用户角色' ROW_FORMAT = Dynamic;
 
@@ -297,28 +281,19 @@ INSERT INTO `sys_user_role` VALUES (69, 22, 8, NULL, NULL);
 INSERT INTO `sys_user_role` VALUES (70, 22, 2, NULL, NULL);
 INSERT INTO `sys_user_role` VALUES (71, 28, 2, NULL, NULL);
 
--- ----------------------------
--- Table structure for sys_user_token
--- ----------------------------
-DROP TABLE IF EXISTS `sys_user_token`;
-CREATE TABLE `sys_user_token`  (
-  `id` bigint(0) NOT NULL AUTO_INCREMENT COMMENT '编号',
-  `user_id` bigint(0) NOT NULL,
-  `token` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL COMMENT 'token',
-  `expire_time` datetime(0) NULL DEFAULT NULL COMMENT '过期时间',
-  `create_by` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建人',
-  `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
-  PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `token`(`token`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '用户Token' ROW_FORMAT = Dynamic;
+DROP TABLE IF EXISTS `t_oss`;
+CREATE TABLE `t_oss`  (
+  `id` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci ,
+  `type` int  NULL DEFAULT NULL,
+   `createTime` BIGINT NULL DEFAULT NULL ,
+   `size` int  NULL DEFAULT 0 ,
+  `width` int  NULL DEFAULT 0 ,
+  `height` int  NULL DEFAULT 0,
+  `url` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL ,
+  `name` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL ,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 37 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = Dynamic;
 
--- ----------------------------
--- Records of sys_user_token
--- ----------------------------
-INSERT INTO `sys_user_token` VALUES (1, 1, 'ee02ead2c1e3a113f82accafaf878b69', '2018-12-27 23:08:41', NULL, NULL);
-INSERT INTO `sys_user_token` VALUES (2, 17, '3d32077ccddb6eb2c4302feb93765cd0', '2018-09-24 05:11:17', NULL, NULL);
-INSERT INTO `sys_user_token` VALUES (3, 18, 'a939ac41fd309ca785485b4135b8baad', '2018-09-24 05:10:36', NULL, NULL);
-INSERT INTO `sys_user_token` VALUES (4, 33, '605dbcfa2277cbca3b2a124974816080', '2018-11-04 21:42:49', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for t_channel

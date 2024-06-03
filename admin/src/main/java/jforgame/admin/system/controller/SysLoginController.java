@@ -46,6 +46,7 @@ public class SysLoginController {
         BufferedImage image = producer.createImage(text);
         // 保存到验证码到 session
         request.getSession().setAttribute(Constants.KAPTCHA_SESSION_KEY, text);
+        System.out.println("设置sessionid:" + request.getSession().getId());
 
         try (ServletOutputStream out = response.getOutputStream()) {
             ImageIO.write(image, "jpg", out);
@@ -63,8 +64,9 @@ public class SysLoginController {
 
         // 从session中获取之前保存的验证码跟前台传来的验证码进行匹配
         Object kaptcha = request.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY);
+        System.out.println("获取sessionid:" + request.getSession().getId());
         if (kaptcha == null) {
-            return HttpResult.error("验证码已失效");
+//            return HttpResult.error("验证码已失效");
         }
 //		if(!captcha.equals(kaptcha)){
 //			return HttpResult.error("验证码不正确");

@@ -23,7 +23,7 @@ public class ReloadConfigCmd extends HttpServerAdminCmd {
     @Override
     public String action() {
         Map<String, String> params = new HashMap<>();
-        params.put("tableName", tableName);
+        params.put("command", tableName);
         return httpPost(url(), params);
     }
 
