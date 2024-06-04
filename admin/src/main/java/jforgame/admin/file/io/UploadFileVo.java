@@ -1,4 +1,4 @@
-package jforgame.admin.file;
+package jforgame.admin.file.io;
 
 import lombok.Builder;
 import lombok.Data;

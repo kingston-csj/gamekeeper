@@ -1,6 +1,6 @@
 package jforgame.admin.oss;
 
-import jforgame.admin.file.UploadFileVo;
+import jforgame.admin.file.io.UploadFileVo;
 import jforgame.commons.Pair;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

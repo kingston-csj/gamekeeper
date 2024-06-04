@@ -1,5 +1,6 @@
 package jforgame.admin.security;
 
+import jforgame.admin.core.ServerAppConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,6 +23,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private UserDetailsService userDetailsService;
 
+	@Autowired
+	ServerAppConfig serverAppConfig;
+
 	@Override
 	public void configure(AuthenticationManagerBuilder auth) throws Exception {
 		// 使用自定义身份验证组件
@@ -40,9 +44,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/").permitAll()
 				.antMatchers("/login").permitAll()
 				// 验证码
-				.antMatchers("/captcha.jpg**").permitAll()
+				.antMatchers("/captcha.jpg").permitAll()
 				// 服务监控
 				.antMatchers("/actuator/**").permitAll()
+				// 对外提供服务(内网生效)
+				.antMatchers("/admin/api/**").access(String.format("hasIpAddress('%s')",serverAppConfig.getAnonymousClientIp()))
 				// 其他所有请求需要身份认证
 				.anyRequest().authenticated();
 		// 退出登录处理器

@@ -29,6 +29,7 @@ public class OssService {
         allowFileTypes.put("mp3", FileTypes.SOUND.getPath());
         allowFileTypes.put("mp4", FileTypes.VIDEO.getPath());
 
+        allowFileTypes.put("ttf", FileTypes.FONT.getPath());
 
         alllowPictureTypes.add("jpg");
         alllowPictureTypes.add("png");

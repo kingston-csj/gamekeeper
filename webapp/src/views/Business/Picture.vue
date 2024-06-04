@@ -1,8 +1,8 @@
 <template>
   <div style="float:left;padding-top:50px;">
     <el-upload
-      action="/file/upload"
       :limit="5"
+      action=""
       :on-change="handleChange"
       accept=".jpg,.png,.jpeg"
       :auto-upload="false"
@@ -22,10 +22,9 @@
       </el-table> -->
 
 
-    <div class="container">
+    <div class="image-container">
       <div v-for="(pic, index) in picTable" :key="index">
-           
-            <img :src="pic.url" width="200" class="pic_item">
+            <img :src="pic.url"  >
               {{ pic.name }}
              
       </div>
@@ -70,16 +69,23 @@
 </script>
 
 <style>
-.container {
-    max-width: 100%;
+
+ 
+
+.image-container {
+  display: grid;
+  width: 1000px;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px; /* 根据需要设置间距 */
+  /* border: 1px solid; */
+  /* border-color: blue; */
 }
 
-/* .pic_item {
-  max-width: 250px;
+.image-container img {
+  width: 100%; /* 或者设置一个固定的宽度 */
   height: auto;
-  display: inline-block;
-} */
-
-
+  border: 1px solid;
+  border-color: blue;
+}
 
 </style>

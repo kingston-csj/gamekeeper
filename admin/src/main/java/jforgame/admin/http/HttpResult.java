@@ -27,12 +27,6 @@ public class HttpResult {
         return r;
     }
 
-    public static HttpResult ok(String msg) {
-        HttpResult r = new HttpResult();
-        r.setMsg(msg);
-        return r;
-    }
-
     public static HttpResult ok(Object data) {
         HttpResult r = new HttpResult();
         r.setData(data);

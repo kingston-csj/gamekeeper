@@ -19,3 +19,21 @@ export const uploadPic = (data, headers) => {
     })
 }
 
+// 查询所有字体
+export const queryAllFonts = (params) => {
+    return axios({
+        url: '/file/allFont',
+        method: 'get',
+        params
+    })
+}
+
+// 上传字体
+export const uploadFont = (data, headers) => {
+    return axios({
+        url: '/file/uploadFont',
+        method: 'post',
+        data,
+        headers:headers
+    })
+}

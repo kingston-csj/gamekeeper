@@ -1,4 +1,4 @@
-package jforgame.admin.file;
+package jforgame.admin.file.domain;
 
 import jforgame.admin.oss.FileTypes;
 import lombok.Data;
@@ -7,8 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Data
-@Entity(name="t_oss")
-public class OssRecord {
+@Entity(name="t_picture")
+public class T_Picture {
 
     @Id
     private String id;
