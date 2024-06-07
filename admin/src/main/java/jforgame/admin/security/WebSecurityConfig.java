@@ -45,6 +45,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/login").permitAll()
 				// 验证码
 				.antMatchers("/captcha.jpg").permitAll()
+				.antMatchers("/favicon.ico").permitAll()
 				// 服务监控
 				.antMatchers("/actuator/**").permitAll()
 				// 对外提供服务(内网生效)

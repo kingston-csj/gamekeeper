@@ -93,11 +93,11 @@
         }).then((res) => {
           this.loading = false;
           this.btnDisabled = false;
-            if (res.status == 'success') {
-              this.$alert(res.msg, '执行结果');
-            } else {
-              this.$alert(res.msg, '失败!');
-            }
+          if(res.code == 200) {
+            this.$alert(res.msg, '执行成功');
+          } else {
+            this.$alert(res.msg, '失败!');
+          }
         
       })
 

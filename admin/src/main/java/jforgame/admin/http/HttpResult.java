@@ -27,6 +27,12 @@ public class HttpResult {
         return r;
     }
 
+    public static HttpResult error(int code) {
+        HttpResult r = new HttpResult();
+        r.setCode(code);
+        return r;
+    }
+
     public static HttpResult ok(Object data) {
         HttpResult r = new HttpResult();
         r.setData(data);

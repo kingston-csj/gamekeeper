@@ -11,6 +11,28 @@ export const findPage = () => {
     })
 }
 
+/* 
+ * 服务器新增节点
+ */
+export const saveNode = (data) => {
+    return axios({
+        url: '/server/saveNode',
+        method: 'post',
+        data
+    })
+}
+
+/* 
+ * 服务器新增节点
+ */
+export const deleteNode = (params) => {
+    return axios({
+        url: '/server/deleteNode',
+        method: 'delete',
+        params:params
+    })
+}
+
 
 // 服务器id列表
 export const loadServerIds = (data) => {

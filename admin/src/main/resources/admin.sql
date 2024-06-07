@@ -11,7 +11,7 @@
  Target Server Version : 50744 (5.7.44)
  File Encoding         : 65001
 
- Date: 04/06/2024 11:51:02
+ Date: 07/06/2024 17:42:31
 */
 
 SET NAMES utf8mb4;
@@ -34,7 +34,7 @@ CREATE TABLE `sys_dept`  (
 -- ----------------------------
 INSERT INTO `sys_dept` VALUES (17, '完美集团', NULL, 0);
 INSERT INTO `sys_dept` VALUES (18, 'efun集团', NULL, 1);
-INSERT INTO `sys_dept` VALUES (19, '跃动集团', NULL, 2);
+INSERT INTO `sys_dept` VALUES (19, '跃动集团555', NULL, 2);
 INSERT INTO `sys_dept` VALUES (21, '上海分公司', 18, 0);
 INSERT INTO `sys_dept` VALUES (22, '北京分公司', 17, 1);
 INSERT INTO `sys_dept` VALUES (23, '广州分公司', 18, 1);
@@ -82,7 +82,7 @@ CREATE TABLE `sys_menu`  (
   `icon` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '菜单图标',
   `order_num` int(11) NULL DEFAULT NULL COMMENT '排序',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 48 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '菜单管理' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 321 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '菜单管理' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_menu
@@ -92,7 +92,6 @@ INSERT INTO `sys_menu` VALUES (2, '用户管理', 1, '/sys/user', NULL, 1, 'el-i
 INSERT INTO `sys_menu` VALUES (3, '机构管理', 1, '/sys/dept', NULL, 1, 'el-icon-news', 2);
 INSERT INTO `sys_menu` VALUES (4, '角色管理', 1, '/sys/role', NULL, 1, 'el-icon-view', 4);
 INSERT INTO `sys_menu` VALUES (5, '菜单管理', 1, '/sys/menu', NULL, 1, 'el-icon-menu', 5);
-INSERT INTO `sys_menu` VALUES (6, '服务列表', 43, '/server/nodes', '', 1, 'el-icon-view', 0);
 INSERT INTO `sys_menu` VALUES (7, '字典管理', 1, '/sys/dict', NULL, 1, 'el-icon-edit-outline', 7);
 INSERT INTO `sys_menu` VALUES (9, '查看', 2, NULL, 'sys:user:view', 2, NULL, 0);
 INSERT INTO `sys_menu` VALUES (10, '新增', 2, NULL, 'sys:user:add', 2, NULL, 0);
@@ -117,13 +116,17 @@ INSERT INTO `sys_menu` VALUES (31, '查看', 7, NULL, 'sys:dict:view', 2, NULL, 
 INSERT INTO `sys_menu` VALUES (32, '新增', 7, NULL, 'sys:dict:add', 2, NULL, 0);
 INSERT INTO `sys_menu` VALUES (33, '修改', 7, NULL, 'sys:dict:edit', 2, NULL, 0);
 INSERT INTO `sys_menu` VALUES (34, '删除', 7, NULL, 'sys:dict:delete', 2, NULL, 0);
-INSERT INTO `sys_menu` VALUES (38, '后台命令', 43, '/server/commands', NULL, 1, 'el-icon-warning', 1);
-INSERT INTO `sys_menu` VALUES (41, '玩家查询', 44, '/player/query', '', 1, 'el-icon-view', 0);
-INSERT INTO `sys_menu` VALUES (43, '服务器监控', 0, '', '', 0, 'el-icon-info', 1);
-INSERT INTO `sys_menu` VALUES (44, '玩家管理', 0, '', '', 0, 'el-icon-service', 2);
-INSERT INTO `sys_menu` VALUES (45, '业务支持', 0, NULL, NULL, 0, 'el-icon-service', 0);
-INSERT INTO `sys_menu` VALUES (46, '图片上传', 45, '/business/picture', NULL, 1, 'el-icon-service', 1);
-INSERT INTO `sys_menu` VALUES (47, '字体上传', 45, '/business/font', NULL, 1, 'el-icon-service', 2);
+INSERT INTO `sys_menu` VALUES (100, '服务器管理', 0, '', '', 0, 'el-icon-info', 0);
+INSERT INTO `sys_menu` VALUES (110, '服务列表', 100, '/server/nodes', '', 1, 'el-icon-view', 1);
+INSERT INTO `sys_menu` VALUES (111, '服务列表-编辑', 110, '', 'server:nodes:edit', 2, 'el-icon-view', 1);
+INSERT INTO `sys_menu` VALUES (112, '服务列表-新增', 110, '', 'server:nodes:add', 2, 'el-icon-view', 1);
+INSERT INTO `sys_menu` VALUES (113, '服务列表-删除', 110, '', 'server:nodes:delete', 2, 'el-icon-view', 1);
+INSERT INTO `sys_menu` VALUES (120, '后台命令', 100, '/server/commands', '', 1, 'el-icon-service', 2);
+INSERT INTO `sys_menu` VALUES (200, '玩家管理', 0, '', '', 0, 'el-icon-service', 2);
+INSERT INTO `sys_menu` VALUES (201, '玩家查询', 200, '/player/query', '', 1, 'el-icon-view', 0);
+INSERT INTO `sys_menu` VALUES (300, '业务支持', 0, NULL, NULL, 0, 'el-icon-service', 0);
+INSERT INTO `sys_menu` VALUES (310, '图片上传', 300, '/business/picture', NULL, 1, 'el-icon-service', 1);
+INSERT INTO `sys_menu` VALUES (320, '字体上传', 300, '/business/font', NULL, 1, 'el-icon-service', 2);
 
 -- ----------------------------
 -- Table structure for sys_role
@@ -173,46 +176,6 @@ CREATE TABLE `sys_role_menu`  (
 -- ----------------------------
 -- Records of sys_role_menu
 -- ----------------------------
-INSERT INTO `sys_role_menu` VALUES (1, 1, 1);
-INSERT INTO `sys_role_menu` VALUES (2, 1, 2);
-INSERT INTO `sys_role_menu` VALUES (3, 1, 3);
-INSERT INTO `sys_role_menu` VALUES (4, 1, 4);
-INSERT INTO `sys_role_menu` VALUES (5, 1, 5);
-INSERT INTO `sys_role_menu` VALUES (6, 1, 6);
-INSERT INTO `sys_role_menu` VALUES (7, 1, 7);
-INSERT INTO `sys_role_menu` VALUES (8, 1, 8);
-INSERT INTO `sys_role_menu` VALUES (9, 1, 9);
-INSERT INTO `sys_role_menu` VALUES (10, 1, 10);
-INSERT INTO `sys_role_menu` VALUES (11, 1, 11);
-INSERT INTO `sys_role_menu` VALUES (12, 1, 12);
-INSERT INTO `sys_role_menu` VALUES (13, 1, 13);
-INSERT INTO `sys_role_menu` VALUES (14, 1, 14);
-INSERT INTO `sys_role_menu` VALUES (15, 1, 15);
-INSERT INTO `sys_role_menu` VALUES (16, 1, 16);
-INSERT INTO `sys_role_menu` VALUES (17, 1, 17);
-INSERT INTO `sys_role_menu` VALUES (18, 1, 18);
-INSERT INTO `sys_role_menu` VALUES (19, 1, 19);
-INSERT INTO `sys_role_menu` VALUES (20, 1, 20);
-INSERT INTO `sys_role_menu` VALUES (21, 1, 21);
-INSERT INTO `sys_role_menu` VALUES (22, 1, 22);
-INSERT INTO `sys_role_menu` VALUES (23, 1, 23);
-INSERT INTO `sys_role_menu` VALUES (24, 1, 24);
-INSERT INTO `sys_role_menu` VALUES (25, 1, 25);
-INSERT INTO `sys_role_menu` VALUES (26, 1, 26);
-INSERT INTO `sys_role_menu` VALUES (27, 1, 27);
-INSERT INTO `sys_role_menu` VALUES (28, 1, 28);
-INSERT INTO `sys_role_menu` VALUES (29, 1, 29);
-INSERT INTO `sys_role_menu` VALUES (30, 1, 30);
-INSERT INTO `sys_role_menu` VALUES (31, 1, 31);
-INSERT INTO `sys_role_menu` VALUES (32, 1, 32);
-INSERT INTO `sys_role_menu` VALUES (33, 1, 33);
-INSERT INTO `sys_role_menu` VALUES (34, 1, 34);
-INSERT INTO `sys_role_menu` VALUES (35, 1, 35);
-INSERT INTO `sys_role_menu` VALUES (36, 1, 36);
-INSERT INTO `sys_role_menu` VALUES (37, 1, 37);
-INSERT INTO `sys_role_menu` VALUES (38, 1, 38);
-INSERT INTO `sys_role_menu` VALUES (39, 1, 39);
-INSERT INTO `sys_role_menu` VALUES (40, 1, 40);
 
 -- ----------------------------
 -- Table structure for sys_user
@@ -376,6 +339,16 @@ CREATE TABLE `t_picture`  (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
+-- ----------------------------
+-- Records of t_picture
+-- ----------------------------
+INSERT INTO `t_picture` VALUES ('665d9dcf95d0112bfd58ea2b', 0, 1717411279808, 66756, 672, 530, 'dc8c806029ae4d9aa7b4f71ca12e8305.jpeg', '1.jpeg');
+INSERT INTO `t_picture` VALUES ('665d9dd395d0112bfd58ea2c', 0, 1717411283233, 13999, 600, 338, 'a111257cdb5a4e508366f3d42dfe0704.jpg', '1.jpg');
+INSERT INTO `t_picture` VALUES ('665db7cb2f41b10ee203b6bd', 0, 1717417931169, 31705, 465, 309, '94d85c42ac3e4f759db838676145508e.png', '1.png');
+INSERT INTO `t_picture` VALUES ('665db8882f41b10ee203b6be', 0, 1717418120366, 66756, 672, 530, '5a465a61c403491fac04cced48a8787f.jpeg', '1.jpeg');
+INSERT INTO `t_picture` VALUES ('665db8a02f41b10ee203b6bf', 0, 1717418144033, 66756, 672, 530, 'e5747a4f1b294daa812287e63edc4898.jpeg', '1.jpeg');
+INSERT INTO `t_picture` VALUES ('665ea6f1af082608bbe9a936', 0, 1717479153454, 2602, 254, 57, 'caf76061b953458d94bdfe017998ed97.png', '通道空白按钮1.png');
+INSERT INTO `t_picture` VALUES ('665ea6f5af082608bbe9a937', 0, 1717479157661, 2382, 254, 57, '5eadc6ce4eb94f449965fa9085216cdd.png', '通道空白按钮2.png');
 
 -- ----------------------------
 -- Table structure for t_server
@@ -385,17 +358,15 @@ CREATE TABLE `t_server`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '大区名称',
   `ip` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '大区ip',
+  `port` int(11) NULL DEFAULT NULL,
   `httpPort` int(11) NULL DEFAULT NULL COMMENT '大区http端口',
-  `jmxPort` int(11) NULL DEFAULT NULL,
   `merged` int(11) NULL DEFAULT 0,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 23243 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of t_server
 -- ----------------------------
-INSERT INTO `t_server` VALUES (1, '飞狐外传', '127.0.0.1', 8080, 10081, 0);
-INSERT INTO `t_server` VALUES (2, '雪山飞狐', '127.0.0.1', 3308, 10082, 0);
-INSERT INTO `t_server` VALUES (3, '连城诀', '127.0.0.1', 3309, 10083, 0);
+INSERT INTO `t_server` VALUES (1, '内网开发1服', '127.0.0.1', NULL, 8080, 0);
 
 SET FOREIGN_KEY_CHECKS = 1;

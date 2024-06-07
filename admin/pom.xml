@@ -36,7 +36,6 @@
 		<druid.version>1.1.10</druid.version>
 		<jwt.version>0.7.0</jwt.version>
 		<fastjson.version>1.2.48</fastjson.version>
-		<log4j.version>1.2.17</log4j.version>
 		<kaptcha.version>0.0.9</kaptcha.version>
 		<mysql.version>8.0.28</mysql.version>
 		<jforgame.version>1.1.0</jforgame.version>

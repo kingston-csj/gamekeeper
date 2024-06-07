@@ -9,6 +9,7 @@ import jforgame.admin.security.SecurityUtils;
 import jforgame.admin.system.service.SysUserService;
 import jforgame.admin.system.vo.LoginBean;
 import jforgame.admin.utils.PasswordUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,6 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
+@Slf4j
 @RestController
 public class SysLoginController {
 
@@ -37,20 +39,23 @@ public class SysLoginController {
 
     @GetMapping("captcha.jpg")
     public void captcha(HttpServletResponse response, HttpServletRequest request) throws IOException {
-        response.setHeader("Cache-Control", "no-store, no-cache");
-        response.setContentType("image/jpeg");
-
-        // 生成文字验证码
-        String text = producer.createText();
-        // 生成图片验证码
-        BufferedImage image = producer.createImage(text);
-        // 保存到验证码到 session
-        request.getSession().setAttribute(Constants.KAPTCHA_SESSION_KEY, text);
-        System.out.println("设置sessionid:" + request.getSession().getId());
-
-        try (ServletOutputStream out = response.getOutputStream()) {
-            ImageIO.write(image, "jpg", out);
-        }
+//        response.setHeader("Cache-Control", "no-store, no-cache");
+//        response.setContentType("image/jpeg");
+//
+//        try {
+//            // 生成文字验证码
+//            String text = producer.createText();
+//            // 生成图片验证码
+//            BufferedImage image = producer.createImage(text);
+//            // 保存到验证码到 session
+//            request.getSession().setAttribute(Constants.KAPTCHA_SESSION_KEY, text);
+////            System.out.println("设置sessionid:" + request.getSession().getId());
+//            try (ServletOutputStream out = response.getOutputStream()) {
+//                ImageIO.write(image, "jpg", out);
+//            }
+//        } catch (Exception e) {
+//            log.error("", e);
+//        }
     }
 
     /**
@@ -64,7 +69,7 @@ public class SysLoginController {
 
         // 从session中获取之前保存的验证码跟前台传来的验证码进行匹配
         Object kaptcha = request.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY);
-        System.out.println("获取sessionid:" + request.getSession().getId());
+//        System.out.println("获取sessionid:" + request.getSession().getId());
         if (kaptcha == null) {
 //            return HttpResult.error("验证码已失效");
         }

@@ -1,4 +1,4 @@
-package jforgame.admin.gamenode.vo;
+package jforgame.admin.gamenode.io;
 
 import lombok.Data;
 

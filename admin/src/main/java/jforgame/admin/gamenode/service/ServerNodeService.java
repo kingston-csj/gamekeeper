@@ -9,8 +9,8 @@ import java.util.List;
 
 @Service
 public class ServerNodeService {
-    
-	@Autowired
+
+    @Autowired
     private ServerInfoDao serverInfoDao;
 
     public List<ServerInfo> getServerNodeList(Integer page, Integer count) {
@@ -22,7 +22,21 @@ public class ServerNodeService {
     }
 
     public ServerInfo getServerNodeBy(Integer id) {
-       return serverInfoDao.getOne(id);
+        return serverInfoDao.getOne(id);
+    }
+
+    public void saveNode(int id, String name, String ip, int httpPort) {
+        ServerInfo serverInfo = new ServerInfo();
+        serverInfo.setId(id);
+        serverInfo.setIp(ip);
+        serverInfo.setName(name);
+        serverInfo.setHttpPort(httpPort);
+        serverInfoDao.save(serverInfo);
+    }
+
+    public boolean deleteNode(int id) {
+        serverInfoDao.deleteById(id);
+        return true;
     }
 
 }

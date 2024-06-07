@@ -1,4 +1,4 @@
-package jforgame.admin.gamenode.vo;
+package jforgame.admin.gamenode.io;
 
 import lombok.Data;
 
@@ -10,6 +10,12 @@ public class ServerNodeInfo {
     private String ip;
 
     private Integer port;
+
+    /**
+     * http端口
+     */
+    private int httpPort;
+
     /**
      * 在线人数
      */
