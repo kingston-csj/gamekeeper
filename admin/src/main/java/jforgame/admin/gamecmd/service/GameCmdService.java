@@ -7,6 +7,10 @@ import jforgame.admin.gamecmd.executor.AsyncTaskConstructor;
 import jforgame.admin.gamecmd.executor.AsyncTaskManager;
 import jforgame.admin.gamecmd.model.TaskInfo;
 import jforgame.admin.gamenode.service.ServerNodeService;
+import jforgame.admin.logger.LoggerFunction;
+import jforgame.admin.logger.LoggerUtil;
+import jforgame.admin.security.JwtTokenUtils;
+import jforgame.admin.security.SecurityUtils;
 import jforgame.commons.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,6 +45,7 @@ public class GameCmdService {
                 result.put(serverId, e.getMessage());
             }
         }
+        LoggerUtil.info(LoggerFunction.ADMIN_CMD, "operator", SecurityUtils.getUsername(),"type", type, "params", params,  "result", JsonUtil.object2String(result));
         return result.toString();
     }
 

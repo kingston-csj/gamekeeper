@@ -5,7 +5,10 @@ import jforgame.admin.external.ExternalController;
 import jforgame.admin.file.service.FileService;
 import jforgame.admin.file.io.UploadFileVo;
 import jforgame.admin.http.HttpResult;
+import jforgame.admin.logger.LoggerFunction;
+import jforgame.admin.logger.LoggerUtil;
 import jforgame.admin.oss.OssService;
+import jforgame.admin.security.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,7 +40,7 @@ public class FileController {
                 return HttpResult.error("图片格式不允许");
             }
             fileService.upload(fileVo);
-
+            LoggerUtil.info(LoggerFunction.FILE, "operator", SecurityUtils.getUsername(),"type", "uploadPic", "fileName",  fileVo.getFileName());
             return HttpResult.ok();
         } catch (Exception e) {
             return HttpResult.error(e.getMessage());
@@ -63,6 +66,7 @@ public class FileController {
 
             SpringContext.getBean(ExternalController.class).clearFontJsonCache();
 
+            LoggerUtil.info(LoggerFunction.FILE, "operator", SecurityUtils.getUsername(),"type", "uploadFont", "fileName",  fileVo.getFileName());
             return HttpResult.ok();
         } catch (Exception e) {
             return HttpResult.error(e.getMessage());
