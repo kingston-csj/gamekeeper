@@ -11,6 +11,8 @@ public class UploadFileVo {
 
     private InputStream inputStream;
 
+    private byte[] fileData;
+
     //oss存放目录
     private String catalog;
 

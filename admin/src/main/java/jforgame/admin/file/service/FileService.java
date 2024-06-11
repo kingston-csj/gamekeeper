@@ -7,6 +7,7 @@ import jforgame.admin.file.dao.PictureDao;
 import jforgame.admin.file.domain.T_Font;
 import jforgame.admin.file.domain.T_Picture;
 import jforgame.admin.file.io.UploadFileVo;
+import jforgame.admin.logger.LoggerUtil;
 import jforgame.admin.mapstruct.FontMapper;
 import jforgame.admin.mapstruct.PictureMapper;
 import jforgame.admin.oss.MinioUtil;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,16 +39,9 @@ public class FileService {
     @Autowired
     MinioUtil minioUtil;
 
-    public void upload(UploadFileVo file) throws IOException {
+    public T_Picture uploadPicture(UploadFileVo file) throws IOException {
         try {
             String suffix = file.getFileName().substring(file.getFileName().lastIndexOf(".") + 1);
-            // 图片对象
-            BufferedImage bufferedImage = ImageIO.read(file.getInputStream());
-            // 宽度
-            int width = bufferedImage.getWidth();
-            // 高度
-            int height = bufferedImage.getHeight();
-
             // 根据文件类型选择目录
             String catalog = ossService.getPathOf(suffix);
             file.setCatalog(catalog);
@@ -57,11 +52,20 @@ public class FileService {
             oss.setName(file.getFileName());
             oss.setCreateTime(System.currentTimeMillis());
             oss.setSize(file.getSize());
+
+            // 图片对象
+            BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(file.getFileData()));
+            // 宽度
+            int width = bufferedImage.getWidth();
+            // 高度
+            int height = bufferedImage.getHeight();
             oss.setWidth(width);
             oss.setHeight(height);
 
             pictureDao.save(oss);
+            return oss;
         } catch (Exception e) {
+            LoggerUtil.error("", e);
             throw new IOException(e);
         }
     }

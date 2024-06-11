@@ -2,6 +2,7 @@ package jforgame.admin.file.controller;
 
 import jforgame.admin.core.SpringContext;
 import jforgame.admin.external.ExternalController;
+import jforgame.admin.file.domain.T_Picture;
 import jforgame.admin.file.service.FileService;
 import jforgame.admin.file.io.UploadFileVo;
 import jforgame.admin.http.HttpResult;
@@ -34,13 +35,14 @@ public class FileController {
         try (InputStream ignored = file.getInputStream()) {
             UploadFileVo fileVo = UploadFileVo.builder().fileName(file.getOriginalFilename())
                     .inputStream(file.getInputStream()).contentType(file.getContentType()).size(file.getSize())
+                    .fileData(file.getBytes())
                     .build();
             String suffix = fileVo.getFileName().substring(fileVo.getFileName().lastIndexOf(".") + 1);
             if (!ossService.allowFileType(suffix)) {
                 return HttpResult.error("图片格式不允许");
             }
-            fileService.upload(fileVo);
-            LoggerUtil.info(LoggerFunction.FILE, "operator", SecurityUtils.getUsername(),"type", "uploadPic", "fileName",  fileVo.getFileName());
+            T_Picture oss = fileService.uploadPicture(fileVo);
+            LoggerUtil.info(LoggerFunction.FILE, "operator", SecurityUtils.getUsername(),"type", "uploadPic", "fileName",  fileVo.getFileName(), "url", oss.getUrl());
             return HttpResult.ok();
         } catch (Exception e) {
             return HttpResult.error(e.getMessage());

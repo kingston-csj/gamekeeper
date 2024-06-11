@@ -4,6 +4,7 @@ import io.minio.BucketExistsArgs;
 import io.minio.GetObjectArgs;
 import io.minio.MakeBucketArgs;
 import io.minio.MinioClient;
+import io.minio.ObjectWriteResponse;
 import io.minio.PutObjectArgs;
 import io.minio.RemoveBucketArgs;
 import io.minio.RemoveObjectArgs;
@@ -25,6 +26,7 @@ public class MinIoClientProxy {
 
     @Autowired
     private OssService ossService;
+    private ObjectWriteResponse response;
 
     public void createBucket(String name) throws IOException {
         try {
@@ -52,7 +54,7 @@ public class MinIoClientProxy {
 
     public String upload(InputStream input, String filePath, String contentType) throws IOException {
         try {
-            minioClient.putObject(
+            response = minioClient.putObject(
                     PutObjectArgs.builder()
                             .bucket(minioProperties.getBucketName())
                             .object(filePath).stream(input, input.available(), -1)
