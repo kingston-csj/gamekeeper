@@ -23,4 +23,6 @@ dist/
 nbdist/
 .nb-gradle/
 
+/**/application-test.properties
+src/main/resources/*.properties
 logs

@@ -12,7 +12,7 @@
       </template>
     </el-upload>
 
-    <el-table :data="tableData" style="width: 100%" v-loading="loading2" element-loading-text="拼命加载中">
+    <el-table :data="tableData" style="width: 100%" >
       <el-table-column prop="id" label="id" width="180">
         <template slot-scope="scope">{{ scope.row.id}}</template>
       </el-table-column>

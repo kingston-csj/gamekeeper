@@ -1,3 +1,5 @@
+CREATE DATABASE IF NOT EXISTS `admin`;
+
 /*
  Navicat Premium Dump SQL
 
