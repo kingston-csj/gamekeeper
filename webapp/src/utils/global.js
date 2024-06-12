@@ -5,7 +5,7 @@
  */
 
 // 后台管理系统服务器地址
-export const baseUrl = 'http://localhost:8001'
+export const baseUrl = 'http://192.168.0.121:8001'
 
 
 export default {
