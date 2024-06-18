@@ -1,0 +1,31 @@
+version: '3.3'
+ 
+services:
+  db:
+    image: mysql:latest
+    container_name: mysql
+    environment:
+      MYSQL_PASSWORD: '123456'
+      MYSQL_ROOT_PASSWORD: '123456'
+    ports:
+      - "3306:3306"
+    volumes:
+      - /usr/local/mysql/log:/var/log/mysql
+      - /usr/local/mysql/data:/var/lib/mysql
+    restart: always
+    networks:
+      - app-network
+  web:
+    image: myjdk
+    container_name: web_app
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./web:/app
+      - ./logs:/app/logs
+    networks:
+      - app-network
+
+networks:
+  app-network:
+     driver: bridge
