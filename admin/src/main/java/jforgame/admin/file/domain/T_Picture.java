@@ -1,10 +1,10 @@
 package jforgame.admin.file.domain;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import jforgame.admin.oss.FileTypes;
 import lombok.Data;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import jakarta.persistence.Id;
 
 @Data
 @Entity(name="t_picture")

@@ -1,10 +1,9 @@
 package jforgame.admin.payorder.domain;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import lombok.Data;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import jakarta.persistence.Id;
 import java.util.Date;
 
 @Data

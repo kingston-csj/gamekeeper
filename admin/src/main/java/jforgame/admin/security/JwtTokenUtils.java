@@ -3,6 +3,7 @@ package jforgame.admin.security;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import jakarta.servlet.http.HttpServletRequest;
 import jforgame.commons.TimeUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,13 +11,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.util.StringUtils;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 public class JwtTokenUtils   {
 
@@ -37,7 +36,7 @@ public class JwtTokenUtils   {
     /**
      * 密钥
      */
-    private static final String SECRET = UUID.randomUUID().toString();
+    private static final String SECRET = "404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970";
     /**
      * 有效期12小时
      */
@@ -64,7 +63,7 @@ public class JwtTokenUtils   {
      */
     private static String generateToken(Map<String, Object> claims) {
         Date expirationDate = new Date(System.currentTimeMillis() + EXPIRE_TIME);
-        return Jwts.builder().setClaims(claims).setExpiration(expirationDate).signWith(SignatureAlgorithm.HS512, SECRET).compact();
+        return Jwts.builder().setClaims(claims).setExpiration(expirationDate).signWith(SignatureAlgorithm.HS256, SECRET).compact();
     }
 
     /**

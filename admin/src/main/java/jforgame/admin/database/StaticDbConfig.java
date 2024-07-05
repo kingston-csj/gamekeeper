@@ -3,9 +3,9 @@ package jforgame.admin.database;
 import java.util.Map;
 import java.util.Objects;
 
-import javax.persistence.EntityManager;
 import javax.sql.DataSource;
 
+import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;

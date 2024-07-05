@@ -1,5 +1,6 @@
 package jforgame.admin.channel.service;
 
+import jakarta.annotation.PostConstruct;
 import jforgame.admin.channel.dao.ChannelDao;
 import jforgame.admin.channel.domain.Channel;
 import jforgame.admin.channel.model.ChannelTree;
@@ -7,7 +8,6 @@ import jforgame.admin.channel.model.TreeNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;

@@ -26,7 +26,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.6.3</version>
+		<version>3.0.4</version>
 	</parent>
 
 	<properties>
@@ -34,7 +34,7 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
 		<druid.version>1.1.10</druid.version>
-		<jwt.version>0.7.0</jwt.version>
+		<jwt.version>0.11.5</jwt.version>
 		<fastjson.version>1.2.48</fastjson.version>
 		<kaptcha.version>0.0.9</kaptcha.version>
 		<mysql.version>8.0.28</mysql.version>
@@ -69,9 +69,20 @@
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
 		<!-- jwt -->
+
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
-			<artifactId>jjwt</artifactId>
+			<artifactId>jjwt-api</artifactId>
+			<version>${jwt.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-impl</artifactId>
+			<version>${jwt.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-jackson</artifactId>
 			<version>${jwt.version}</version>
 		</dependency>
 

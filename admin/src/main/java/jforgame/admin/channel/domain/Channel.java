@@ -1,11 +1,11 @@
 package jforgame.admin.channel.domain;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import jforgame.admin.domain.SysUser;
 import lombok.Getter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import jakarta.persistence.Id;
 
 @Getter
 @Entity(name = "t_channel")

@@ -6,62 +6,56 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.expression.WebExpressionAuthorizationManager;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+@EnableMethodSecurity
+public class WebSecurityConfig {
 
-	@Autowired
-	private UserDetailsService userDetailsService;
+    @Autowired
+    private UserDetailsService userDetailsService;
 
-	@Autowired
-	ServerAppConfig serverAppConfig;
+    @Autowired
+    ServerAppConfig serverAppConfig;
 
-	@Override
-	public void configure(AuthenticationManagerBuilder auth) throws Exception {
-		// 使用自定义身份验证组件
-		auth.authenticationProvider(new JwtAuthenticationProvider(userDetailsService));
-	}
+    @Bean
+    public DaoAuthenticationProvider authenticationProvider() {
+        return new JwtAuthenticationProvider(userDetailsService);
+    }
 
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		// 禁用 csrf, 由于使用的是JWT，我们这里不需要csrf
-		http.csrf().disable()
-				.authorizeRequests()
-				// 跨域预检请求
-				.antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-				.antMatchers("/static/**").permitAll()
-				// 首页和登录页面
-				.antMatchers("/").permitAll()
-				.antMatchers("/login").permitAll()
-				// 验证码
-				.antMatchers("/captcha.jpg").permitAll()
-				.antMatchers("/favicon.ico").permitAll()
-				// 服务监控
-				.antMatchers("/actuator/**").permitAll()
-				// 对外提供服务(内网生效)
-				.antMatchers("/admin/api/**").access(String.format("hasIpAddress('%s')",serverAppConfig.getAnonymousClientIp()))
-				// 其他所有请求需要身份认证
-				.anyRequest().authenticated();
-		// 退出登录处理器
-		http.logout().logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler());
-		// token验证过滤器
-		http.addFilterBefore(new JwtAuthenticationFilter(authenticationManager()), UsernamePasswordAuthenticationFilter.class);
-	}
+    @Bean
+    SecurityFilterChain filterChain(HttpSecurity http, @Autowired AuthenticationManager authenticationManage) throws Exception {
+        http.authorizeHttpRequests()
+                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                .requestMatchers("/static/**").permitAll()
+                .requestMatchers("/").permitAll()
+                .requestMatchers("/login").permitAll()
+                .requestMatchers("/captcha.jpg").permitAll()
+                .requestMatchers("/index.html").permitAll()
+                .requestMatchers("/favicon.ico").permitAll()
+                // 对服务器接口使用ip白名单
+                .requestMatchers("/admin/api/**")
+                .access(new WebExpressionAuthorizationManager(String.format("hasIpAddress('%s')",serverAppConfig.getAnonymousClientIp())))
+                .anyRequest().authenticated();
 
-	@Bean
-	@Override
-	public AuthenticationManager authenticationManager() throws Exception {
-		return super.authenticationManager();
-	}
+        http.csrf().disable();
+        http.logout().logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler());
+        http.addFilterBefore(new JwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+        return http.build();
+    }
 
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfiguration) throws Exception {
+        return authConfiguration.getAuthenticationManager();
+    }
 }
