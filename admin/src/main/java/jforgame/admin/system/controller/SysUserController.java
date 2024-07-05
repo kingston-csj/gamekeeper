@@ -32,16 +32,22 @@ public class SysUserController {
         if (RoleKinds.ADMIN.equalsIgnoreCase(record.getName())) {
             return HttpResult.error("超级管理员不允许修改!");
         }
-        if (StringUtils.isNullOrEmpty(record.getPassword())) {
-            return HttpResult.error("密码不允许为空!");
+        // 新增
+        if (record.getId() <= 0) {
+            if (StringUtils.isNullOrEmpty(record.getPassword())) {
+                return HttpResult.error("密码不允许为空!");
+            }
+            if (sysUserService.isUserNameExist(record.getName())) {
+                return HttpResult.error("用户名已存在!");
+            }
         }
-        if (sysUserService.loadUserByUsername(record.getName()) != null) {
-            return HttpResult.error("用户名已存在!");
+        // 修改密码
+        if (org.apache.commons.lang3.StringUtils.isNoneEmpty(record.getPassword())) {
+            String salt = PasswordUtils.getSalt();
+            String password = PasswordUtils.encode(record.getPassword(), salt);
+            record.setSalt(salt);
+            record.setPassword(password);
         }
-        String salt = PasswordUtils.getSalt();
-        String password = PasswordUtils.encode(record.getPassword(), salt);
-        record.setSalt(salt);
-        record.setPassword(password);
 
         return HttpResult.ok(sysUserService.save(record));
     }

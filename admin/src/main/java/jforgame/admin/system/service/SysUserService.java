@@ -44,7 +44,6 @@ public class SysUserService implements UserDetailsService {
     @Autowired
     private SysRoleDao sysRoleDao;
 
-    @Transactional
     public int save(SysUser record) {
         if (record == null) {
             return 0;
@@ -53,7 +52,6 @@ public class SysUserService implements UserDetailsService {
         return 1;
     }
 
-    @Transactional
     public int delete(SysUser record) {
         if (record == null) {
             return 0;
@@ -151,6 +149,10 @@ public class SysUserService implements UserDetailsService {
             return ((UserDetails) principal).getUsername();
         }
         return principal.toString();
+    }
+
+    public boolean isUserNameExist(String name) {
+        return sysUserDao.findByName(name) != null;
     }
 
     @Override
