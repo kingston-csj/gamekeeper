@@ -1,19 +1,19 @@
 package jforgame.admin.file.service;
 
 import jforgame.admin.file.dao.FontDao;
-import jforgame.admin.file.io.FontVo;
-import jforgame.admin.file.io.ImageVo;
 import jforgame.admin.file.dao.PictureDao;
 import jforgame.admin.file.domain.T_Font;
 import jforgame.admin.file.domain.T_Picture;
+import jforgame.admin.file.io.FontVo;
+import jforgame.admin.file.io.ImageVo;
 import jforgame.admin.file.io.UploadFileVo;
 import jforgame.admin.logger.LoggerUtil;
 import jforgame.admin.mapstruct.FontMapper;
 import jforgame.admin.mapstruct.PictureMapper;
 import jforgame.admin.oss.MinioUtil;
 import jforgame.admin.oss.OssService;
+import jforgame.admin.utils.IdFactory;
 import jforgame.commons.Pair;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -47,7 +47,7 @@ public class FileService {
             file.setCatalog(catalog);
             Pair<String, String> urls = minioUtil.uploadFile(file);
             T_Picture oss = new T_Picture();
-            oss.setId(ObjectId.get().toString());
+            oss.setId(IdFactory.nextUUId());
             oss.setUrl(urls.getFirst());
             oss.setName(file.getFileName());
             oss.setCreateTime(System.currentTimeMillis());
@@ -92,7 +92,7 @@ public class FileService {
             font.setDescription(file.getFileName());
             font.setUrl(urls.getFirst());
             font.setName(file.getFileName());
-            font.setId(ObjectId.get().toString());
+            font.setId(IdFactory.nextUUId());
             fontDao.save(font);
         } catch (Exception e) {
             throw new IOException(e);
