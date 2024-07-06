@@ -1,5 +1,6 @@
 package jforgame.admin.security;
 
+import jakarta.annotation.PostConstruct;
 import jforgame.admin.core.ServerAppConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -17,6 +18,11 @@ import org.springframework.security.web.access.expression.WebExpressionAuthoriza
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
@@ -33,8 +39,32 @@ public class WebSecurityConfig {
         return new JwtAuthenticationProvider(userDetailsService);
     }
 
+    private Set<String> ipWhitelist;
+
+    @PostConstruct
+    private void init() {
+        String[] ips = serverAppConfig.getAnonymousClientIp().split(";");
+        StringBuilder str = new StringBuilder();
+        for (int i = 0; i < ips.length; i++) {
+            str.append(String.format("hasIpAddress('%s')", ips[i]));
+            if (i != ips.length - 1) {
+                str.append(" or ");
+            }
+        }
+    }
+
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http, @Autowired AuthenticationManager authenticationManage) throws Exception {
+
+        String[] ips = serverAppConfig.getAnonymousClientIp().split(";");
+        StringBuilder whiteIps = new StringBuilder();
+        for (int i = 0; i < ips.length; i++) {
+            whiteIps.append(String.format("hasIpAddress('%s')", ips[i]));
+            if (i != ips.length - 1) {
+                whiteIps.append(" or ");
+            }
+        }
+
         http.authorizeHttpRequests()
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .requestMatchers("/static/**").permitAll()
@@ -45,7 +75,7 @@ public class WebSecurityConfig {
                 .requestMatchers("/favicon.ico").permitAll()
                 // 对服务器接口使用ip白名单
                 .requestMatchers("/admin/api/**")
-                .access(new WebExpressionAuthorizationManager(String.format("hasIpAddress('%s')",serverAppConfig.getAnonymousClientIp())))
+                .access(new WebExpressionAuthorizationManager(whiteIps.toString()))
                 .anyRequest().authenticated();
 
         http.csrf().disable();
