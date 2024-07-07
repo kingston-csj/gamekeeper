@@ -3,8 +3,10 @@ package jforgame.admin.system.controller;
 
 import com.google.code.kaptcha.Constants;
 import com.google.code.kaptcha.Producer;
+import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jforgame.admin.domain.SysUser;
 import jforgame.admin.http.HttpResult;
 import jforgame.admin.security.JwtAuthenticationToken;
 import jforgame.admin.security.SecurityUtils;
@@ -20,6 +22,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 @Slf4j
@@ -36,23 +40,23 @@ public class SysLoginController {
 
     @GetMapping("captcha.jpg")
     public void captcha(HttpServletResponse response, HttpServletRequest request) throws IOException {
-//        response.setHeader("Cache-Control", "no-store, no-cache");
-//        response.setContentType("image/jpeg");
-//
-//        try {
-//            // 生成文字验证码
-//            String text = producer.createText();
-//            // 生成图片验证码
-//            BufferedImage image = producer.createImage(text);
-//            // 保存到验证码到 session
-//            request.getSession().setAttribute(Constants.KAPTCHA_SESSION_KEY, text);
-////            System.out.println("设置sessionid:" + request.getSession().getId());
-//            try (ServletOutputStream out = response.getOutputStream()) {
-//                ImageIO.write(image, "jpg", out);
-//            }
-//        } catch (Exception e) {
-//            log.error("", e);
-//        }
+        response.setHeader("Cache-Control", "no-store, no-cache");
+        response.setContentType("image/jpeg");
+
+        try {
+            // 生成文字验证码
+            String text = producer.createText();
+            // 生成图片验证码
+            BufferedImage image = producer.createImage(text);
+            // 保存到验证码到 session
+            request.getSession().setAttribute(Constants.KAPTCHA_SESSION_KEY, text);
+//            System.out.println("设置sessionid:" + request.getSession().getId());
+            try (ServletOutputStream out = response.getOutputStream()) {
+                ImageIO.write(image, "jpg", out);
+            }
+        } catch (Exception e) {
+            log.error("", e);
+        }
     }
 
     /**
@@ -70,18 +74,18 @@ public class SysLoginController {
         if (kaptcha == null) {
 //            return HttpResult.error("验证码已失效");
         }
-//		if(!captcha.equals(kaptcha)){
-//			return HttpResult.error("验证码不正确");
-//		}
+		if(!captcha.equals(kaptcha)){
+			return HttpResult.error("验证码不正确");
+		}
         // 用户信息
-        UserDetails user = userService.loadUserByUsername(username);
+        SysUser user = userService.findByName(username);
 
         // 账号不存在、密码错误
         if (user == null) {
             return HttpResult.error("账号不存在");
         }
-        if (!PasswordUtils.matches("", password, user.getPassword())) {
-//            return HttpResult.error("密码不正确");
+        if (!PasswordUtils.matches(user.getSalt(), password, user.getPassword())) {
+            return HttpResult.error("密码不正确");
         }
 
         // 系统登录认证

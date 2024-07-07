@@ -73,6 +73,10 @@ public class SysUserService implements UserDetailsService {
         return sysUserDao.getById(id);
     }
 
+    public SysUser findByName(String name) {
+        return sysUserDao.findByName(name);
+    }
+
     public PageResult findPage(PageRequest request) {
         String name = getColumnFilterValue(request, "name");
         String email = getColumnFilterValue(request, "email");

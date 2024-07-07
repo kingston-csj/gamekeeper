@@ -4,6 +4,7 @@ import com.mysql.cj.util.StringUtils;
 import jforgame.admin.domain.SysUser;
 import jforgame.admin.http.HttpResult;
 import jforgame.admin.http.PageRequest;
+import jforgame.admin.io.system.ReqModifyPass;
 import jforgame.admin.security.SecurityUtils;
 import jforgame.admin.system.model.RoleKinds;
 import jforgame.admin.system.service.SysUserService;
@@ -52,6 +53,36 @@ public class SysUserController {
         return HttpResult.ok(sysUserService.save(record));
     }
 
+    @PostMapping(value = "/modifyPass")
+    public HttpResult modifyPass(@RequestBody ReqModifyPass req) {
+        if (StringUtils.isEmptyOrWhitespaceOnly(req.getOldPass()) || StringUtils.isEmptyOrWhitespaceOnly(req.getOldPass())) {
+            return HttpResult.error("密码为空");
+        }
+        if (req.getNewPass().length() < 6 || req.getCheckNewPass().length() < 6) {
+            return HttpResult.error("密码长度最少为6");
+        }
+        if (!req.getNewPass().equals(req.getCheckNewPass())) {
+            return HttpResult.error("两次密码不一致");
+        }
+        String userName = sysUserService.getCurrentUser();
+        SysUser user = sysUserService.findByName(userName);
+        if (user == null) {
+            return HttpResult.error("用户不存在");
+        }
+
+        if (!PasswordUtils.matches(user.getSalt(), req.getOldPass(), user.getPassword())) {
+            return HttpResult.error("密码不正确");
+        }
+        String salt = PasswordUtils.getSalt();
+        // 修改密码
+        String newPass = PasswordUtils.encode(req.getNewPass(), salt);
+        user.setSalt(salt);
+        user.setPassword(newPass);
+        sysUserService.save(user);
+
+        return HttpResult.ok();
+    }
+
     @PreAuthorize("hasAuthority('sys:user:delete')")
     @PostMapping(value = "/delete")
     public HttpResult delete(@RequestBody List<SysUser> records) {
@@ -70,7 +101,7 @@ public class SysUserController {
         return HttpResult.ok(sysUserService.loadUserByUsername(name));
     }
 
-//    @PreAuthorize("hasAuthority('sys:user:view')")
+    //    @PreAuthorize("hasAuthority('sys:user:view')")
     @GetMapping(value = "/findPermissions")
     public HttpResult findPermissions(@RequestParam String name) {
         return HttpResult.ok(sysUserService.findPermissions(name));

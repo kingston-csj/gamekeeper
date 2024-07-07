@@ -12,6 +12,16 @@ export const save = (data) => {
         data
     })
 }
+
+//修改密码
+export const modifyPass = (data) => {
+    return axios({
+        url: '/user/modifyPass',
+        method: 'post',
+        data
+    })
+}
+
 // 删除
 export const batchDelete = (data) => {
     return axios({
