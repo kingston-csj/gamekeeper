@@ -28,9 +28,8 @@
 
 <script>
 export default {
-  name: 'TableColumnFilterDialog',
-  components:{
-  },
+  name: "TableColumnFilterDialog",
+  components: {},
   props: {
     columns: {
       type: Array,
@@ -38,51 +37,50 @@ export default {
     },
     size: {
       type: String,
-      default: 'mini'
+      default: "mini"
     }
   },
   data() {
     return {
-      selections: [],  // 列表选中列
+      selections: [], // 列表选中列
       dialogVisible: false
-    }
+    };
   },
   methods: {
     // 选择切换
-    selectionChange: function (selections) {
-      this.selections = selections
-      
+    selectionChange: function(selections) {
+      this.selections = selections;
     },
     // 设置可见性
-    setDialogVisible: function (visible) {
-      this.dialogVisible = visible
+    setDialogVisible: function(visible) {
+      this.dialogVisible = visible;
     },
-		// 处理表格列过滤显示
-    handleFilterColumns: function () {
-      let filterColumns = []
-      for(let i = 0; i <this.columns.length; i++) {
-        let column = this.columns[i]
-        if(this.hasColumn(column)) {
-          filterColumns.push(column)
+    // 处理表格列过滤显示
+    handleFilterColumns: function() {
+      let filterColumns = [];
+      for (let i = 0; i < this.columns.length; i++) {
+        let column = this.columns[i];
+        if (this.hasColumn(column)) {
+          filterColumns.push(column);
         }
       }
-			this.$emit('handleFilterColumns', {filterColumns: JSON.parse(JSON.stringify(filterColumns))})
-    },
-    hasColumn: function (column) {
-      for(let i = 0; i <this.selections.length; i++) {
-        let col = this.selections[i]
-        if(column.prop == col.prop) {
-          return true
+      this.$emit("handleFilterColumns", {
+        filterColumns: JSON.parse(JSON.stringify(filterColumns))
+      });
+    },
+    hasColumn: function(column) {
+      for (let i = 0; i < this.selections.length; i++) {
+        let col = this.selections[i];
+        if (column.prop == col.prop) {
+          return true;
         }
       }
-      return false
+      return false;
     }
   },
-  mounted() {
-  }
-}
+  mounted() {}
+};
 </script>
 
 <style scoped>
-
 </style>

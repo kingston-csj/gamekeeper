@@ -62,11 +62,10 @@
 </template>
 
 <script>
-import Cookies from "js-cookie"
+import Cookies from "js-cookie";
 export default {
-  name: 'PersonalPanel',
-  components:{
-  },
+  name: "PersonalPanel",
+  components: {},
   props: {
     user: {
       type: Object,
@@ -77,61 +76,54 @@ export default {
     }
   },
   data() {
-      var validateOldPass = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('请输入原密码'));
-        } else {
-          if (this.ruleForm.checkPass !== '') {
-            this.$refs.ruleForm.validateField('checkPass');
-          }
-          callback();
+    var validateOldPass = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("请输入原密码"));
+      } else {
+        if (this.ruleForm.checkPass !== "") {
+          this.$refs.ruleForm.validateField("checkPass");
         }
-      };
-      var validatePass = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('请输入密码'));
-        } else if (value.length < 6) {
-            callback(new Error('密码长度最小为6'));
-        } else {
-          if (this.ruleForm.checkPass !== '') {
-            this.$refs.ruleForm.validateField('checkPass');
-          }
-          callback();
+        callback();
+      }
+    };
+    var validatePass = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("请输入密码"));
+      } else if (value.length < 6) {
+        callback(new Error("密码长度最小为6"));
+      } else {
+        if (this.ruleForm.checkPass !== "") {
+          this.$refs.ruleForm.validateField("checkPass");
         }
-      };
-      var validatePass2 = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('请再次输入密码'));
-        } else if (value !== this.ruleForm.newPass) {
-          callback(new Error('两次输入密码不一致!'));
-        } else {
-          callback();
-        }
-      };
+        callback();
+      }
+    };
+    var validatePass2 = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("请再次输入密码"));
+      } else if (value !== this.ruleForm.newPass) {
+        callback(new Error("两次输入密码不一致!"));
+      } else {
+        callback();
+      }
+    };
 
     return {
-       user_profile: {
-          name:''
-       },
-       dialogFormVisible: false,
-       ruleForm: {
-          oldPass: '',
-          newPass: '',
-          checkNewPass: ''
-        },
-        rules: {
-          oldPass: [
-            { validator: validateOldPass, trigger: 'blur' }
-          ],
-          newPass: [
-            { validator: validatePass, trigger: 'blur' }
-          ],
-          checkNewPass: [
-            { validator: validatePass2, trigger: 'blur' }
-          ]
-        }
-
-    }
+      user_profile: {
+        name: ""
+      },
+      dialogFormVisible: false,
+      ruleForm: {
+        oldPass: "",
+        newPass: "",
+        checkNewPass: ""
+      },
+      rules: {
+        oldPass: [{ validator: validateOldPass, trigger: "blur" }],
+        newPass: [{ validator: validatePass, trigger: "blur" }],
+        checkNewPass: [{ validator: validatePass2, trigger: "blur" }]
+      }
+    };
   },
   methods: {
     // 退出登录
@@ -139,54 +131,53 @@ export default {
       this.$confirm("确认退出吗?", "提示", {
         type: "warning"
       })
-      .then(() => {
-        sessionStorage.removeItem("user")
-        this.deleteCookie("token")
-        this.$router.push("/login")
-        this.$api.login.logout().then((res) => {
-          }).catch(function(res) {
+        .then(() => {
+          sessionStorage.removeItem("user");
+          this.deleteCookie("token");
+          this.$router.push("/login");
+          this.$api.login
+            .logout()
+            .then(res => {})
+            .catch(function(res) {});
         })
-      })
-      .catch(() => {})
+        .catch(() => {});
     },
     // 删除cookie
-    deleteCookie: function(name) { 
-        Cookies.remove(name)
+    deleteCookie: function(name) {
+      Cookies.remove(name);
     },
 
     submitForm(formName) {
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            var params = {
-              'oldPass':this.ruleForm.oldPass,
-              'newPass':this.ruleForm.newPass,
-              'checkNewPass':this.ruleForm.checkNewPass
-            };
-            this.$api.user.modifyPass(params).then(res=>{
-              if(res.code == 200) {
-                this.$alert(res.msg, '执行成功');
-                this.dialogFormVisible=false
-              } else {
-                this.$alert(res.msg, '失败!');
-              }
-            })
-          } else {
-            console.log('error submit!!');
-            return false;
-          }
-        });
-      },
-      resetForm(formName) {
-        this.$refs[formName].resetFields();
-      }  
-
-
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          var params = {
+            oldPass: this.ruleForm.oldPass,
+            newPass: this.ruleForm.newPass,
+            checkNewPass: this.ruleForm.checkNewPass
+          };
+          this.$api.user.modifyPass(params).then(res => {
+            if (res.code == 200) {
+              this.$alert(res.msg, "执行成功");
+              this.dialogFormVisible = false;
+            } else {
+              this.$alert(res.msg, "失败!");
+            }
+          });
+        } else {
+          console.log("error submit!!");
+          return false;
+        }
+      });
+    },
+    resetForm(formName) {
+      this.$refs[formName].resetFields();
+    }
   },
   mounted() {
-    let userName = sessionStorage.getItem('user')
-    this.user_profile.name = userName
+    let userName = sessionStorage.getItem("user");
+    this.user_profile.name = userName;
   }
-}
+};
 </script>
 
 <style scoped>

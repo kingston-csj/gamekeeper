@@ -37,13 +37,13 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
-import Cookies from "js-cookie"
-import ThemePicker from "@/components/ThemePicker"
-import LangSelector from "@/components/LangSelector"
+import { mapState } from "vuex";
+import Cookies from "js-cookie";
+import ThemePicker from "@/components/ThemePicker";
+import LangSelector from "@/components/LangSelector";
 export default {
-  name: 'Login',
-  components:{
+  name: "Login",
+  components: {
     ThemePicker,
     LangSelector
   },
@@ -51,96 +51,97 @@ export default {
     return {
       loading: false,
       loginForm: {
-        account: 'admin',
-        password: 'admin',
-        captcha:'',
-        src: ''
+        account: "admin",
+        password: "admin",
+        captcha: "",
+        src: ""
       },
       fieldRules: {
-        account: [
-          { required: true, message: '请输入账号', trigger: 'blur' }
-        ],
-        password: [
-          { required: true, message: '请输入密码', trigger: 'blur' }
-        ]
+        account: [{ required: true, message: "请输入账号", trigger: "blur" }],
+        password: [{ required: true, message: "请输入密码", trigger: "blur" }]
         // ,
         // captcha: [
         //   { required: true, message: '请输入验证码', trigger: 'blur' }
         // ]
       },
       checked: true
-    }
+    };
   },
   methods: {
     login() {
-      this.loading = true
-      let userInfo = {account:this.loginForm.account,
-                     password:this.loginForm.password, 
-                     captcha:this.loginForm.captcha
-                     }
-      this.$api.login.login(userInfo).then((res) => {
-          if(res.msg != null) {
+      this.loading = true;
+      let userInfo = {
+        account: this.loginForm.account,
+        password: this.loginForm.password,
+        captcha: this.loginForm.captcha
+      };
+      this.$api.login
+        .login(userInfo)
+        .then(res => {
+          if (res.msg != null) {
             this.$message({
               message: res.msg,
-              type: 'error'
-            })
+              type: "error"
+            });
           } else {
-            Cookies.set('token', res.data.token) // 放置token到Cookie
-            console.info("token=="+Cookies.get('token'))
-            console.info("cookies=="+JSON.stringify(Cookies.get()))
-            sessionStorage.setItem('user', userInfo.account) // 保存用户到本地会话
-            this.$store.commit('menuRouteLoaded', false) // 要求重新加载导航菜单
-            this.$router.push('/')  // 登录成功，跳转到主页
+            Cookies.set("token", res.data.token); // 放置token到Cookie
+            console.info("token==" + Cookies.get("token"));
+            console.info("cookies==" + JSON.stringify(Cookies.get()));
+            sessionStorage.setItem("user", userInfo.account); // 保存用户到本地会话
+            this.$store.commit("menuRouteLoaded", false); // 要求重新加载导航菜单
+            this.$router.push("/"); // 登录成功，跳转到主页
           }
-          this.loading = false
-        }).catch((res) => {
+          this.loading = false;
+        })
+        .catch(res => {
           this.$message({
-          message: res.message,
-          type: 'error'
-          })
+            message: res.message,
+            type: "error"
+          });
         });
     },
-    refreshCaptcha: function(){
-      this.loginForm.src = this.global.baseUrl + "/captcha.jpg?t=" + new Date().getTime();
+    refreshCaptcha: function() {
+      this.loginForm.src =
+        this.global.baseUrl + "/captcha.jpg?t=" + new Date().getTime();
     },
     reset() {
-      this.$refs.loginForm.resetFields()
+      this.$refs.loginForm.resetFields();
     },
     // 切换主题
     onThemeChange: function(themeColor) {
-      this.$store.commit('setThemeColor', themeColor)
+      this.$store.commit("setThemeColor", themeColor);
     }
   },
   mounted() {
-    this.refreshCaptcha()
+    this.refreshCaptcha();
   },
-  computed:{
+  computed: {
     ...mapState({
-      themeColor: state=>state.app.themeColor
+      themeColor: state => state.app.themeColor
     })
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
-  .login-container {
-    -webkit-border-radius: 5px;
-    border-radius: 5px;
-    -moz-border-radius: 5px;
-    background-clip: padding-box;
-    margin: 100px auto;
-    width: 350px;
-    padding: 35px 35px 15px 35px;
-    background: #fff;
-    border: 1px solid #eaeaea;
-    box-shadow: 0 0 25px #cac6c6;
-    .title {
-      margin: 0px auto 30px auto;
-      text-align: center;
-      color: #505458;
-    }
-    .remember {
-      margin: 0px 0px 35px 0px;
-    }
+.login-container {
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  background-clip: padding-box;
+  margin: 100px auto;
+  width: 350px;
+  padding: 35px 35px 15px 35px;
+  background: #fff;
+  border: 1px solid #eaeaea;
+  box-shadow: 0 0 25px #cac6c6;
+  .title {
+    margin: 0px auto 30px auto;
+    text-align: center;
+    color: #505458;
   }
+  .remember {
+    margin: 0px 0px 35px 0px;
+  }
+}
 </style>

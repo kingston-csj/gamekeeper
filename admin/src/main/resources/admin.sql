@@ -1,7 +1,5 @@
-CREATE DATABASE IF NOT EXISTS `admin`;
-
 /*
- Navicat Premium Dump SQL
+ Navicat Premium Data Transfer
 
  Source Server         : localhost
  Source Server Type    : MySQL
@@ -13,7 +11,7 @@ CREATE DATABASE IF NOT EXISTS `admin`;
  Target Server Version : 50744 (5.7.44)
  File Encoding         : 65001
 
- Date: 07/06/2024 17:42:31
+ Date: 15/03/2025 14:06:20
 */
 
 SET NAMES utf8mb4;
@@ -91,18 +89,12 @@ CREATE TABLE `sys_menu`  (
 -- ----------------------------
 INSERT INTO `sys_menu` VALUES (1, '系统管理', 0, NULL, NULL, 0, 'el-icon-setting', 0);
 INSERT INTO `sys_menu` VALUES (2, '用户管理', 1, '/sys/user', NULL, 1, 'el-icon-service', 1);
-INSERT INTO `sys_menu` VALUES (3, '机构管理', 1, '/sys/dept', NULL, 1, 'el-icon-news', 2);
 INSERT INTO `sys_menu` VALUES (4, '角色管理', 1, '/sys/role', NULL, 1, 'el-icon-view', 4);
 INSERT INTO `sys_menu` VALUES (5, '菜单管理', 1, '/sys/menu', NULL, 1, 'el-icon-menu', 5);
-INSERT INTO `sys_menu` VALUES (7, '字典管理', 1, '/sys/dict', NULL, 1, 'el-icon-edit-outline', 7);
 INSERT INTO `sys_menu` VALUES (9, '查看', 2, NULL, 'sys:user:view', 2, NULL, 0);
 INSERT INTO `sys_menu` VALUES (10, '新增', 2, NULL, 'sys:user:add', 2, NULL, 0);
 INSERT INTO `sys_menu` VALUES (11, '修改', 2, NULL, 'sys:user:edit', 2, NULL, 0);
 INSERT INTO `sys_menu` VALUES (12, '删除', 2, NULL, 'sys:user:delete', 2, NULL, 0);
-INSERT INTO `sys_menu` VALUES (13, '查看', 3, NULL, 'sys:dept:view', 2, NULL, 0);
-INSERT INTO `sys_menu` VALUES (14, '新增', 3, NULL, 'sys:dept:add', 2, NULL, 0);
-INSERT INTO `sys_menu` VALUES (15, '修改', 3, NULL, 'sys:dept:edit', 2, NULL, 0);
-INSERT INTO `sys_menu` VALUES (16, '删除', 3, NULL, 'sys:dept:delete', 2, NULL, 0);
 INSERT INTO `sys_menu` VALUES (17, '查看', 4, NULL, 'sys:role:view', 2, NULL, 0);
 INSERT INTO `sys_menu` VALUES (18, '新增', 4, NULL, 'sys:role:add', 2, NULL, 0);
 INSERT INTO `sys_menu` VALUES (19, '修改', 4, NULL, 'sys:role:edit', 2, NULL, 0);
@@ -114,10 +106,6 @@ INSERT INTO `sys_menu` VALUES (24, '删除', 5, NULL, 'sys:menu:delete', 2, NULL
 INSERT INTO `sys_menu` VALUES (28, '渠道管理', 0, NULL, NULL, 0, 'el-icon-picture-outline', 6);
 INSERT INTO `sys_menu` VALUES (29, '订单查询', 28, '/pay/order', NULL, 1, 'el-icon-edit', 1);
 INSERT INTO `sys_menu` VALUES (30, '渠道统计', 28, '/pay/statistics', NULL, 1, 'el-icon-picture', 2);
-INSERT INTO `sys_menu` VALUES (31, '查看', 7, NULL, 'sys:dict:view', 2, NULL, 0);
-INSERT INTO `sys_menu` VALUES (32, '新增', 7, NULL, 'sys:dict:add', 2, NULL, 0);
-INSERT INTO `sys_menu` VALUES (33, '修改', 7, NULL, 'sys:dict:edit', 2, NULL, 0);
-INSERT INTO `sys_menu` VALUES (34, '删除', 7, NULL, 'sys:dict:delete', 2, NULL, 0);
 INSERT INTO `sys_menu` VALUES (100, '服务器管理', 0, '', '', 0, 'el-icon-info', 0);
 INSERT INTO `sys_menu` VALUES (110, '服务列表', 100, '/server/nodes', '', 1, 'el-icon-view', 1);
 INSERT INTO `sys_menu` VALUES (111, '服务列表-编辑', 110, '', 'server:nodes:edit', 2, 'el-icon-view', 1);
@@ -126,9 +114,6 @@ INSERT INTO `sys_menu` VALUES (113, '服务列表-删除', 110, '', 'server:node
 INSERT INTO `sys_menu` VALUES (120, '后台命令', 100, '/server/commands', '', 1, 'el-icon-service', 2);
 INSERT INTO `sys_menu` VALUES (200, '玩家管理', 0, '', '', 0, 'el-icon-service', 2);
 INSERT INTO `sys_menu` VALUES (201, '玩家查询', 200, '/player/query', '', 1, 'el-icon-view', 0);
-INSERT INTO `sys_menu` VALUES (300, '业务支持', 0, NULL, NULL, 0, 'el-icon-service', 0);
-INSERT INTO `sys_menu` VALUES (310, '图片上传', 300, '/business/picture', NULL, 1, 'el-icon-service', 1);
-INSERT INTO `sys_menu` VALUES (320, '字体上传', 300, '/business/font', NULL, 1, 'el-icon-service', 2);
 
 -- ----------------------------
 -- Table structure for sys_role
@@ -173,7 +158,7 @@ CREATE TABLE `sys_role_menu`  (
   `role_id` bigint(20) NULL DEFAULT NULL COMMENT '角色ID',
   `menu_id` bigint(20) NULL DEFAULT NULL COMMENT '菜单ID',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 41 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色菜单' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色菜单' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of sys_role_menu
@@ -364,11 +349,11 @@ CREATE TABLE `t_server`  (
   `httpPort` int(11) NULL DEFAULT NULL COMMENT '大区http端口',
   `merged` int(11) NULL DEFAULT 0,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 23243 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of t_server
 -- ----------------------------
-INSERT INTO `t_server` VALUES (1, '内网开发1服', '127.0.0.1', NULL, 8080, 0);
+INSERT INTO `t_server` VALUES (1, '内网开发1服1', '127.0.0.1', NULL, 8080, 0);
 
 SET FOREIGN_KEY_CHECKS = 1;

@@ -17,46 +17,45 @@
 
 <script>
 export default {
-  name: 'NoticePanel',
+  name: "NoticePanel",
   props: {
     data: {
       type: Array,
       default: () => [
         {
           key: "1",
-          icon:'fa fa-envelope-o',
-          content:'恭喜，您的升职申请已通过！'
+          icon: "fa fa-envelope-o",
+          content: "恭喜，您的升职申请已通过！"
         },
         {
           key: "2",
-          icon:'fa fa-music',
-          content:'恭喜，您中了五百万彩票！'
+          icon: "fa fa-music",
+          content: "恭喜，您中了五百万彩票！"
         },
         {
           key: "3",
-          icon:'fa fa-edit',
-          content:'今天是感恩节，五点准时下班～'
+          icon: "fa fa-edit",
+          content: "今天是感恩节，五点准时下班～"
         },
         {
           key: "4",
-          icon:'fa fa-edit',
-          content:'今天是您入职十周年啦～'
-        }]
+          icon: "fa fa-edit",
+          content: "今天是您入职十周年啦～"
+        }
+      ]
     }
   },
   data() {
-    return {
-    }
+    return {};
   },
   methods: {
-    handleClick: function () {
+    handleClick: function() {
       // 按钮操作处理函数
-      this.$emit('click', {})
+      this.$emit("click", {});
     }
   },
-  mounted() {
-  }
-}
+  mounted() {}
+};
 </script>
 
 <style scoped>
@@ -100,6 +99,6 @@ export default {
 }
 .notice-footer:hover {
   cursor: pointer;
-  background: #b1a6a61e
+  background: #b1a6a61e;
 }
 </style>

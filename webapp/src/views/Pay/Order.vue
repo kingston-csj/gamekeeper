@@ -54,98 +54,96 @@
   </div>
 </template>
 <style type="text/css" scoped>
-  .block {
-    margin-top: 20px;
-    width: 100%;
-  }
-  .block .r_btn {
-    float: left;
-    width: 90px;
-  }
-  .block .r_page {
-     float: right;
-  }
+.block {
+  margin-top: 20px;
+  width: 100%;
+}
+.block .r_btn {
+  float: left;
+  width: 90px;
+}
+.block .r_page {
+  float: right;
+}
 </style>
 <script type="text/javascript">
- 
-  export default {
-    data() {
-      return {
-        tableData: [],
-        currentPage:1,
-        total:0,
-        pageSize:10,
-        selectDateFrom:'',
-        selectDateTo:'',
-        dialogFormVisible: false,
-        formLabelWidth: '120px',
-        loading2: false,
+export default {
+  data() {
+    return {
+      tableData: [],
+      currentPage: 1,
+      total: 0,
+      pageSize: 10,
+      selectDateFrom: "",
+      selectDateTo: "",
+      dialogFormVisible: false,
+      formLabelWidth: "120px",
+      loading2: false,
 
-        pickerOptions0: {
-            disabledDate(time) {
-              return false;
-            }
-        },
-
+      pickerOptions0: {
+        disabledDate(time) {
+          return false;
+        }
       }
-    },
-    mounted() {
-      this.initTime();
-      //this.loadData();
-    },
-    methods: {
-      //加载数据
-      loadData() {
-        this.loading2 = true;
-        var params = {
-          page: this.currentPage, 
-          pageSize: this.pageSize, 
-          selectFrom: this.selectDateFrom, 
-          selectTo: this.selectDateTo
-        };
-       
-        var _this = this;
+    };
+  },
+  mounted() {
+    this.initTime();
+    //this.loadData();
+  },
+  methods: {
+    //加载数据
+    loadData() {
+      this.loading2 = true;
+      var params = {
+        page: this.currentPage,
+        pageSize: this.pageSize,
+        selectFrom: this.selectDateFrom,
+        selectTo: this.selectDateTo
+      };
 
-        this.$api.pay.findPage({
+      var _this = this;
+
+      this.$api.pay
+        .findPage({
           page: _this.currentPage,
           pageSize: _this.pageSize,
-          selectFrom:_this.selectDateFrom.getTime(),
-          selectTo:_this.selectDateTo.getTime()
-        }).then((res) => {
+          selectFrom: _this.selectDateFrom.getTime(),
+          selectTo: _this.selectDateTo.getTime()
+        })
+        .then(res => {
           _this.loading = false;
           _this.tableData = res.data.orders;
           _this.loading2 = false;
           _this.total = res.data.totalRecord;
-        })
+        });
+    },
+    //查询
+    onSubmit() {
+      this.loadData();
+    },
+    //改变分页大小
+    handleSizeChange(val) {
+      this.pageSize = val;
+    },
+    //跳转页数
+    handleCurrentChange(val) {
+      this.currentPage = val;
+      this.loadData();
+    },
 
-
-      },
-      //查询
-      onSubmit() {
-        this.loadData();
-      },
-      //改变分页大小
-      handleSizeChange(val) {
-        this.pageSize = val;
-      },
-      //跳转页数
-      handleCurrentChange(val) {
-        this.currentPage = val;
-        this.loadData();
-      },
-
-      initTime() {
-        var from = new Date()
-        from.setHours(0)
-        from.setMinutes(0)
-        from.setSeconds(0)
-        this.selectDateFrom = from
-        var to = new Date()
-        to.setHours(23)
-        to.setMinutes(59)
-        to.setSeconds(59)
-        this.selectDateTo = to
-      },
+    initTime() {
+      var from = new Date();
+      from.setHours(0);
+      from.setMinutes(0);
+      from.setSeconds(0);
+      this.selectDateFrom = from;
+      var to = new Date();
+      to.setHours(23);
+      to.setMinutes(59);
+      to.setSeconds(59);
+      this.selectDateTo = to;
     }
   }
+};
 </script>
