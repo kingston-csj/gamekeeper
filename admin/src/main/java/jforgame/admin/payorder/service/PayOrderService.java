@@ -3,6 +3,7 @@ package jforgame.admin.payorder.service;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.Path;
 import jakarta.persistence.criteria.Predicate;
+import jforgame.admin.channel.dao.ChannelDao;
 import jforgame.admin.channel.domain.Channel;
 import jforgame.admin.channel.service.ChannelService;
 import jforgame.admin.payorder.dao.PayOrderDao;
@@ -34,6 +35,9 @@ public class PayOrderService {
     @Autowired
     private PayOrderDao payOrderDao;
 
+
+    @Autowired
+    private ChannelDao channelDao;
     /**
      * 查看订单列表详情
      *
@@ -98,7 +102,7 @@ public class PayOrderService {
         PayChannelStatistics result = new PayChannelStatistics();
         // 超级管理员可以查看所有渠道
         boolean isAdmin = RoleKinds.ADMIN.equalsIgnoreCase(userName);
-        if (children.size() <= 0 && !isAdmin) {
+        if (children.isEmpty() && !isAdmin) {
             return result;
         }
 
@@ -115,14 +119,14 @@ public class PayOrderService {
                 continue;
             }
             assert channel != null;
-            int prev = channelMap.getOrDefault(channel.getChannelNo(), 0);
+            int prev = channelMap.getOrDefault(channelNo, 0);
             channelMap.put(channelNo, prev + money);
             moneySum += money;
         }
 
         for (Map.Entry<String, Integer> entry : channelMap.entrySet()) {
             PayOrderGroup vo = new PayOrderGroup();
-            vo.setChannelCode(entry.getKey());
+            vo.setChannelCode(channelDao.findById(entry.getKey()).orElse(null).getChannelNo());
             vo.setMoney(entry.getValue());
             orderGroups.add(vo);
         }

@@ -15,20 +15,20 @@ public class ChannelTree implements Tree {
     public ChannelTree(List<Channel> nodes) {
         for (Channel node : nodes) {
             TreeNode treeNode = new TreeNode(node.getChannelNo(), null);
-            channelNodes.put(node.getChannelNo(), treeNode);
+            channelNodes.put(node.getId(), treeNode);
         }
 
         for (Channel node : nodes) {
             if (!StringUtils.isEmpty(node.getParentChannel())) {
                 TreeNode<String> parent = channelNodes.get(node.getParentChannel());
                 TreeNode treeNode = new TreeNode(node.getChannelNo(), parent);
-                channelNodes.put(node.getChannelNo(), treeNode);
+                channelNodes.put(node.getId(), treeNode);
             }
         }
 
         for (Channel node : nodes) {
             if (!StringUtils.isEmpty(node.getParentChannel())) {
-                channelNodes.get(node.getParentChannel()).addChild(channelNodes.get(node.getChannelNo()));
+                channelNodes.get(node.getParentChannel()).addChild(channelNodes.get(node.getId()));
             }
         }
     }

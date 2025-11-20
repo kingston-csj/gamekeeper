@@ -75,7 +75,7 @@ public class SysLoginController {
 //            return HttpResult.error("验证码已失效");
         }
 		if(!captcha.equals(kaptcha)){
-			return HttpResult.error("验证码不正确");
+//			return HttpResult.error("验证码不正确");
 		}
         // 用户信息
         SysUser user = userService.findByName(username);

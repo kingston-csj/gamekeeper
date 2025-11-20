@@ -1,5 +1,6 @@
 package jforgame.admin.payorder.controller;
 
+import jforgame.admin.channel.dao.ChannelDao;
 import jforgame.admin.http.HttpResult;
 import jforgame.admin.payorder.domain.PayOrder;
 import jforgame.admin.payorder.io.PayOrderStatistics;
@@ -28,6 +29,10 @@ public class PayOrderController {
     private PayOrderService orderService;
     @Autowired
     private SysUserService userService;
+    @Autowired
+    ChannelDao channelDao;
+
+
 
     @GetMapping(value = "/order")
     public HttpResult queryOrdersDetail(ReqQueryOrders req) {
@@ -38,8 +43,8 @@ public class PayOrderController {
             List<PayOrderVo> vos = new ArrayList<>(orders.getNumberOfElements());
             for (PayOrder order : orders) {
                 PayOrderVo vo = new PayOrderVo();
-                vo.setAccount(order.getChannelCode());
-                vo.setChannel(order.getChannelCode());
+                vo.setAccount(order.getAccount());
+                vo.setChannel(channelDao.findById(order.getChannelCode()).get().getChannelNo());
                 vo.setId(order.getTradeNo());
                 vo.setMoney(order.getMoney());
                 vo.setTime(DateUtil.format(order.getCreateTime()));

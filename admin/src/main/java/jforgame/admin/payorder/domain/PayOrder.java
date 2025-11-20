@@ -15,6 +15,8 @@ public class PayOrder {
     private String tradeNo;
 
     @Column
+    private String account;
+    @Column
     private String channelCode;
 
     @Column

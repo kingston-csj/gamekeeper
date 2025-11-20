@@ -15,7 +15,7 @@ public class Channel {
      * {@link SysUser#getId()}
      */
     @Id
-    private Long id;
+    private String id;
 
     @Column
     private String channelNo;
