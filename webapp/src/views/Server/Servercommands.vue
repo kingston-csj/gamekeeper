@@ -72,7 +72,7 @@ export default {
     },
 
     loadCommands() {
-      this.$api.server.findCommands().then((res) => {
+      this.$api.server.findCommands({ type: 1 }).then((res) => {
         this.commands = res;
       })
     },

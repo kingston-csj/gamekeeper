@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
@@ -38,12 +37,15 @@ public class GameCmdController {
     @Autowired
     private AsyncTaskManager asyncTaskManager;
 
-
+    /**
+     * @param type
+     * @return 0为运营命令，1为运维命令
+     */
     @RequestMapping(value = "/commands", method = RequestMethod.GET)
-    public List<CommandVo> queryCommands() {
+    public List<CommandVo> queryCommands(@RequestParam int type) {
         List<CommandVo> vos = new ArrayList<>();
         for (CmdTypes cmd : CmdTypes.values()) {
-            if (cmd.getType() != CmdTypes.TYPE_SERVER) {
+            if (cmd.getType() != type) {
                 continue;
             }
             CommandVo vo = new CommandVo();
@@ -67,7 +69,7 @@ public class GameCmdController {
         }
 
         CmdTypes cmdType = CmdTypes.queryCmd(req.getType());
-        if (cmdType.getType() == CmdTypes.TYPE_SERVER) {
+        if (cmdType.getType() == CmdTypes.TYPE_GAME || cmdType.getType() == CmdTypes.TYPE_SERVER) {
             return HttpResult.ok(cmdService.execServerCmd(servers, req.getType(), req.getParams()));
         }
         return HttpResult.error("无效指令");
@@ -75,7 +77,7 @@ public class GameCmdController {
 
     @GetMapping(value = "/simplyPlayer")
     public HttpResult simplyPlayer(@RequestParam int serverId,
-                            @RequestParam String sign) {
+                                   @RequestParam String sign) {
         List<PlayerSimpleVo> playerInfo = playerCmdService.queryPlayerSimple(serverId, sign);
         return HttpResult.ok(playerInfo);
     }

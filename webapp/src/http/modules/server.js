@@ -42,11 +42,11 @@ export const loadServerIds = data => {
 };
 
 // 后台命令查询
-export const findCommands = data => {
+export const findCommands = params => {
   return axios({
     url: "/gameCmd/commands",
     method: "get",
-    data
+    params
   });
 };
 
