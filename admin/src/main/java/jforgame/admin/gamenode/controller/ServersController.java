@@ -76,7 +76,7 @@ public class ServersController {
     public HttpResult saveNode(@RequestBody ReqCreateServerNode req) {
         try {
             serversManager.saveNode(req.getId(), req.getName(), req.getIp(), req.getHttpPort());
-            LoggerUtil.info(LoggerFunction.SERVER_NODE, "operator", SecurityUtils.getUsername(),"type", "save", "params",  JsonUtil.object2String(req));
+            LoggerUtil.info(LoggerFunction.SERVER_NODE, "operator", SecurityUtils.getUsername(), "type", "save", "params", JsonUtil.object2String(req));
             return HttpResult.ok();
         } catch (Exception e) {
             return HttpResult.error(e.getMessage());
@@ -88,7 +88,7 @@ public class ServersController {
         if (id <= 0) {
             return HttpResult.error(I18nConstants.COMMON_NOT_FOUND);
         }
-        LoggerUtil.info(LoggerFunction.SERVER_NODE, "operator", SecurityUtils.getUsername(),"type", "delete", "params",  id);
+        LoggerUtil.info(LoggerFunction.SERVER_NODE, "operator", SecurityUtils.getUsername(), "type", "delete", "params", id);
         serversManager.deleteNode(id);
         return HttpResult.ok();
     }
@@ -106,7 +106,7 @@ public class ServersController {
             }
         });
 
-        result.put("ids", ids);
+        result.put("ids", servers);
         return result;
     }
 

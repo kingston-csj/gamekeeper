@@ -267,23 +267,6 @@ INSERT INTO `t_channel` VALUES ('DJ884', 'DJ883', 34);
 INSERT INTO `t_channel` VALUES ('DJ885', '8888DJ', 35);
 
 -- ----------------------------
--- Table structure for t_font
--- ----------------------------
-DROP TABLE IF EXISTS `t_font`;
-CREATE TABLE `t_font`  (
-  `id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `url` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `description` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of t_font
--- ----------------------------
-INSERT INTO `t_font` VALUES ('665e8aa463261b357e2c5bad', 'c085d847f8394dbdbcf2e860d97085e9.ttf', 'AlibabaPuHuiTi.ttf', 'AlibabaPuHuiTi.ttf');
-
--- ----------------------------
 -- Table structure for t_payorder
 -- ----------------------------
 DROP TABLE IF EXISTS `t_payorder`;
@@ -309,33 +292,6 @@ INSERT INTO `t_payorder` VALUES ('1', '1', 'aaa', '2021-03-21 23:28:07', 121245,
 INSERT INTO `t_payorder` VALUES ('2', '2', 'bbb', '2021-03-21 23:28:07', 101000, 445, NULL, '飞狐外传', NULL, '6666DJ', NULL);
 INSERT INTO `t_payorder` VALUES ('3', '3', 'ccc', '2021-03-21 23:28:07', 45, 45, NULL, '连城诀', NULL, 'DJ882', NULL);
 INSERT INTO `t_payorder` VALUES ('4', '4', 'fff', '2021-03-21 23:28:07', 222222222, 345, NULL, '连城诀', NULL, 'DJ886', NULL);
-
--- ----------------------------
--- Table structure for t_picture
--- ----------------------------
-DROP TABLE IF EXISTS `t_picture`;
-CREATE TABLE `t_picture`  (
-  `id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `type` int(11) NULL DEFAULT NULL,
-  `createTime` bigint(20) NULL DEFAULT NULL,
-  `size` int(11) NULL DEFAULT 0,
-  `width` int(11) NULL DEFAULT 0,
-  `height` int(11) NULL DEFAULT 0,
-  `url` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of t_picture
--- ----------------------------
-INSERT INTO `t_picture` VALUES ('665d9dcf95d0112bfd58ea2b', 0, 1717411279808, 66756, 672, 530, 'dc8c806029ae4d9aa7b4f71ca12e8305.jpeg', '1.jpeg');
-INSERT INTO `t_picture` VALUES ('665d9dd395d0112bfd58ea2c', 0, 1717411283233, 13999, 600, 338, 'a111257cdb5a4e508366f3d42dfe0704.jpg', '1.jpg');
-INSERT INTO `t_picture` VALUES ('665db7cb2f41b10ee203b6bd', 0, 1717417931169, 31705, 465, 309, '94d85c42ac3e4f759db838676145508e.png', '1.png');
-INSERT INTO `t_picture` VALUES ('665db8882f41b10ee203b6be', 0, 1717418120366, 66756, 672, 530, '5a465a61c403491fac04cced48a8787f.jpeg', '1.jpeg');
-INSERT INTO `t_picture` VALUES ('665db8a02f41b10ee203b6bf', 0, 1717418144033, 66756, 672, 530, 'e5747a4f1b294daa812287e63edc4898.jpeg', '1.jpeg');
-INSERT INTO `t_picture` VALUES ('665ea6f1af082608bbe9a936', 0, 1717479153454, 2602, 254, 57, 'caf76061b953458d94bdfe017998ed97.png', '通道空白按钮1.png');
-INSERT INTO `t_picture` VALUES ('665ea6f5af082608bbe9a937', 0, 1717479157661, 2382, 254, 57, '5eadc6ce4eb94f449965fa9085216cdd.png', '通道空白按钮2.png');
 
 -- ----------------------------
 -- Table structure for t_server

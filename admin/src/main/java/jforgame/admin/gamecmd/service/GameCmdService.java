@@ -2,6 +2,7 @@ package jforgame.admin.gamecmd.service;
 
 import jforgame.admin.domain.ServerInfo;
 import jforgame.admin.gamecmd.cmd.CmdTypes;
+import jforgame.admin.gamecmd.cmd.http.AdminHttpResponse;
 import jforgame.admin.gamecmd.cmd.http.HttpServerAdminCmd;
 import jforgame.admin.gamecmd.executor.AsyncTaskConstructor;
 import jforgame.admin.gamecmd.executor.AsyncTaskManager;
@@ -40,17 +41,21 @@ public class GameCmdService {
             try {
                 Constructor constructor = clazz.getConstructor(ServerInfo.class, String.class);
                 HttpServerAdminCmd adminCmd = (HttpServerAdminCmd) constructor.newInstance(server, params);
-                result.put(serverId, (String) adminCmd.action());
+                AdminHttpResponse action = (AdminHttpResponse) adminCmd.action();
+                String message = action.getCode() > 0 ? action.getMessage() : action.getData();
+                result.put(serverId, message);
             } catch (Exception e) {
+                LoggerUtil.error("", e);
                 result.put(serverId, e.getMessage());
             }
         }
-        LoggerUtil.info(LoggerFunction.ADMIN_CMD, "operator", SecurityUtils.getUsername(),"type", type, "params", params,  "result", JsonUtil.object2String(result));
+        LoggerUtil.info(LoggerFunction.ADMIN_CMD, "operator", SecurityUtils.getUsername(), "type", type, "params", params, "result", JsonUtil.object2String(result));
         return result.toString();
     }
 
     /**
      * 异步多线程执行
+     *
      * @param serverIds
      * @return
      */

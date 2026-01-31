@@ -28,8 +28,8 @@ public class ServerNodeService {
     public void saveNode(int id, String name, String ip, int httpPort) {
         ServerInfo serverInfo = new ServerInfo();
         serverInfo.setId(id);
-        serverInfo.setIp(ip);
-        serverInfo.setName(name);
+        serverInfo.setIp(ip.trim());
+        serverInfo.setName(name.trim());
         serverInfo.setHttpPort(httpPort);
         serverInfoDao.save(serverInfo);
     }

@@ -2,6 +2,7 @@ package jforgame.admin.gamecmd.cmd;
 
 import jforgame.admin.gamecmd.cmd.http.BanPlayerChatCmd;
 import jforgame.admin.gamecmd.cmd.http.BanPlayerLoginCmd;
+import jforgame.admin.gamecmd.cmd.http.ClearDbCmd;
 import jforgame.admin.gamecmd.cmd.http.HotSwapCmd;
 import jforgame.admin.gamecmd.cmd.http.QueryPlayerCmd;
 import jforgame.admin.gamecmd.cmd.http.ReloadConfigCmd;
@@ -16,7 +17,8 @@ public enum CmdTypes {
     HOT_SWAP(1, "热更", "无", CmdTypes.TYPE_SERVER, HotSwapCmd.class),
     RUN_SCRIPT(2, "执行脚本", "Groovy脚本内容", CmdTypes.TYPE_SERVER, RunScriptCmd.class),
     RELOAD_CONFIG(3, "表格重载", "表格名称", CmdTypes.TYPE_SERVER, ReloadConfigCmd.class),
-//    CLOSE_SERVER(4, "关服", "无", CmdTypes.TYPE_SERVER, CloseServerCmd.class),
+    //    CLOSE_SERVER(4, "关服", "无", CmdTypes.TYPE_SERVER, CloseServerCmd.class),
+    Clear_DB(4, "清库", "无", CmdTypes.TYPE_SERVER, ClearDbCmd.class),
 
 
     QUERY_PLAYER(100, "查询玩家信息", "角色uid或者模糊昵称", CmdTypes.TYPE_PLAYER, QueryPlayerCmd.class),

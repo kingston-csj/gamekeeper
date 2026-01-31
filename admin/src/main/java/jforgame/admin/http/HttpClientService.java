@@ -75,7 +75,10 @@ public class HttpClientService {
         }
         //发送请求，接受响应结果
         CloseableHttpResponse response = httpClient.execute(httpPost);
-//        int statusCode = response.getStatusLine().getStatusCode();
+        int statusCode = response.getStatusLine().getStatusCode();
+        if (statusCode != 200) {
+            throw new IOException("请求失败，状态码：" + statusCode);
+        }
         HttpEntity entity = response.getEntity();
         return JsonUtil.string2Object(EntityUtils.toString(entity), responseClazz);
     }

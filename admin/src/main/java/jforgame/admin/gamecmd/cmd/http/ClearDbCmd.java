@@ -6,29 +6,25 @@ import jforgame.admin.gamecmd.cmd.CmdTypes;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ReloadConfigCmd extends HttpServerAdminCmd {
+public class ClearDbCmd extends HttpServerAdminCmd {
 
-    private final String tableName;
-
-    public ReloadConfigCmd(ServerInfo serverNode, String tableName) {
+    public ClearDbCmd(ServerInfo serverNode, String tableName) {
         super(serverNode, tableName);
-        this.tableName = tableName;
     }
 
     @Override
     public String httpMethod() {
-        return "reloadConfig";
+        return "clearDb";
     }
 
     @Override
     public AdminHttpResponse action() {
         Map<String, Object> params = new HashMap<>();
-        params.put("command", tableName);
         return httpPost(url(), params);
     }
 
     @Override
     public CmdTypes meta() {
-        return CmdTypes.RELOAD_CONFIG;
+        return CmdTypes.Clear_DB;
     }
 }

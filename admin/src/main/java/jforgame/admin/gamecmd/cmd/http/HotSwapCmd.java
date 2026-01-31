@@ -22,10 +22,10 @@ public class HotSwapCmd extends HttpServerAdminCmd {
     }
 
     @Override
-    public String action() {
-        Map<String, String> params = new HashMap<>();
+    public AdminHttpResponse action() {
+        Map<String, Object> params = new HashMap<>();
         if (!StringUtils.hasLength(path)) {
-            return "Exception:IllegalArgument";
+            return AdminHttpResponse.failed("path is null");
         }
         params.put("command", path);
         return httpPost(url(), params);

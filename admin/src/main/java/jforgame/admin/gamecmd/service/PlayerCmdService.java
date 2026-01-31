@@ -1,6 +1,7 @@
 package jforgame.admin.gamecmd.service;
 
 import jforgame.admin.domain.ServerInfo;
+import jforgame.admin.gamecmd.cmd.http.AdminHttpResponse;
 import jforgame.admin.gamecmd.cmd.http.BanPlayerChatCmd;
 import jforgame.admin.gamecmd.cmd.http.BanPlayerLoginCmd;
 import jforgame.admin.gamecmd.cmd.http.QueryPlayerCmd;
@@ -42,8 +43,11 @@ public class PlayerCmdService {
                                long endTime) {
         ServerInfo server = serversManager.getServerNodeBy(serverId);
         BanPlayerLoginCmd cmd = new BanPlayerLoginCmd(server, String.valueOf(uid), String.valueOf(endTime));
-        String result = cmd.action();
-        return JsonUtil.string2Object(result, HttpResult.class);
+        AdminHttpResponse result = cmd.action();
+        if (result.getCode() == AdminHttpResponse.SUCC) {
+            return HttpResult.ok();
+        }
+        return HttpResult.error(result.getMessage());
     }
 
     /**
@@ -52,8 +56,11 @@ public class PlayerCmdService {
     public HttpResult banChat(int serverId, long uid, long endTime) {
         ServerInfo server = serversManager.getServerNodeBy(serverId);
         BanPlayerChatCmd cmd = new BanPlayerChatCmd(server, String.valueOf(uid), String.valueOf(endTime));
-        String result = cmd.action();
-        return JsonUtil.string2Object(result, HttpResult.class);
+        AdminHttpResponse result = cmd.action();
+        if (result.getCode() == AdminHttpResponse.SUCC) {
+            return HttpResult.ok();
+        }
+        return HttpResult.error(result.getMessage());
     }
 
 }

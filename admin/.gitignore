@@ -25,3 +25,5 @@ nbdist/
 ../webapp/src/utils/global.js
 /**/application-test.properties
 logs
+
+src/main/resources/static

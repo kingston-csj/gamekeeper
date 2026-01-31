@@ -22,10 +22,10 @@ public class RunScriptCmd extends HttpServerAdminCmd {
     }
 
     @Override
-    public String action() {
-        Map<String, String> params = new HashMap<>();
+    public AdminHttpResponse action() {
+        Map<String, Object> params = new HashMap<>();
         if (!StringUtils.hasLength(script)) {
-            return "Exception:IllegalArgument";
+            return AdminHttpResponse.failed("script is null");
         }
         params.put("command", script);
         return httpPost(url(), params);

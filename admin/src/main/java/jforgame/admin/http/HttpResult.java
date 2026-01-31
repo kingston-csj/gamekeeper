@@ -8,7 +8,10 @@ import org.apache.http.HttpStatus;
 @Setter
 public class HttpResult {
 
-    private int code = 200;
+    /**
+     * 状态码：0为正常，非0为异常
+     */
+    private int code;
     private String msg;
     private Object data;
 
