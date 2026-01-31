@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    configdb:
+      username: root
+      password: 123456
+      jdbc-url: jdbc:mysql://127.0.0.1:3306/admin?serverTimezone=Asia/Shanghai
+
+# http配置
+server:
+  port: 8001  # 服务端口
+
+# MinIO对象存储配置
+minio:
+  endpoint: http://192.168.0.121:9000           # MinIO服务地址
+  accessKey: 0ypmAufbfC6m1FM42Vo5               # 访问密钥
+  secretKey: 15UDQ7TWvTzRWUcZtjGJS6HSLSc5HxYsfS5Srdpc  # 秘钥
+  bucketName: database                          # 存储桶名称
