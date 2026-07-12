@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class SysDictVo {
 
-    private Long id;
+    private Integer id;
 
     private String value;
 

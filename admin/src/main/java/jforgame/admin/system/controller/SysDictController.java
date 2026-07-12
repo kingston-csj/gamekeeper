@@ -40,9 +40,4 @@ public class SysDictController {
         return HttpResult.ok(sysDictService.findPage(pageRequest));
     }
 
-    @PreAuthorize("hasAuthority('sys:dict:view')")
-    @GetMapping(value="/findByLable")
-    public HttpResult findByLabel(@RequestParam String label) {
-        return HttpResult.ok(sysDictService.findByLabel(label));
-    }
 }

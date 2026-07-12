@@ -192,6 +192,8 @@
                         </path>
                         <!-- other annotation processors -->
                     </annotationProcessorPaths>
+                    <source>16</source>
+                    <target>16</target>
                 </configuration>
             </plugin>
             <plugin>

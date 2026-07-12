@@ -36,6 +36,13 @@ public class SysDictService {
         return 1;
     }
 
+    public SysDict findById(Integer id) {
+        if (id == null) {
+            return null;
+        }
+        return sysDictDao.getOne(id);
+    }
+
     public int delete(List<SysDict> records) {
         if (CollectionUtils.isEmpty(records)) {
             return 0;
@@ -65,7 +72,4 @@ public class SysDictService {
         return pageResult;
     }
 
-    public List<SysDict> findByLabel(String label) {
-        return new ArrayList<>();
-    }
 }

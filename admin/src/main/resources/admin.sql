@@ -87,17 +87,20 @@ INSERT INTO `sys_menu` VALUES (21, '查看', 5, NULL, 'sys:menu:view', 2, NULL, 
 INSERT INTO `sys_menu` VALUES (22, '新增', 5, NULL, 'sys:menu:add', 2, NULL, 0);
 INSERT INTO `sys_menu` VALUES (23, '修改', 5, NULL, 'sys:menu:edit', 2, NULL, 0);
 INSERT INTO `sys_menu` VALUES (24, '删除', 5, NULL, 'sys:menu:delete', 2, NULL, 0);
-INSERT INTO `sys_menu` VALUES (28, '渠道管理', 0, NULL, NULL, 0, 'el-icon-picture-outline', 6);
+INSERT INTO `sys_menu` VALUES (28, '运营统计', 0, NULL, NULL, 0, 'el-icon-picture-outline', 6);
 INSERT INTO `sys_menu` VALUES (29, '订单查询', 28, '/pay/order', NULL, 1, 'el-icon-edit', 1);
 INSERT INTO `sys_menu` VALUES (30, '渠道统计', 28, '/pay/statistics', NULL, 1, 'el-icon-picture', 2);
 INSERT INTO `sys_menu` VALUES (100, '服务器管理', 0, '', '', 0, 'el-icon-info', 0);
-INSERT INTO `sys_menu` VALUES (110, '服务列表', 100, '/server/nodes', '', 1, 'el-icon-view', 1);
+INSERT INTO `sys_menu` VALUES (101, '服务列表', 100, '/server/nodes', '', 1, 'el-icon-view', 1);
+INSERT INTO `sys_menu` VALUES (102, '服务监控', 100, '/server/stats', '', 1, 'el-icon-view', 1);
+INSERT INTO `sys_menu` VALUES (103, '运营命令', 100, '/server/gamecommands', '', 1, 'el-icon-service', 2);
+INSERT INTO `sys_menu` VALUES (104, '运维命令', 100, '/server/servercommands', NULL, 1, 'el-icon-service', 3);
+INSERT INTO `sys_menu` VALUES (105, '更新屏蔽词', 100, '/server/refreshdirtywords', NULL, 1, 'el-icon-service', 3);
 INSERT INTO `sys_menu` VALUES (111, '服务列表-编辑', 110, '', 'server:nodes:edit', 2, 'el-icon-view', 1);
 INSERT INTO `sys_menu` VALUES (112, '服务列表-新增', 110, '', 'server:nodes:add', 2, 'el-icon-view', 1);
 INSERT INTO `sys_menu` VALUES (113, '服务列表-删除', 110, '', 'server:nodes:delete', 2, 'el-icon-view', 1);
-INSERT INTO `sys_menu` VALUES (120, '后台命令', 100, '/server/commands', '', 1, 'el-icon-service', 2);
-INSERT INTO `sys_menu` VALUES (200, '玩家管理', 0, '', '', 0, 'el-icon-service', 2);
-INSERT INTO `sys_menu` VALUES (201, '玩家查询', 200, '/player/query', '', 1, 'el-icon-view', 0);
+INSERT INTO `sys_menu` VALUES (200, '游戏资料', 0, '', '', 0, 'el-icon-service', 2);
+INSERT INTO `sys_menu` VALUES (201, '玩家', 200, '/game/player', '', 1, 'el-icon-view', 0);
 
 -- ----------------------------
 -- Table structure for sys_role
