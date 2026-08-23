@@ -17,8 +17,6 @@ public class SysDictVo {
 
     private String description;
 
-    private Long sort;
-
     private String remarks;
 
 }

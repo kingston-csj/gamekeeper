@@ -6,6 +6,14 @@ import router from "@/router";
 // 使用vuex做全局loading时使用
 // import store from '@/store'
 
+function clearAuthAndRedirect() {
+  Cookies.remove("token");
+  sessionStorage.removeItem("user");
+  if (window.location.hash !== "#/login") {
+    router.push("/login");
+  }
+}
+
 export default function $axios(options) {
   return new Promise((resolve, reject) => {
     const instance = axios.create({
@@ -88,9 +96,11 @@ export default function $axios(options) {
               break;
             case 401:
               err.message = "未授权，请登录";
+              clearAuthAndRedirect();
               break;
             case 403:
               err.message = "拒绝访问";
+              clearAuthAndRedirect();
               break;
             case 404:
               err.message = `请求地址出错: ${err.response.config.url}`;

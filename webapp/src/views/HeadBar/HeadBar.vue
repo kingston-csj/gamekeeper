@@ -1,24 +1,26 @@
-<template> 
-  <div class="headbar" :style="{'background':themeColor}" 
-    :class="$store.state.app.collapse?'position-collapse-left':'position-left'">
+<template>
+  <div class="headbar" :style="{ 'background': themeColor }"
+    :class="$store.state.app.collapse ? 'position-collapse-left' : 'position-left'">
     <!-- 导航收缩 -->
     <span class="hamburg">
-      <el-menu class="el-menu-demo" :background-color="themeColor" text-color="#fff" :active-text-color="themeColor" mode="horizontal">
-        <el-menu-item index="1" @click="onCollapse"><hamburger :isActive="collapse"></hamburger></el-menu-item>
+      <el-menu class="el-menu-demo" :background-color="themeColor" text-color="#fff" :active-text-color="themeColor"
+        mode="horizontal">
+        <el-menu-item index="1" @click="onCollapse">
+          <hamburger :isActive="collapse"></hamburger>
+        </el-menu-item>
       </el-menu>
     </span>
     <!-- 导航菜单 -->
     <span class="navbar">
-      <el-menu :default-active="activeIndex" class="el-menu-demo" 
-          :background-color="themeColor" text-color="#fff" active-text-color="#ffd04b" mode="horizontal" @select="selectNavBar()">
-        <el-menu-item index="1" @click="$router.push('/')"><i class="fa fa-home fa-lg"></i>  </el-menu-item>
-        <el-menu-item index="2" @click="openWindow('https://github.com/kingston-csj/gamekeeper')">{{$t("common.projectRepo")}}</el-menu-item>
-        <el-menu-item index="3" @click="openWindow('https://blog.csdn.net/littleschemer/category_9269220.html')">{{$t("common.blog")}}</el-menu-item>
+      <el-menu :default-active="activeIndex" class="el-menu-demo" :background-color="themeColor" text-color="#fff"
+        active-text-color="#ffd04b" mode="horizontal" @select="selectNavBar()">
+        <el-menu-item index="1" @click="$router.push('/')"><i class="fa fa-home fa-lg"></i> </el-menu-item>
       </el-menu>
     </span>
     <!-- 工具栏 -->
     <span class="toolbar">
-      <el-menu class="el-menu-demo" :background-color="themeColor" :text-color="themeColor" :active-text-color="themeColor" mode="horizontal">
+      <el-menu class="el-menu-demo" :background-color="themeColor" :text-color="themeColor"
+        :active-text-color="themeColor" mode="horizontal">
         <el-menu-item index="1">
           <!-- 主题切换 -->
           <theme-picker class="theme-picker" :default="themeColor" @onThemeChange="onThemeChange"></theme-picker>
@@ -43,7 +45,7 @@
         </el-menu-item>
         <el-menu-item index="5" v-popover:popover-personal>
           <!-- 用户信息 -->
-          <span class="user-info"><img :src="user.avatar" />{{user.name}}</span>
+          <span class="user-info"><img :src="user.avatar" />{{ user.name }}</span>
           <el-popover ref="popover-personal" placement="bottom-end" trigger="click" :visible-arrow="false">
             <personal-panel :user="user"></personal-panel>
           </el-popover>
@@ -91,11 +93,11 @@ export default {
       console.log(key, keyPath);
     },
     // 折叠导航栏
-    onCollapse: function() {
+    onCollapse: function () {
       this.$store.commit("onCollapse");
     },
     // 切换主题
-    onThemeChange: function(themeColor) {
+    onThemeChange: function (themeColor) {
       this.$store.commit("setThemeColor", themeColor);
     },
     // 语言切换
@@ -134,13 +136,16 @@ export default {
   border-left-width: 1px;
   border-left-style: solid;
 }
+
 .hamburg,
 .navbar {
   float: left;
 }
+
 .toolbar {
   float: right;
 }
+
 .lang-item {
   font-size: 16px;
   padding-left: 8px;
@@ -148,14 +153,17 @@ export default {
   padding-bottom: 8px;
   cursor: pointer;
 }
+
 .lang-item:hover {
   font-size: 18px;
   background: #b0d6ce4d;
 }
+
 .user-info {
   font-size: 20px;
   color: #fff;
   cursor: pointer;
+
   img {
     width: 40px;
     height: 40px;
@@ -164,12 +172,15 @@ export default {
     float: right;
   }
 }
+
 .badge {
   line-height: 18px;
 }
+
 .position-left {
   left: 200px;
 }
+
 .position-collapse-left {
   left: 65px;
 }

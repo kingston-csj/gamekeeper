@@ -1,6 +1,7 @@
 package jforgame.admin.http;
 
 import jforgame.commons.JsonUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 @Service
 public class HttpClientService {
 
@@ -76,6 +78,7 @@ public class HttpClientService {
         //发送请求，接受响应结果
         CloseableHttpResponse response = httpClient.execute(httpPost);
         int statusCode = response.getStatusLine().getStatusCode();
+        log.info("post url:{} status:{}", url, statusCode);
         if (statusCode != 200) {
             throw new IOException("请求失败，状态码：" + statusCode);
         }

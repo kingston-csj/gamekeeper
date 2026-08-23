@@ -13,7 +13,6 @@ import jakarta.persistence.Id;
 public class SysDict {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column
@@ -28,8 +27,6 @@ public class SysDict {
     @Column
     private String description;
     @Column
-    private Long sort;
-    @Column
     private String remarks;
 
     public SysDictVo simpleView() {
@@ -39,7 +36,6 @@ public class SysDict {
         vo.setLabel(getLabel());
         vo.setRemarks(getRemarks());
         vo.setType(getType());
-        vo.setSort(getSort());
         vo.setValue(getValue());
         return vo;
     }

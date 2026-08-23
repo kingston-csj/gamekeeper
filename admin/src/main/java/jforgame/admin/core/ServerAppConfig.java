@@ -13,4 +13,11 @@ public class ServerAppConfig {
      * 免登录白名单ip（支持子网掩码）
      */
     private String anonymousClientIp;
+
+
+    private String realAuthUrl;
+
+    private String realAuthToken;
+
+
 }

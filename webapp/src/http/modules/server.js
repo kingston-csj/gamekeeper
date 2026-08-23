@@ -1,6 +1,6 @@
 import axios from "../axios";
 
-/* 
+/*
  * 服务器节点分页查询
  */
 export const findPage = () => {
@@ -10,7 +10,7 @@ export const findPage = () => {
   });
 };
 
-/* 
+/*
  * 服务器保存节点
  */
 export const saveNode = data => {
@@ -21,7 +21,7 @@ export const saveNode = data => {
   });
 };
 
-/* 
+/*
  * 服务器新增节点
  */
 export const deleteNode = params => {
@@ -56,5 +56,40 @@ export const execCommand = data => {
     url: "/gameCmd/exec",
     method: "post",
     data
+  });
+};
+
+// 屏蔽词Excel上传更新
+export const uploadSensitiveWord = (data, config) => {
+  return axios({
+    url: "/server/uploadWords",
+    method: "post",
+    data,
+    headers: config && config.headers
+  });
+};
+
+// 屏蔽词txt导出
+export const exportSensitiveWord = () => {
+  return axios({
+    url: "/server/exportWords",
+    method: "get",
+    responseType: "blob"
+  });
+};
+
+export const monitorLatest = params => {
+  return axios({
+    url: "/monitor/latest",
+    method: "get",
+    params
+  });
+};
+
+export const monitorHistory = params => {
+  return axios({
+    url: "/monitor/history",
+    method: "get",
+    params
   });
 };

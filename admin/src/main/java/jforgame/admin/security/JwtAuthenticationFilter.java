@@ -11,7 +11,6 @@ import java.io.IOException;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        // 获取token, 并检查登录状态
         SecurityUtils.checkAuthentication(request);
         filterChain.doFilter(request, response);
     }

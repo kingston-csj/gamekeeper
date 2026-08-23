@@ -8,13 +8,13 @@ import jforgame.commons.JsonUtil;
 import java.util.HashMap;
 import java.util.Map;
 
-public class QueryPlayerCmd extends HttpAdminCmd {
+public class QueryGuildCmd extends HttpAdminCmd {
 
     private String sign;
     private int pageNum;
     private int pageSize;
 
-    public QueryPlayerCmd(ServerInfo serverNode, String sign, int pageNum, int pageSize) {
+    public QueryGuildCmd(ServerInfo serverNode, String sign, int pageNum, int pageSize) {
         super(serverNode);
         this.sign = sign;
         this.pageNum = pageNum;
@@ -23,7 +23,7 @@ public class QueryPlayerCmd extends HttpAdminCmd {
 
     @Override
     public String httpMethod() {
-        return "queryPlayers";
+        return "queryGuilds";
     }
 
     @Override
@@ -39,6 +39,6 @@ public class QueryPlayerCmd extends HttpAdminCmd {
 
     @Override
     public CmdTypes meta() {
-        return CmdTypes.QUERY_PLAYER;
+        return CmdTypes.QUERY_GUILD;
     }
 }

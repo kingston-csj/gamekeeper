@@ -4,8 +4,11 @@ import jforgame.admin.gamecmd.cmd.http.BanPlayerChatCmd;
 import jforgame.admin.gamecmd.cmd.http.BanPlayerLoginCmd;
 import jforgame.admin.gamecmd.cmd.http.ClearDbCmd;
 import jforgame.admin.gamecmd.cmd.http.HotSwapCmd;
+import jforgame.admin.gamecmd.cmd.http.KickPlayersCmd;
+import jforgame.admin.gamecmd.cmd.http.QueryGuildCmd;
 import jforgame.admin.gamecmd.cmd.http.QueryPlayerCmd;
 import jforgame.admin.gamecmd.cmd.http.ReloadConfigCmd;
+import jforgame.admin.gamecmd.cmd.http.ReloadDirtyWordsScriptCmd;
 import jforgame.admin.gamecmd.cmd.http.RunScriptCmd;
 
 import java.util.HashMap;
@@ -14,17 +17,22 @@ import java.util.Map;
 public enum CmdTypes {
 
 
-    HOT_SWAP(1, "代码热更", "无", CmdTypes.TYPE_GAME, HotSwapCmd.class),
+    HOT_SWAP(1, "代码热更", "无", CmdTypes.TYPE_SERVER, HotSwapCmd.class),
     RELOAD_CONFIG(2, "表格重载", "表格名称", CmdTypes.TYPE_GAME, ReloadConfigCmd.class),
 
 
     RUN_SCRIPT(101, "执行脚本", "Groovy脚本内容", CmdTypes.TYPE_SERVER, RunScriptCmd.class),
     Clear_DB(102, "清库", "无", CmdTypes.TYPE_SERVER, ClearDbCmd.class),
 
+    Kick_Player(103, "踢人", "无", CmdTypes.TYPE_GAME, KickPlayersCmd.class),
+
+    RELOAD_DIRTY_WORDS(104, "热更新屏蔽词库", "无", CmdTypes.TYPE_GAME, ReloadDirtyWordsScriptCmd.class),
 
     QUERY_PLAYER(201, "查询玩家信息", "角色uid或者模糊昵称", CmdTypes.TYPE_PLAYER, QueryPlayerCmd.class),
     BAN_LOGIN(202, "封号", "角色uid和封号时间", CmdTypes.TYPE_PLAYER, BanPlayerLoginCmd.class),
     BAN_CHAT(203, "禁言", "角色uid和禁言时间", CmdTypes.TYPE_PLAYER, BanPlayerChatCmd.class),
+
+    QUERY_GUILD(204, "查询公会信息", "公会名称", CmdTypes.TYPE_PLAYER, QueryGuildCmd.class),
 
     ;
 

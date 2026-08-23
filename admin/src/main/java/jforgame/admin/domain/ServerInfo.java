@@ -28,4 +28,10 @@ public class ServerInfo {
     @Column
     private int merged;
 
+    /**
+     * 是否使用网关,0:否,1:是
+     */
+    @Column
+    private int useGate;
+
 }

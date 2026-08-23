@@ -5,24 +5,21 @@ import lombok.Data;
 @Data
 public class ServerNodeInfo {
 
-    private Integer id;
+    private int id;
     private String name;
     private String ip;
 
-    private Integer port;
+    private int port;
 
     /**
      * http端口
      */
     private int httpPort;
 
+
     /**
-     * 在线人数
+     * 是否使用网关,0:否,1:是
      */
-    private int onlinePlayerSum;
-    /**
-     * 缓存人数
-     */
-    private int cachePlayerSum;
+    private int useGate;
 
 }

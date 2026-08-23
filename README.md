@@ -18,8 +18,11 @@ spring-boot全家桶
 角色管理界面
 ![](/screenshots/role.png "角色管理界面 ")
 
+服务器列表界面
+![](/screenshots/serverNodes.png "服务器列表界面 ")
+
 服务器监控界面
-![](/screenshots/serverNodes.png "服务器监控界面 ")
+![](/screenshots/serverStats.png "服务器监控界面 ")
 
 玩家查询界面
 ![](/screenshots/playerInfo.png "玩家查询界面 ")

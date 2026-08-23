@@ -9,6 +9,15 @@ export const queryPlayer = params => {
   });
 };
 
+// 查询公会信息
+export const queryGuild = params => {
+  return axios({
+    url: "/gameCmd/simplyGuild",
+    method: "get",
+    params
+  });
+};
+
 // 玩家封禁
 export const banPlayer = data => {
   return axios({

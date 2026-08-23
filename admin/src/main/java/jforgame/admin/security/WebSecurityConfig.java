@@ -73,6 +73,8 @@ public class WebSecurityConfig {
                 .requestMatchers("/captcha.jpg").permitAll()
                 .requestMatchers("/index.html").permitAll()
                 .requestMatchers("/favicon.ico").permitAll()
+                .requestMatchers("/sdk/**").permitAll()  // SDK放行
+                .requestMatchers("/api/**").permitAll()  // 对外api放行
                 // 对服务器接口使用ip白名单
                 .requestMatchers("/admin/api/**")
                 .access(new WebExpressionAuthorizationManager(whiteIps.toString()))

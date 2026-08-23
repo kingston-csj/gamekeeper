@@ -1,30 +1,31 @@
 <template>
-  
+
   <div class="personal-panel">
-    <div class="personal-desc" :style="{'background':this.$store.state.app.themeColor}">
-        <div class="avatar-container">
-          <img class="avatar" :src="require('@/assets/user.jpeg')" />
-        </div>  
-        <div class="name-role">
-          <span class="sender">{{ this.user_profile.name }} </span>  
-        </div>  
-        <!--<div class="registe-info">
+    <div class="personal-desc" :style="{ 'background': this.$store.state.app.themeColor }">
+      <div class="avatar-container">
+        <img class="avatar" :src="require('@/assets/user.jpeg')" />
+      </div>
+      <div class="name-role">
+        <span class="sender">{{ this.user_profile.name }} </span>
+      </div>
+      <!--<div class="registe-info">
           <span class="registe-info">
             <li class="fa fa-clock-o"></li>
             {{ user.registeInfo }}
           </span>
         </div>   -->
-    </div>  
+    </div>
 
     <div class="main-operation">
-        <span class="main-operation-item">
-          <el-button size="small" icon="fa fa-male"> 个人中心 </el-button>
-        </span>    
-        <span class="main-operation-item">
-          <el-button size="small" icon="fa fa-key" @click="dialogFormVisible = true"> 修改密码 </el-button>
-           <div>
+      <span class="main-operation-item">
+        <el-button size="small" icon="fa fa-male"> 个人中心 </el-button>
+      </span>
+      <span class="main-operation-item">
+        <el-button size="small" icon="fa fa-key" @click="dialogFormVisible = true"> 修改密码 </el-button>
+        <div>
           <el-dialog title="修改密码" :visible.sync="dialogFormVisible" :append-to-body='true' width="250">
-            <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+            <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px"
+              class="demo-ruleForm">
               <el-form-item label="旧密码" prop="oldPass">
                 <el-input type="password" v-model="ruleForm.oldPass" autocomplete="off"></el-input>
               </el-form-item>
@@ -40,12 +41,12 @@
               </el-form-item>
             </el-form>
           </el-dialog>
-    </div>  
+        </div>
 
-        </span>    
+      </span>
     </div>
     <div class="other-operation">
-       <!-- <div class="other-operation-item">
+      <!-- <div class="other-operation-item">
           <li class="fa fa-eraser"></li>
           清除缓存
         </div>    
@@ -56,7 +57,7 @@
     </div>
     <div class="personal-footer" @click="logout">
       <li class="fa fa-sign-out"></li>
-      {{$t("common.logout")}}
+      {{ $t("common.logout") }}
     </div>
   </div>
 </template>
@@ -127,7 +128,7 @@ export default {
   },
   methods: {
     // 退出登录
-    logout: function() {
+    logout: function () {
       this.$confirm("确认退出吗?", "提示", {
         type: "warning"
       })
@@ -137,13 +138,13 @@ export default {
           this.$router.push("/login");
           this.$api.login
             .logout()
-            .then(res => {})
-            .catch(function(res) {});
+            .then(res => { })
+            .catch(function (res) { });
         })
-        .catch(() => {});
+        .catch(() => { });
     },
     // 删除cookie
-    deleteCookie: function(name) {
+    deleteCookie: function (name) {
       Cookies.remove(name);
     },
 
@@ -156,7 +157,7 @@ export default {
             checkNewPass: this.ruleForm.checkNewPass
           };
           this.$api.user.modifyPass(params).then(res => {
-            if (res.code == 200) {
+            if (res.code == 0) {
               this.$alert(res.msg, "执行成功");
               this.dialogFormVisible = false;
             } else {
@@ -191,32 +192,39 @@ export default {
   background: rgba(182, 172, 172, 0.1);
   margin: -14px;
 }
+
 .personal-desc {
   padding: 15px;
   color: #fff;
 }
+
 .avatar {
   width: 80px;
   height: 80px;
   border-radius: 90px;
 }
+
 .name-role {
   font-size: 16px;
   padding: 5px;
 }
+
 .personal-relation {
   font-size: 16px;
   padding: 12px;
   margin-right: 1px;
   background: rgba(200, 209, 204, 0.3);
 }
+
 .relation-item {
   padding: 12px;
 }
+
 .relation-item:hover {
   cursor: pointer;
   color: rgb(19, 138, 156);
 }
+
 .main-operation {
   padding: 8px;
   margin-right: 1px;
@@ -225,9 +233,11 @@ export default {
   border-top-width: 1px;
   border-top-style: solid;
 }
+
 .main-operation-item {
   margin: 15px;
 }
+
 .other-operation {
   padding: 15px;
   margin-right: 1px;
@@ -236,14 +246,17 @@ export default {
   border-top-width: 1px;
   border-top-style: solid;
 }
+
 .other-operation-item {
   padding: 12px;
 }
+
 .other-operation-item:hover {
   cursor: pointer;
   background: #9e94941e;
   color: rgb(19, 138, 156);
 }
+
 .personal-footer {
   margin-right: 1px;
   font-size: 14px;
@@ -254,6 +267,7 @@ export default {
   border-top-width: 1px;
   border-top-style: solid;
 }
+
 .personal-footer:hover {
   cursor: pointer;
   color: rgb(19, 138, 156);

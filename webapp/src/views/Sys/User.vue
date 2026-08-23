@@ -1,78 +1,78 @@
 <template>
   <div class="page-container">
-	<!--工具栏-->
-	<div class="toolbar" style="float:left;padding-top:10px;padding-left:15px;">
-		<el-form :inline="true" :model="filters" :size="size">
-			<el-form-item>
-				<el-input v-model="filters.name" placeholder="用户名"></el-input>
-			</el-form-item>
-			<el-form-item>
-				<kt-button icon="fa fa-search" :label="$t('action.search')" perms="sys:role:view" type="primary" @click="findPage(null)"/>
-			</el-form-item>
-			<el-form-item>
-				<kt-button icon="fa fa-plus" :label="$t('action.add')" perms="sys:user:add" type="primary" @click="handleAdd" />
-			</el-form-item>
-		</el-form>
-	</div>
-	<div class="toolbar" style="float:right;padding-top:10px;padding-right:15px;">
-		<el-form :inline="true" :size="size">
-			<el-form-item>
-				<el-button-group>
-				<el-tooltip content="刷新" placement="top">
-					<el-button icon="fa fa-refresh" @click="findPage(null)"></el-button>
-				</el-tooltip>
-				<el-tooltip content="列显示" placement="top">
-					<el-button icon="fa fa-filter" @click="displayFilterColumnsDialog"></el-button>
-				</el-tooltip>
-				<!-- <el-tooltip content="导出" placement="top">
+    <!--工具栏-->
+    <div class="toolbar" style="float:left;padding-top:10px;padding-left:15px;">
+      <el-form :inline="true" :model="filters" :size="size">
+        <el-form-item>
+          <el-input v-model="filters.name" placeholder="用户名"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <kt-button icon="fa fa-search" :label="$t('action.search')" perms="sys:role:view" type="primary"
+            @click="findPage(null)" />
+        </el-form-item>
+        <el-form-item>
+          <kt-button icon="fa fa-plus" :label="$t('action.add')" perms="sys:user:add" type="primary"
+            @click="handleAdd" />
+        </el-form-item>
+      </el-form>
+    </div>
+    <div class="toolbar" style="float:right;padding-top:10px;padding-right:15px;">
+      <el-form :inline="true" :size="size">
+        <el-form-item>
+          <el-button-group>
+            <el-tooltip content="刷新" placement="top">
+              <el-button icon="fa fa-refresh" @click="findPage(null)"></el-button>
+            </el-tooltip>
+            <el-tooltip content="列显示" placement="top">
+              <el-button icon="fa fa-filter" @click="displayFilterColumnsDialog"></el-button>
+            </el-tooltip>
+            <!-- <el-tooltip content="导出" placement="top">
 					<el-button icon="fa fa-file-excel-o"></el-button>
 				</el-tooltip> -->
-				</el-button-group>
-			</el-form-item>
-		</el-form>
-		<!--表格显示列界面-->
-		<table-column-filter-dialog ref="tableColumnFilterDialog" :columns="columns" 
-			@handleFilterColumns="handleFilterColumns"> 
-		</table-column-filter-dialog>
-	</div>
-	<!--表格内容栏-->
-	<kt-table :height="350" permsEdit="sys:user:edit" permsDelete="sys:user:delete"
-		:data="pageResult" :columns="filterColumns"
-		@findPage="findPage" @handleEdit="handleEdit" @handleDelete="handleDelete">
-	</kt-table>
-	<!--新增编辑界面-->
-	<el-dialog :title="operation?'新增':'编辑'" width="40%" :visible.sync="dialogVisible" :close-on-click-modal="false">
-		<el-form :model="dataForm" label-width="80px" :rules="dataFormRules" ref="dataForm" :size="size"
-			label-position="right">
-			<el-form-item label="ID" prop="id" v-if="false">
-				<el-input v-model="dataForm.id" :disabled="true" auto-complete="off"></el-input>
-			</el-form-item>
-			<el-form-item label="用户名" prop="name">
-				<el-input v-model="dataForm.name" auto-complete="off"></el-input>
-			</el-form-item>
-			<el-form-item label="密码" prop="password">
-				<el-input v-model="dataForm.password" type="password" auto-complete="off"></el-input>
-			</el-form-item>
-			<el-form-item label="邮箱" prop="email">
-				<el-input v-model="dataForm.email" auto-complete="off"></el-input>
-			</el-form-item>
-			<el-form-item label="手机" prop="mobile">
-				<el-input v-model="dataForm.mobile" auto-complete="off"></el-input>
-			</el-form-item>
-			<el-form-item label="角色" prop="userRoles" v-if="!operation">
-				<el-select v-model="dataForm.userRoles" multiple placeholder="请选择"
-					 style="width: 100%;">
-					<el-option v-for="item in roles" :key="item.id"
-						:label="item.remark" :value="item.id">
-					</el-option>
-				</el-select>
-			</el-form-item>
-		</el-form>
-		<div slot="footer" class="dialog-footer">
-			<el-button :size="size" @click.native="dialogVisible = false">{{$t('action.cancel')}}</el-button>
-			<el-button :size="size" type="primary" @click.native="submitForm" :loading="editLoading">{{$t('action.submit')}}</el-button>
-		</div>
-	</el-dialog>
+          </el-button-group>
+        </el-form-item>
+      </el-form>
+      <!--表格显示列界面-->
+      <table-column-filter-dialog ref="tableColumnFilterDialog" :columns="columns"
+        @handleFilterColumns="handleFilterColumns">
+      </table-column-filter-dialog>
+    </div>
+    <!--表格内容栏-->
+    <kt-table :height="350" permsEdit="sys:user:edit" permsDelete="sys:user:delete" :data="pageResult"
+      :columns="filterColumns" @findPage="findPage" @handleEdit="handleEdit" @handleDelete="handleDelete">
+    </kt-table>
+    <!--新增编辑界面-->
+    <el-dialog :title="operation ? '新增' : '编辑'" width="40%" :visible.sync="dialogVisible" :close-on-click-modal="false">
+      <el-form :model="dataForm" label-width="80px" :rules="dataFormRules" ref="dataForm" :size="size"
+        label-position="right">
+        <el-form-item label="ID" prop="id" v-if="false">
+          <el-input v-model="dataForm.id" :disabled="true" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="用户名" prop="name">
+          <el-input v-model="dataForm.name" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="密码" prop="password">
+          <el-input v-model="dataForm.password" type="password" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="邮箱" prop="email">
+          <el-input v-model="dataForm.email" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="手机" prop="mobile">
+          <el-input v-model="dataForm.mobile" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="角色" prop="userRoles" v-if="!operation">
+          <el-select v-model="dataForm.userRoles" multiple placeholder="请选择" style="width: 100%;">
+            <el-option v-for="item in roles" :key="item.id" :label="item.remark" :value="item.id">
+            </el-option>
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button :size="size" @click.native="dialogVisible = false">{{ $t('action.cancel') }}</el-button>
+        <el-button :size="size" type="primary" @click.native="submitForm" :loading="editLoading">{{ $t('action.submit')
+          }}</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -121,7 +121,7 @@ export default {
   },
   methods: {
     // 获取分页数据
-    findPage: function(data) {
+    findPage: function (data) {
       if (data !== null) {
         this.pageRequest = data.pageRequest;
       }
@@ -137,20 +137,20 @@ export default {
         .then(data != null ? data.callback : "");
     },
     // 加载用户角色信息
-    findUserRoles: function() {
+    findUserRoles: function () {
       this.$api.role.findAll().then(res => {
         // 加载角色集合
         this.roles = res.data;
       });
     },
     // 批量删除
-    handleDelete: function(data) {
+    handleDelete: function (data) {
       this.$api.user
         .batchDelete(data.params)
         .then(data != null ? data.callback : "");
     },
     // 显示新增界面
-    handleAdd: function() {
+    handleAdd: function () {
       this.dialogVisible = true;
       this.operation = true;
       this.dataForm = {
@@ -164,7 +164,7 @@ export default {
       };
     },
     // 显示编辑界面
-    handleEdit: function(params) {
+    handleEdit: function (params) {
       this.dialogVisible = true;
       this.operation = false;
       this.dataForm = Object.assign({}, params.row);
@@ -175,7 +175,7 @@ export default {
       this.dataForm.userRoles = userRoles;
     },
     // 编辑
-    submitForm: function() {
+    submitForm: function () {
       this.$refs.dataForm.validate(valid => {
         if (valid) {
           this.$confirm("确认提交吗？", "提示", {}).then(() => {
@@ -192,7 +192,7 @@ export default {
             params.userRoles = userRoles;
             this.$api.user.save(params).then(res => {
               this.editLoading = false;
-              if (res.code == 200) {
+              if (res.code == 0) {
                 this.$message({ message: "操作成功", type: "success" });
                 this.dialogVisible = false;
                 this.$refs["dataForm"].resetFields();
@@ -210,20 +210,20 @@ export default {
     },
 
     // 时间格式化
-    dateFormat: function(row, column, cellValue, index) {
+    dateFormat: function (row, column, cellValue, index) {
       return format(row[column.property]);
     },
     // 处理表格列过滤显示
-    displayFilterColumnsDialog: function() {
+    displayFilterColumnsDialog: function () {
       this.$refs.tableColumnFilterDialog.setDialogVisible(true);
     },
     // 处理表格列过滤显示
-    handleFilterColumns: function(data) {
+    handleFilterColumns: function (data) {
       this.filterColumns = data.filterColumns;
       this.$refs.tableColumnFilterDialog.setDialogVisible(false);
     },
     // 处理表格列过滤显示
-    initColumns: function() {
+    initColumns: function () {
       this.columns = [
         { prop: "id", label: "ID", minWidth: 50 },
         { prop: "name", label: "用户名", minWidth: 120 },
@@ -241,5 +241,4 @@ export default {
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "echarts": "^6.1.0",
     "element-ui": "^2.4.6",
     "font-awesome": "^4.7.0",
     "js-cookie": "^2.2.0",
@@ -44,8 +45,9 @@
     "portfinder": "^1.0.13",
     "postcss-import": "^11.0.0",
     "postcss-loader": "^2.0.8",
-    "rimraf": "^2.6.0",
-    "sass": "^1.32.13",
+    "postcss-url": "^7.2.1",
+    "rimraf": "^2.7.1",
+    "sass": "1.32.13",
     "sass-loader": "^7.1.0",
     "semver": "^5.3.0",
     "shelljs": "^0.7.6",
@@ -54,15 +56,14 @@
     "vue-loader": "^13.3.0",
     "vue-style-loader": "^3.0.1",
     "vue-template-compiler": "^2.5.2",
-    "postcss-url": "^7.2.1",
     "webpack": "^3.6.0",
     "webpack-bundle-analyzer": "^2.9.0",
     "webpack-dev-server": "^2.9.1",
     "webpack-merge": "^4.1.0"
   },
   "engines": {
-    "node": ">= 16.14.0",
-    "npm": ">= 8.3.1"
+    "node": ">= 12.22.12",
+    "npm": ">= 6.14.16"
   },
   "browserslist": [
     "> 2%",

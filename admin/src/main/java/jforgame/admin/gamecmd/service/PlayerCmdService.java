@@ -4,16 +4,13 @@ import jforgame.admin.domain.ServerInfo;
 import jforgame.admin.gamecmd.cmd.http.AdminHttpResponse;
 import jforgame.admin.gamecmd.cmd.http.BanPlayerChatCmd;
 import jforgame.admin.gamecmd.cmd.http.BanPlayerLoginCmd;
+import jforgame.admin.gamecmd.cmd.http.QueryGuildCmd;
 import jforgame.admin.gamecmd.cmd.http.QueryPlayerCmd;
-import jforgame.admin.gamecmd.io.PlayerSimpleVo;
 import jforgame.admin.gamenode.service.ServerNodeService;
 import jforgame.admin.http.HttpResult;
-import jforgame.commons.JsonUtil;
+import jforgame.admin.http.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Collections;
-import java.util.List;
 
 @Service
 public class PlayerCmdService {
@@ -22,20 +19,43 @@ public class PlayerCmdService {
     private ServerNodeService serversManager;
 
     /**
-     * @param serverId
+     * 分页查询玩家信息
+     * <p>
+     * 玩家数据来源于游戏服，由 admin 层对全量结果做内存分页，对外统一返回 PageResult。
+     *
+     * @param serverId 服务器id
      * @param sign     昵称或角色id
-     * @return
+     * @param pageNum  页码，从1开始
+     * @param pageSize 每页数量
      */
-    public List<PlayerSimpleVo> queryPlayerSimple(int serverId, String sign) {
+    public PageResult queryPlayerSimplePage(int serverId, String sign, int pageNum, int pageSize) {
         ServerInfo server = serversManager.getServerNodeBy(serverId);
         if (server == null) {
-            return Collections.emptyList();
+            return new PageResult();
         }
-        QueryPlayerCmd cmd = new QueryPlayerCmd(server, sign);
-        List<PlayerSimpleVo> vos = cmd.action();
-        return vos;
+        QueryPlayerCmd cmd = new QueryPlayerCmd(server, sign, pageNum, pageSize);
+        return cmd.action();
     }
 
+
+    /**
+     * 分页查询公会信息
+     * <p>
+     * 公会数据来源于游戏服，由 admin 层对全量结果做内存分页，对外统一返回 PageResult。
+     *
+     * @param serverId 服务器id
+     * @param sign     昵称或角色id
+     * @param pageNum  页码，从1开始
+     * @param pageSize 每页数量
+     */
+    public PageResult queryGuildSimplePage(int serverId, String sign, int pageNum, int pageSize) {
+        ServerInfo server = serversManager.getServerNodeBy(serverId);
+        if (server == null) {
+            return new PageResult();
+        }
+        QueryGuildCmd cmd = new QueryGuildCmd(server, sign, pageNum, pageSize);
+        return cmd.action();
+    }
     /**
      * 封号
      */

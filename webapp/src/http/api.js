@@ -8,7 +8,6 @@ import * as menu from "./modules/menu";
 import * as server from "./modules/server";
 import * as player from "./modules/player";
 import * as pay from "./modules/pay";
-import * as oss from "./modules/oss";
 
 // 默认全部导出
 export default {
@@ -18,6 +17,5 @@ export default {
   menu,
   server,
   player,
-  pay,
-  oss
+  pay
 };

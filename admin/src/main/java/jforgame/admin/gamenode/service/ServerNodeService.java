@@ -16,6 +16,11 @@ public class ServerNodeService {
     @Autowired
     private ServerInfoDao serverInfoDao;
 
+    /**
+     * 获取所有服节点
+     *
+     * @return
+     */
     public ServerNodeInfoList getServerNodeList() {
         ServerNodeInfoList serverList = new ServerNodeInfoList();
         int totalCount = getServerNodeSum();
@@ -27,6 +32,7 @@ public class ServerNodeService {
             vo.setName(server.getName());
             vo.setIp(server.getIp());
             vo.setHttpPort(server.getHttpPort());
+            vo.setUseGate(server.getUseGate());
             vos.add(vo);
         }
 

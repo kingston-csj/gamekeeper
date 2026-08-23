@@ -1,18 +1,10 @@
 package jforgame.admin.file.service;
 
-import jforgame.admin.oss.MinioUtil;
-import jforgame.admin.oss.OssService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class FileService {
 
-    @Autowired
-    OssService ossService;
-
-    @Autowired
-    MinioUtil minioUtil;
 
 //    public T_Picture uploadPicture(UploadFileVo file) throws IOException {
 //        try {

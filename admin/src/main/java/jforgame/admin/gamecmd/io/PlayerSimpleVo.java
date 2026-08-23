@@ -19,7 +19,7 @@ public class PlayerSimpleVo {
 
     private long gold;
 
-    private long money;
+    private long diamond;
 
     /**
      * 禁言结束时间

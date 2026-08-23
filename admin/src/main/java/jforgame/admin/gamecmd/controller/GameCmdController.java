@@ -7,9 +7,9 @@ import jforgame.admin.gamecmd.model.TaskInfo;
 import jforgame.admin.gamecmd.service.GameCmdService;
 import jforgame.admin.gamecmd.service.PlayerCmdService;
 import jforgame.admin.gamecmd.io.CommandVo;
-import jforgame.admin.gamecmd.io.PlayerSimpleVo;
 import jforgame.admin.gamecmd.io.ReqExecCommand;
 import jforgame.admin.http.HttpResult;
+import jforgame.admin.http.PageResult;
 import jforgame.commons.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
@@ -38,7 +38,6 @@ public class GameCmdController {
     private AsyncTaskManager asyncTaskManager;
 
     /**
-     * @param type
      * @return 0为运营命令，1为运维命令
      */
     @RequestMapping(value = "/commands", method = RequestMethod.GET)
@@ -77,11 +76,21 @@ public class GameCmdController {
 
     @GetMapping(value = "/simplyPlayer")
     public HttpResult simplyPlayer(@RequestParam int serverId,
-                                   @RequestParam String sign) {
-        List<PlayerSimpleVo> playerInfo = playerCmdService.queryPlayerSimple(serverId, sign);
-        return HttpResult.ok(playerInfo);
+                                   @RequestParam String sign,
+                                   @RequestParam(defaultValue = "1") int pageNum,
+                                   @RequestParam(defaultValue = "10") int pageSize) {
+        PageResult pageResult = playerCmdService.queryPlayerSimplePage(serverId, sign, pageNum, pageSize);
+        return HttpResult.ok(pageResult);
     }
 
+    @GetMapping(value = "/simplyGuild")
+    public HttpResult simplyGuild(@RequestParam int serverId,
+                                   @RequestParam String sign,
+                                   @RequestParam(defaultValue = "1") int pageNum,
+                                   @RequestParam(defaultValue = "10") int pageSize) {
+        PageResult pageResult = playerCmdService.queryGuildSimplePage(serverId, sign, pageNum, pageSize);
+        return HttpResult.ok(pageResult);
+    }
     /**
      * 封号或禁言
      */

@@ -1,7 +1,6 @@
 <template>
-  <el-button :size="size" :type="type" :icon="icon"
-    :loading="loading" v-if="hasPerms(perms)" @click="handleClick">
-    {{label}}
+  <el-button :size="size" :type="type" :icon="icon" :loading="loading" v-if="hasPerms(perms)" @click="handleClick">
+    {{ label }}
   </el-button>
 </template>
 
@@ -47,8 +46,12 @@ export default {
     handleClick: function () {
       // 按钮操作处理函数
       this.$emit('click', {})
-    }, 
+    },
     hasPerms: function (perms) {
+      // 逻辑：perms为空/null/undefined 则不需要权限，直接显示；否则校验权限
+      if (!perms) {
+        return !this.disabled;
+      }
       // 根据权限标识和外部指示状态进行权限判断
       return hasPermission(perms) & !this.disabled
     }
@@ -58,6 +61,4 @@ export default {
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
