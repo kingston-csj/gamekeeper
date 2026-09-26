@@ -1,5 +1,4 @@
 version: '3.3'
- 
 services:
   db:
     image: mysql:latest
@@ -15,17 +14,39 @@ services:
     restart: always
     networks:
       - app-network
-  web:
-    image: myjdk
-    container_name: web_app
+
+  minio:
+    image: minio/minio
+    container_name: minio
     ports:
-      - "8001:8001"
+      - "9000:9000"
+      - "9001:9001"
     volumes:
-      - ./web:/app
-      - ./logs:/app/logs
+      - ./data:/data
+      - ./config:/root/.minio
+    environment:
+      MINIO_ROOT_USER: minio
+      MINIO_ROOT_PASSWORD: minio123456
+    command: server /data --console-address ":9001"
+    restart: always
+    networks:
+      - app-network
+
+  clickhouse:
+    image: clickhouse/clickhouse-server
+    container_name: clickhouse
+    ports:
+      - "8123:8123"
+      - "9009:9009"
+    volumes:
+      - ./clickhouse/data:/var/lib/clickhouse
+      - ./clickhouse/log:/var/log/clickhouse-server
+    restart: always
+#    environment:
+#      CLICKHOUSE_PASSWORD: "123456"
     networks:
       - app-network
 
 networks:
   app-network:
-     driver: bridge
+    driver: bridge

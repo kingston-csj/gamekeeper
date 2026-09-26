@@ -300,3 +300,23 @@ CREATE TABLE `t_server`  (
 INSERT INTO `t_server` VALUES (1, '内网开发1服1', '127.0.0.1', NULL, 8080, 0);
 
 SET FOREIGN_KEY_CHECKS = 1;
+
+
+
+DROP TABLE IF EXISTS `server_jvm_metrics`;
+CREATE TABLE `server_jvm_metrics`  (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `server_id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '服务器实例id',
+  `heap_used` float NOT NULL COMMENT '堆已使用 MB',
+  `heap_committed` float NOT NULL COMMENT '已分配堆 MB',
+  `heap_max` float NOT NULL COMMENT '最大堆 Xmx MB',
+  `direct_used` float NOT NULL COMMENT '直接内存 MB',
+  `process_cpu_percent` float NOT NULL COMMENT '进程CPU占用 %',
+  `gc_cpu_percent` float NOT NULL COMMENT 'GC占用CPU %',
+  `online_count` int(11) NOT NULL DEFAULT 0 COMMENT '在线人数',
+  `collect_time` datetime NOT NULL COMMENT '采集时间',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `idx_server_time`(`server_id`, `collect_time`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 54 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'JVM监控指标表' ROW_FORMAT = Dynamic;
+
