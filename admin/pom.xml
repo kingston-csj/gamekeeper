@@ -160,6 +160,20 @@
             <version>${mapstruct.version}</version>
         </dependency>
 
+        <!-- minio客户端 -->
+        <dependency>
+            <groupId>io.minio</groupId>
+            <artifactId>minio</artifactId>
+            <version>8.5.10</version>
+        </dependency>
+
+        <!-- 亚马逊客户端 -->
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk-s3</artifactId>
+            <version>1.12.540</version>
+        </dependency>
+
     </dependencies>
 
     <build>

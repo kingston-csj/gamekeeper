@@ -36,3 +36,7 @@ log:
 # 自定义应用配置
 app:
   anonymousClientIp: 127.0.0.1;192.168.0.1/24  # 匿名客户端IP白名单
+
+#  S3服务
+s3:
+  type: minio # 客户端标准

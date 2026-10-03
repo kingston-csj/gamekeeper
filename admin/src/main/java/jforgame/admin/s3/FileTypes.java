@@ -1,4 +1,4 @@
-package jforgame.admin.oss;
+package jforgame.admin.s3;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,9 +16,7 @@ public enum FileTypes {
 
     FILE("file", "文件"),
 
-    PACK("pack", "游戏打包数据"),
-
-    FONT("font", "编辑器客户端字体"),
+    RAR("rar", "压缩文件"),
 
     OTHER("other", "其他"),
 

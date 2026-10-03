@@ -12,6 +12,6 @@ server:
 # MinIO对象存储配置
 minio:
   endpoint: http://192.168.0.121:9000           # MinIO服务地址
-  accessKey: 0ypmAufbfC6m1FM42Vo5               # 访问密钥
-  secretKey: 15UDQ7TWvTzRWUcZtjGJS6HSLSc5HxYsfS5Srdpc  # 秘钥
+  accessKey: aaaaaaaa             # 访问密钥
+  secretKey: bbbbbbbb  # 秘钥
   bucketName: database                          # 存储桶名称

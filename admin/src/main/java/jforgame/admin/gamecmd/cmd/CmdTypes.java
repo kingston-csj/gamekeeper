@@ -2,10 +2,13 @@ package jforgame.admin.gamecmd.cmd;
 
 import jforgame.admin.gamecmd.cmd.http.BanPlayerChatCmd;
 import jforgame.admin.gamecmd.cmd.http.BanPlayerLoginCmd;
+//import jforgame.admin.gamecmd.cmd.http.ClearDbCmd;
 import jforgame.admin.gamecmd.cmd.http.ClearDbCmd;
+import jforgame.admin.gamecmd.cmd.http.CloseServerCmd;
 import jforgame.admin.gamecmd.cmd.http.HotSwapCmd;
 import jforgame.admin.gamecmd.cmd.http.KickPlayersCmd;
 import jforgame.admin.gamecmd.cmd.http.QueryGuildCmd;
+import jforgame.admin.gamecmd.cmd.http.QueryLogTypesCmd;
 import jforgame.admin.gamecmd.cmd.http.QueryPlayerCmd;
 import jforgame.admin.gamecmd.cmd.http.ReloadConfigCmd;
 import jforgame.admin.gamecmd.cmd.http.ReloadDirtyWordsScriptCmd;
@@ -27,12 +30,16 @@ public enum CmdTypes {
     Kick_Player(103, "踢人", "无", CmdTypes.TYPE_GAME, KickPlayersCmd.class),
 
     RELOAD_DIRTY_WORDS(104, "热更新屏蔽词库", "无", CmdTypes.TYPE_GAME, ReloadDirtyWordsScriptCmd.class),
+    CLOSE_SERVER(105, "停服", "无", CmdTypes.TYPE_SERVER, CloseServerCmd.class),
 
     QUERY_PLAYER(201, "查询玩家信息", "角色uid或者模糊昵称", CmdTypes.TYPE_PLAYER, QueryPlayerCmd.class),
     BAN_LOGIN(202, "封号", "角色uid和封号时间", CmdTypes.TYPE_PLAYER, BanPlayerLoginCmd.class),
     BAN_CHAT(203, "禁言", "角色uid和禁言时间", CmdTypes.TYPE_PLAYER, BanPlayerChatCmd.class),
 
     QUERY_GUILD(204, "查询公会信息", "公会名称", CmdTypes.TYPE_PLAYER, QueryGuildCmd.class),
+
+    QUERY_LOG_TYPES(205, "查询日志类型", "", CmdTypes.TYPE_SYSTEM, QueryLogTypesCmd.class),
+    QUERY_LOG_REASONS(206, "查询日志原因", "", CmdTypes.TYPE_SYSTEM, QueryLogTypesCmd.class),
 
     ;
 
@@ -58,6 +65,11 @@ public enum CmdTypes {
      * 命令类型：玩家查询
      */
     public static final int TYPE_PLAYER = 2;
+
+    /**
+     * 命令类型：系统内部命令
+     */
+    public static final int TYPE_SYSTEM = 3;
 
     public int getId() {
         return id;

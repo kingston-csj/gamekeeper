@@ -13,6 +13,7 @@ import * as pay from "./modules/pay";
 export default {
   login,
   user,
+  machine,
   role,
   menu,
   server,
