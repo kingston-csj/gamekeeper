@@ -1,11 +1,13 @@
 package jforgame.admin.api;
 
+import jforgame.admin.asynctask.handler.ServerPowerHandler;
+import jforgame.admin.core.SpringContext;
 import jforgame.admin.domain.SysDict;
 import jforgame.admin.gamenode.io.ServerNodeInfoList;
 import jforgame.admin.gamenode.service.ServerNodeService;
 import jforgame.admin.http.HttpResult;
-import jforgame.admin.monitor.service.MonitorService;
-import jforgame.admin.monitor.vo.ServerJvmSnapshotDto;
+import jforgame.admin.monitor.server.service.MonitorService;
+import jforgame.admin.monitor.server.vo.ServerJvmSnapshotDto;
 import jforgame.admin.system.constant.SysDictConstants;
 import jforgame.admin.system.service.SysDictService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +52,13 @@ public class ApiController {
             @RequestBody ServerJvmSnapshotDto dto) {
         monitorService.updateNodeInfo(serverId, dto);
         return HttpResult.ok();
+    }
+
+    @RequestMapping(value = "/fetchProjectUpdate", method = RequestMethod.GET)
+    public HttpResult fetchProjectUpdate() {
+        ServerPowerHandler serverPowerHandler = SpringContext.getBean(ServerPowerHandler.class);
+        String target = serverPowerHandler.popupProject();
+        return HttpResult.ok(target);
     }
 
 }

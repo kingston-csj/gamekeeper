@@ -5,7 +5,8 @@
  */
 
 // 后台管理系统服务器地址
-export const baseUrl = "http://192.168.1.111:8070";
+// 开发环境(dev)取 config/dev.env.js 的 BASE_URL，打包(build)取 config/prod.env.js 的 BASE_URL
+export const baseUrl = process.env.BASE_URL;
 export default {
   baseUrl
 };

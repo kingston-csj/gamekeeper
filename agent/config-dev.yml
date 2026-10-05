@@ -1,0 +1,18 @@
+mysql:
+  user_name: root
+  password: 123456
+
+server:
+  http_port: 8035
+
+s3:
+  endpoint: http://192.168.1.123:9000
+  accessKey: sdfdsf
+  secretKey: isdfsdf
+  bucketName: database
+  region: us-east-1
+
+
+admin:
+  metric_report_url: http://your-ip:8080/api/metrics/report
+  async_report_url: http://127.0.0.1:8070/api/async-task/{taskId}/progress

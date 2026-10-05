@@ -5,11 +5,14 @@ import jforgame.admin.domain.ServerInfo;
 import jforgame.admin.domain.SysDict;
 import jforgame.admin.gamenode.dao.ServerInfoDao;
 import jforgame.admin.gamenode.io.ReqCreateServerNode;
+import jforgame.admin.gamenode.io.ServerNodeInfo;
 import jforgame.admin.gamenode.io.ServerNodeInfoList;
 import jforgame.admin.gamenode.service.ServerNodeService;
 import jforgame.admin.http.HttpResult;
 import jforgame.admin.logger.LoggerFunction;
 import jforgame.admin.logger.LoggerUtil;
+import jforgame.admin.monitor.server.service.MonitorService;
+import jforgame.admin.monitor.server.vo.ServerJvmMetricsVO;
 import jforgame.admin.security.SecurityUtils;
 import jforgame.admin.system.constant.SysDictConstants;
 import jforgame.admin.system.service.SysDictService;
@@ -57,16 +60,25 @@ public class ServersController {
     @Autowired
     SysDictService sysDictService;
 
+    @Autowired
+    private MonitorService monitorService;
+
     @RequestMapping(value = "/findPage", method = RequestMethod.GET)
     public HttpResult getServerNodesList() {
         ServerNodeInfoList serverList = serversManager.getServerNodeList();
+        for (ServerNodeInfo server : serverList.getServers()) {
+            ServerJvmMetricsVO latest = monitorService.findLatest(server.getId() + "");
+            if (latest != null) {
+                server.setOnlinePlayerSum(latest.getOnlineCount());
+            }
+        }
         return HttpResult.ok(serverList);
     }
 
     @PostMapping(value = "/saveNode")
     public HttpResult saveNode(@RequestBody ReqCreateServerNode req) {
         try {
-            serversManager.saveNode(req.getId(), req.getName(), req.getIp(), req.getHttpPort());
+            serversManager.saveNode(req.getId(), req.getName(), req.getMachineId(), req.getHttpPort(), req.getServerType());
             LoggerUtil.info(LoggerFunction.SERVER_NODE, "operator", SecurityUtils.getUsername(), "type", "save", "params", JsonUtil.object2String(req));
             return HttpResult.ok();
         } catch (Exception e) {
@@ -98,15 +110,6 @@ public class ServersController {
         });
 
         result.put("ids", servers);
-        return result;
-    }
-
-    @GetMapping(value = "/monitor")
-    public Map<String, String> serverInfo() {
-        Map<String, String> result = new HashMap<>();
-
-        result.put("userInfo", "2人");
-        result.put("memory", "1g/2g");
         return result;
     }
 

@@ -21,6 +21,7 @@
             <el-table-column prop="name" header-align="center" align="center" width="200" label="机器名称" />
             <el-table-column prop="ip" header-align="center" align="center" label="机器ip" />
             <el-table-column prop="agentUrl" header-align="center" align="center" label="agentUrl地址" />
+            <el-table-column prop="logRoot" header-align="center" align="center" label="logRoot地址" />
             <el-table-column fixed="right" header-align="center" align="center" width="200"
                 :label="$t('action.operation')">
                 <template slot-scope="scope">
@@ -46,6 +47,9 @@
                 </el-form-item>
                 <el-form-item label="agentUrl" prop="agentUrl">
                     <el-input v-model="dataForm.agentUrl" placeholder="agentUrl地址"></el-input>
+                </el-form-item>
+                <el-form-item label="logRoot" prop="logRoot">
+                    <el-input v-model="dataForm.logRoot" placeholder="logRoot地址"></el-input>
                 </el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">

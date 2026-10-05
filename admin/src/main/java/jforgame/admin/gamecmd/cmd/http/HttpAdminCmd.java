@@ -1,10 +1,12 @@
 package jforgame.admin.gamecmd.cmd.http;
 
 import jforgame.admin.core.SpringContext;
+import jforgame.admin.domain.MachineInfo;
 import jforgame.admin.domain.ServerInfo;
 import jforgame.admin.gamecmd.cmd.AdminCmd;
 import jforgame.admin.http.HttpClientService;
 import jforgame.admin.logger.LoggerUtil;
+import jforgame.admin.machinenode.service.MachineNodeService;
 import jforgame.commons.JsonUtil;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -37,7 +39,9 @@ public abstract class HttpAdminCmd implements AdminCmd {
     public abstract String httpMethod();
 
     private String getGameHost(ServerInfo server) {
-        return server.getIp() + ":" + server.getHttpPort();
+        MachineNodeService machineNodeService = SpringContext.getBean(MachineNodeService.class);
+        MachineInfo machineInfo = machineNodeService.getMachineNodeBy(server.getMachineId());
+        return machineInfo.getIp() + ":" + server.getHttpPort();
     }
 
     protected AdminHttpResponse httpPost(String url, Map<String, Object> params) {
@@ -46,7 +50,7 @@ public abstract class HttpAdminCmd implements AdminCmd {
         HttpClientService restTemplate = SpringContext.getBean(HttpClientService.class);
         try {
             AdminHttpResponse response = restTemplate.post(url, params, AdminHttpResponse.class);
-            log.info("HttpAdminCmd execute, url {}, response {}", url, JsonUtil.object2String(response));
+            log.info("HttpAdminCmd execute2, url {}, params {}, response {}", url, JsonUtil.object2String(params), JsonUtil.object2String(response));
             return response;
         } catch (Exception e) {
             LoggerUtil.error("", e);
@@ -60,7 +64,7 @@ public abstract class HttpAdminCmd implements AdminCmd {
         HttpClientService restTemplate = SpringContext.getBean(HttpClientService.class);
         try {
             String response = restTemplate.get(url, params);
-            log.info("HttpAdminCmd execute, url {}, response {}", url, JsonUtil.object2String(response));
+            log.info("HttpAdminCmd execute22, url {}, params {}, response {}", url, JsonUtil.object2String(params), JsonUtil.object2String(response));
             return JsonUtil.string2Object(response, AdminHttpResponse.class);
         } catch (Exception e) {
             LoggerUtil.error("", e);

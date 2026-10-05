@@ -47,6 +47,9 @@ spring-boot全家桶
 机器资源历史界面
 ![](/screenshots/machineHistory.png "机器资源历史界面 ")
 
+运维操作界面
+![](/screenshots/db_backup.png "数据库备份界面 ")
+
 
 ### QuickStart
 1. 安装git后，使用命令 git clone https://github.com/kingston-csj/gamekeeper

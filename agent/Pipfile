@@ -1,0 +1,18 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+pyyaml = "*"
+fastapi = "*"
+uvicorn = "*"
+apscheduler = "*"
+psutil = "*"
+requests = "*"
+pydantic = "*"
+boto3 = "*"
+[dev-packages]
+
+[requires]
+python_version = "3.12"

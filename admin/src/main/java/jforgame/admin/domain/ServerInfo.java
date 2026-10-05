@@ -16,9 +16,7 @@ public class ServerInfo {
     @Column(name="name")
     private String name;
     @Column
-    private String ip;
-    @Column
-    private Integer port;
+    private int machineId;
 
     @Column
     private int httpPort;
@@ -33,5 +31,12 @@ public class ServerInfo {
      */
     @Column
     private int useGate;
+
+    /**
+     * 服务器类型, java/go
+     */
+    @Column
+    private String serverType;
+
 
 }

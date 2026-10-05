@@ -9,7 +9,11 @@ public class ReqCreateServerNode {
 
     private Integer id;
     private String name;
-    private String ip;
+
+    /**
+     * 所属机器节点id
+     */
+    private Integer machineId;
 
     private Integer port;
 
@@ -17,4 +21,10 @@ public class ReqCreateServerNode {
      * http端口
      */
     private int httpPort;
+
+    /**
+     * 服务器类型, java/go
+     */
+    private String serverType;
+
 }

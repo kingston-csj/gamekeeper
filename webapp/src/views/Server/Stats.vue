@@ -20,28 +20,34 @@
                 </el-form-item>
             </el-form>
         </div>
-
         <div style="padding:0 15px 15px 15px;">
             <el-row :gutter="16">
+                <!-- Java:堆使用/最大堆  | Go:RSS内存 -->
                 <el-col :span="4">
-                    <el-card shadow="hover" class="metric-card" :class="{ 'danger-card': isDanger('heapUsageRate') }">
-                        <div class="metric-title">堆使用 / 最大堆 (MB)</div>
+                    <el-card shadow="hover" class="metric-card"
+                        :class="{ 'danger-card': !isGoServer && isDanger('heapUsageRate') }">
+                        <div class="metric-title">{{ isGoServer ? 'RSS 内存 (MB)' : '堆使用 / 最大堆 (MB)' }}</div>
                         <div class="metric-value">
-                            <span>{{ formatMB(latest.heapUsed) }}</span>
-                            <span class="metric-sub"> / {{ formatMB(latest.heapMax) }}</span>
+                            <span v-if="!isGoServer">{{ formatMB(latest.heapUsed) }}</span>
+                            <span class="metric-sub" v-if="!isGoServer"> / {{ formatMB(latest.heapMax) }}</span>
+                            <span v-if="isGoServer">{{ formatMB(rssMb) }}</span>
                         </div>
                         <div class="metric-rate">
-                            <span :class="dangerClass('heapUsageRate')">使用率 {{ toFixed(latest.heapUsageRate) }}%</span>
+                            <span v-if="!isGoServer" :class="dangerClass('heapUsageRate')">使用率 {{
+                                toFixed(latest.heapUsageRate) }}%</span>
+                            <span v-if="isGoServer">&nbsp;</span>
                         </div>
                     </el-card>
                 </el-col>
-                <el-col :span="4">
-                    <el-card shadow="hover" class="metric-card" :class="{ 'danger-card': isDanger('directUsed') }">
+                <!-- Java Only 直接内存 -->
+                <el-col :span="4" v-if="!isGoServer">
+                    <el-card shadow="hover" class="metric-card">
                         <div class="metric-title">直接内存 (MB)</div>
                         <div class="metric-value">{{ formatMB(latest.directUsed) }}</div>
                         <div class="metric-rate">&nbsp;</div>
                     </el-card>
                 </el-col>
+                <!-- 进程CPU 一直显示 -->
                 <el-col :span="4">
                     <el-card shadow="hover" class="metric-card"
                         :class="{ 'danger-card': isDanger('processCpuPercent') }">
@@ -53,6 +59,7 @@
                         <div class="metric-rate">&nbsp;</div>
                     </el-card>
                 </el-col>
+                <!-- 在线人数 一直显示 -->
                 <el-col :span="4">
                     <el-card shadow="hover" class="metric-card">
                         <div class="metric-title">在线人数</div>
@@ -60,7 +67,8 @@
                         <div class="metric-rate">&nbsp;</div>
                     </el-card>
                 </el-col>
-                <el-col :span="4">
+                <!-- Java Only 内存使用率 -->
+                <el-col :span="4" v-if="!isGoServer">
                     <el-card shadow="hover" class="metric-card" :class="{ 'danger-card': isDanger('heapUsageRate') }">
                         <div class="metric-title">内存使用率</div>
                         <div class="metric-value">
@@ -74,23 +82,22 @@
                 </el-col>
             </el-row>
         </div>
-
         <div style="padding:0 15px 15px 15px;">
             <el-row :gutter="16">
                 <el-col :span="24">
                     <el-card shadow="hover">
                         <div slot="header" class="card-header">内存趋势图</div>
                         <div class="heap-summary">
-                            <div class="heap-summary-col">
+                            <div class="heap-summary-col" v-if="!isGoServer">
                                 <div class="heap-summary-label">Size</div>
                                 <div class="heap-summary-value">{{ formatBytes(heapSummary.size) }}</div>
                             </div>
-                            <div class="heap-summary-col">
+                            <div class="heap-summary-col" v-if="!isGoServer">
                                 <div class="heap-summary-label">Max</div>
                                 <div class="heap-summary-value">{{ formatBytes(heapSummary.max) }}</div>
                             </div>
-                            <div class="heap-summary-col heap-summary-right">
-                                <div class="heap-summary-label">Used</div>
+                            <div class="heap-summary-col heap-summary-right" :style="{ flex: isGoServer ? 1 : '' }">
+                                <div class="heap-summary-label">{{ isGoServer ? 'RSS' : 'Used' }}</div>
                                 <div class="heap-summary-value">{{ formatBytes(heapSummary.used) }}</div>
                             </div>
                         </div>
@@ -99,7 +106,6 @@
                 </el-col>
             </el-row>
         </div>
-
         <div style="padding:0 15px 15px 15px;">
             <el-row :gutter="16">
                 <el-col :span="24">
@@ -110,7 +116,6 @@
                 </el-col>
             </el-row>
         </div>
-
         <div style="padding:0 15px 30px 15px;">
             <el-row :gutter="16">
                 <el-col :span="24">
@@ -123,18 +128,14 @@
         </div>
     </div>
 </template>
-
 <script>
 import * as echarts from "echarts";
-
 const HEAP_RATE_THRESHOLD = 80;
 const CPU_THRESHOLD = 80;
 const GC_CPU_THRESHOLD = 30;
-
 function pad(n) {
     return n < 10 ? "0" + n : "" + n;
 }
-
 function formatRange(days) {
     const end = new Date();
     const start = new Date(end.getTime() - days * 24 * 3600 * 1000);
@@ -143,7 +144,6 @@ function formatRange(days) {
         " " + pad(d.getHours()) + ":" + pad(d.getMinutes()) + ":" + pad(d.getSeconds());
     return [fmt(start), fmt(end)];
 }
-
 export default {
     data() {
         const range = formatRange(1);
@@ -161,6 +161,15 @@ export default {
             onlineChart: null
         };
     },
+    computed: {
+        isGoServer() {
+            const selectedServer = this.servers.find(s => String(s.id) === this.filters.serverId);
+            return selectedServer && selectedServer.serverType === "go";
+        },
+        rssMb() {
+            return Number(this.latest.heapUsed || 0);
+        }
+    },
     methods: {
         formatMB(val) {
             if (val == null || val === "" || isNaN(val)) return "0.00";
@@ -177,17 +186,35 @@ export default {
         refreshHeapSummary() {
             if (this.history && this.history.length) {
                 var last = this.history[this.history.length - 1];
-                this.heapSummary = {
-                    size: Number(last.heapCommitted || 0),
-                    used: Number(last.heapUsed || 0),
-                    max: Number(last.heapMax || 0)
-                };
+                if (this.isGoServer) {
+                    const rssMb = Number(last.heapUsed || 0);
+                    this.heapSummary = {
+                        size: 0,
+                        used: rssMb,
+                        max: 0
+                    };
+                } else {
+                    this.heapSummary = {
+                        size: Number(last.heapCommitted || 0),
+                        used: Number(last.heapUsed || 0),
+                        max: Number(last.heapMax || 0)
+                    };
+                }
             } else {
-                this.heapSummary = {
-                    size: Number(this.latest.heapCommitted || 0),
-                    used: Number(this.latest.heapUsed || 0),
-                    max: Number(this.latest.heapMax || 0)
-                };
+                if (this.isGoServer) {
+                    const rssMb = Number(this.latest.heapUsed || 0);
+                    this.heapSummary = {
+                        size: 0,
+                        used: rssMb,
+                        max: 0
+                    };
+                } else {
+                    this.heapSummary = {
+                        size: Number(this.latest.heapCommitted || 0),
+                        used: Number(this.latest.heapUsed || 0),
+                        max: Number(this.latest.heapMax || 0)
+                    };
+                }
             }
         },
         toFixed(val) {
@@ -293,8 +320,56 @@ export default {
                 this.heapChart = echarts.init(this.$refs.heapChart);
             }
             const times = this.history.map(i => i.collectTime);
-            const used = this.history.map(i => Number(i.heapUsed || 0));
+            let used;
+            let seriesName;
+            if (this.isGoServer) {
+                used = this.history.map(i => Number(i.heapUsed || 0));
+                seriesName = "RSS";
+            } else {
+                used = this.history.map(i => Number(i.heapUsed || 0));
+                seriesName = "Used heap";
+            }
             const committed = this.history.map(i => Number(i.heapCommitted || 0));
+
+            const heapSizeSeries = {
+                name: "Heap size",
+                type: "line",
+                showSymbol: false,
+                smooth: false,
+                stack: null,
+                lineStyle: { width: 2, color: "#F5A623" },
+                itemStyle: { color: "#F5A623" },
+                areaStyle: {
+                    color: {
+                        type: "linear", x: 0, y: 0, x2: 0, y2: 1,
+                        colorStops: [
+                            { offset: 0, color: "rgba(245, 166, 35, 0.45)" },
+                            { offset: 1, color: "rgba(245, 166, 35, 0.12)" }
+                        ]
+                    }
+                },
+                data: committed
+            };
+            const usedHeapSeries = {
+                name: seriesName,
+                type: "line",
+                showSymbol: false,
+                smooth: false,
+                lineStyle: { width: 2, color: "#2F9DF0" },
+                itemStyle: { color: "#2F9DF0" },
+                areaStyle: {
+                    color: {
+                        type: "linear", x: 0, y: 0, x2: 0, y2: 1,
+                        colorStops: [
+                            { offset: 0, color: "rgba(47, 157, 240, 0.5)" },
+                            { offset: 1, color: "rgba(47, 157, 240, 0.10)" }
+                        ]
+                    }
+                },
+                data: used
+            };
+            const series = this.isGoServer ? [usedHeapSeries] : [heapSizeSeries, usedHeapSeries];
+            const legendData = this.isGoServer ? [seriesName] : ["Heap size", "Used heap"];
             const option = {
                 tooltip: {
                     trigger: "axis",
@@ -315,7 +390,7 @@ export default {
                     icon: "roundRect",
                     itemWidth: 14,
                     itemHeight: 14,
-                    data: ["Heap size", "Used heap"]
+                    data: legendData
                 },
                 grid: {
                     left: "3%",
@@ -342,45 +417,7 @@ export default {
                     },
                     splitLine: { lineStyle: { color: "#EBEEF5", type: "dashed" } }
                 },
-                series: [
-                    {
-                        name: "Heap size",
-                        type: "line",
-                        showSymbol: false,
-                        smooth: false,
-                        stack: null,
-                        lineStyle: { width: 2, color: "#F5A623" },
-                        itemStyle: { color: "#F5A623" },
-                        areaStyle: {
-                            color: {
-                                type: "linear", x: 0, y: 0, x2: 0, y2: 1,
-                                colorStops: [
-                                    { offset: 0, color: "rgba(245, 166, 35, 0.45)" },
-                                    { offset: 1, color: "rgba(245, 166, 35, 0.12)" }
-                                ]
-                            }
-                        },
-                        data: committed
-                    },
-                    {
-                        name: "Used heap",
-                        type: "line",
-                        showSymbol: false,
-                        smooth: false,
-                        lineStyle: { width: 2, color: "#2F9DF0" },
-                        itemStyle: { color: "#2F9DF0" },
-                        areaStyle: {
-                            color: {
-                                type: "linear", x: 0, y: 0, x2: 0, y2: 1,
-                                colorStops: [
-                                    { offset: 0, color: "rgba(47, 157, 240, 0.5)" },
-                                    { offset: 1, color: "rgba(47, 157, 240, 0.10)" }
-                                ]
-                            }
-                        },
-                        data: used
-                    }
-                ]
+                series: series
             };
             this.heapChart.setOption(option, true);
         },
@@ -416,6 +453,14 @@ export default {
             option.series = [
                 { name: "onlineCount", type: "line", smooth: true, areaStyle: {}, data: online }
             ];
+            option.yAxis = {
+                type: 'value',
+                minInterval: 1,
+                min: 0,
+                axisLabel: {
+                    formatter: '{value}'
+                }
+            };
             this.onlineChart.setOption(option, true);
         },
         handleResize() {
@@ -436,7 +481,6 @@ export default {
     }
 };
 </script>
-
 <style scoped>
 .metric-card {
     text-align: left;

@@ -23,11 +23,21 @@
       </el-table-column>
       <el-table-column prop="name" header-align="center" align="center" width="120" label="服务器名称">
       </el-table-column>
-      <el-table-column prop="ip" header-align="center" align="center" label="服务器ip">
+      <el-table-column header-align="center" align="center" label="所属机器">
+        <template slot-scope="scope">{{ machineLabel(scope.row.machineId) }}</template>
       </el-table-column>
       <el-table-column prop="onlinePlayerSum" header-align="center" align="center" label="在线人数">
       </el-table-column>
       <el-table-column prop="httpPort" header-align="center" align="center" label="http端口">
+      </el-table-column>
+      <el-table-column header-align="center" align="center" label="协议在线API">
+        <template slot-scope="scope">
+          <el-button v-if="scope.row.protocolAPI" type="text" size="mini"
+            @click="openProtocolAPI(scope.row)">前往</el-button>
+          <span v-else>-</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="serverType" header-align="center" align="center" width="110" label="服务器语言">
       </el-table-column>
       <el-table-column fixed="right" header-align="center" align="center" width="185" :label="$t('action.operation')">
         <template slot-scope="scope">
@@ -41,18 +51,28 @@
     <!-- 新增/修改界面 -->
     <el-dialog :title="!dataForm.id ? '新增' : '修改'" width="40%" :visible.sync="dialogVisible"
       :close-on-click-modal="false">
-      <el-form :model="dataForm" ref="dataForm" label-width="80px" :size="size" style="text-align:left;">
+      <el-form :model="dataForm" ref="dataForm" label-width="100px" :size="size" style="text-align:left;">
         <el-form-item label="id" prop="id">
           <el-input v-model="dataForm.id" placeholder="服务器id"></el-input>
         </el-form-item>
         <el-form-item label="名称" prop="name">
           <el-input v-model="dataForm.name" placeholder="服务器名称"></el-input>
         </el-form-item>
-        <el-form-item label="服务器ip" prop="ip">
-          <el-input v-model="dataForm.ip" placeholder="服务器ip"></el-input>
+        <el-form-item label="所属机器" prop="machineId">
+          <el-select v-model="dataForm.machineId" placeholder="请选择机器节点" style="width:100%">
+            <el-option v-for="item in machineList" :key="item.id" :label="item.name + ' (' + item.ip + ')'"
+              :value="item.id"></el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="http端口" prop="httpPort">
           <el-input v-model="dataForm.httpPort" placeholder="http端口"></el-input>
+        </el-form-item>
+        <el-form-item label="服务器语言" prop="serverType">
+          <el-select v-model="dataForm.serverType" placeholder="请选择服务器语言">
+            <el-option label="java" value="java"></el-option>
+            <el-option label="go" value="go"></el-option>
+            <el-option label="kotlin" value="kotlin"></el-option>
+          </el-select>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -82,9 +102,11 @@ export default {
       dataForm: {
         id: 0,
         name: '',
-        ip: '',
-        httpPort: 0
+        machineId: '',
+        httpPort: 0,
+        serverType: 'java'
       },
+      machineList: [],
       loading: false,
       tableData: [],
 
@@ -93,10 +115,32 @@ export default {
   methods: {
     // 获取分页数据
     findPage: function () {
-      this.$api.server.findPage(this.pageRequest).then((res) => {
+      this.loading = true
+      this.$api.server.findPage().then((res) => {
         this.tableData = res.data.servers
-        console.info("-0------------" + JSON.stringify(this.tableData))
+        this.loading = false
       })
+    },
+
+    // 加载机器节点，供"所属机器"下拉框使用
+    loadMachineList: function () {
+      this.$api.machine.findPage().then((res) => {
+        this.machineList = res.data.servers || []
+      })
+    },
+
+    // 根据机器id展示机器名称
+    machineLabel: function (machineId) {
+      const machine = this.machineList.find((item) => item.id === machineId)
+      return machine ? machine.name + ' (' + machine.ip + ')' : '-'
+    },
+
+    // 新窗口打开协议在线API
+    openProtocolAPI: function (row) {
+      if (!row.protocolAPI) {
+        return
+      }
+      window.open(row.protocolAPI, '_blank')
     },
 
     // 显示新增界面
@@ -105,8 +149,9 @@ export default {
       this.dataForm = {
         id: 0,
         name: '',
-        ip: '',
-        httpPort: 0
+        machineId: '',
+        httpPort: 0,
+        serverType: 'java'
       }
     },
     // 显示编辑界面
@@ -162,6 +207,8 @@ export default {
   },
 
   mounted() {
+    this.findPage()
+    this.loadMachineList()
   }
 }
 </script>

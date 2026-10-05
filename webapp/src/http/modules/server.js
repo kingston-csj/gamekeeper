@@ -80,7 +80,7 @@ export const exportSensitiveWord = () => {
 
 export const monitorLatest = params => {
   return axios({
-    url: "/monitor/latest",
+    url: "/monitor/server/latest",
     method: "get",
     params
   });
@@ -88,7 +88,7 @@ export const monitorLatest = params => {
 
 export const monitorHistory = params => {
   return axios({
-    url: "/monitor/history",
+    url: "/monitor/server/history",
     method: "get",
     params
   });
