@@ -65,6 +65,11 @@ public class WebSecurityConfig {
             }
         }
 
+        http.cors();
+
+        // 日志浏览页需要被前端管理站点用 iframe 内嵌，放开默认的 X-Frame-Options: DENY
+        http.headers(headers -> headers.frameOptions(frame -> frame.disable()));
+
         http.authorizeHttpRequests()
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .requestMatchers("/static/**").permitAll()
@@ -75,6 +80,7 @@ public class WebSecurityConfig {
                 .requestMatchers("/favicon.ico").permitAll()
                 .requestMatchers("/sdk/**").permitAll()  // SDK放行
                 .requestMatchers("/api/**").permitAll()  // 对外api放行
+                .requestMatchers("/gamelog/**").permitAll()  // 对外api放行
                 // 对服务器接口使用ip白名单
                 .requestMatchers("/admin/api/**")
                 .access(new WebExpressionAuthorizationManager(whiteIps.toString()))

@@ -65,7 +65,7 @@ public class HttpClientService {
 
     public <T> T post(String url, Map<String, String> headers, Map<String, Object> params, Class<T> responseClazz) throws IOException {
         //创建请求对象
-        HttpPost    httpPost = new HttpPost(url);
+        HttpPost httpPost = new HttpPost(url);
         if (!CollectionUtils.isEmpty(params)) {
             String json = JsonUtil.object2String(params);
             StringEntity entity = new StringEntity(json);
@@ -84,6 +84,38 @@ public class HttpClientService {
         }
         HttpEntity entity = response.getEntity();
         return JsonUtil.string2Object(EntityUtils.toString(entity), responseClazz);
+    }
+
+    /**
+     * GET请求，获取原始HttpEntity（用于二进制文件下载）
+     */
+    public CloseableHttpResponse getRawResponse(String url, Map<String, Object> params) throws IOException {
+        return getRawResponse(url, null, params);
+    }
+
+    public CloseableHttpResponse getRawResponse(String url, Map<String, String> headers, Map<String, Object> params) throws IOException {
+        try {
+            URIBuilder uriBuilder = new URIBuilder(url);
+            List<NameValuePair> urlParam = new ArrayList<>();
+            if (!CollectionUtils.isEmpty(params)) {
+                params.forEach((k, v) -> {
+                    urlParam.add(new BasicNameValuePair(k, v.toString()));
+                });
+                uriBuilder.setParameters(urlParam);
+            }
+            HttpGet httpGet = new HttpGet(uriBuilder.build());
+            if (!CollectionUtils.isEmpty(headers)) {
+                headers.forEach(httpGet::addHeader);
+            }
+            CloseableHttpResponse response = httpClient.execute(httpGet);
+            int statusCode = response.getStatusLine().getStatusCode();
+            if (statusCode != 200) {
+                throw new IOException("请求失败，状态码：" + statusCode +", url:" + url);
+            }
+            return response;
+        } catch (URISyntaxException e) {
+            throw new IOException(e);
+        }
     }
 
 
